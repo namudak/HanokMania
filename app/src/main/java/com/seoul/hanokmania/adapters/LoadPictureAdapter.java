@@ -1,5 +1,5 @@
 
-package com.example.gongmosample.views.adapters;
+package com.seoul.hanokmania.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.gongmosample.R;
+import com.seoul.hanokmania.R;
 import com.suwonsmartapp.abl.AsyncBitmapLoader;
 
 /**

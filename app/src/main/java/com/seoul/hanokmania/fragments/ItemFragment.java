@@ -1,4 +1,4 @@
-package com.example.gongmosample.fragments;
+package com.seoul.hanokmania.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,8 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
-import com.example.gongmosample.R;
-import com.example.gongmosample.fragments.dummy.DummyContent;
+import com.seoul.hanokmania.R;
+import com.seoul.hanokmania.fragments.dummy.DummyContent;
 
 public class ItemFragment extends Fragment {
 

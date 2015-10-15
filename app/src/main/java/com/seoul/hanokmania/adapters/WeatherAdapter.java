@@ -1,5 +1,5 @@
 
-package com.example.gongmosample.views.adapters;
+package com.seoul.hanokmania.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.gongmosample.R;
-import com.example.gongmosample.models.Weather;
+import com.seoul.hanokmania.R;
+import com.seoul.hanokmania.models.Weather;
 
 import java.util.List;
 

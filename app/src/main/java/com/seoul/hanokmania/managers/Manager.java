@@ -1,10 +1,10 @@
-package com.example.gongmosample.managers;
+package com.seoul.hanokmania.managers;
 
 import android.support.v4.app.Fragment;
 
-import com.example.gongmosample.fragments.ItemFragment;
-import com.example.gongmosample.fragments.LoadPictureFragment;
-import com.example.gongmosample.fragments.WeatherFragment;
+import com.seoul.hanokmania.fragments.ItemFragment;
+import com.seoul.hanokmania.fragments.LoadPictureFragment;
+import com.seoul.hanokmania.fragments.WeatherFragment;
 
 /**
  * Created by junsuk on 2015. 10. 15..

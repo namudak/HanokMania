@@ -1,5 +1,5 @@
 
-package com.example.gongmosample.models;
+package com.seoul.hanokmania.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

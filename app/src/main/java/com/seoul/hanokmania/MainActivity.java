@@ -1,4 +1,4 @@
-package com.example.gongmosample;
+package com.seoul.hanokmania;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,7 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.gongmosample.managers.Manager;
+import com.seoul.hanokmania.managers.Manager;
 
 import java.util.Arrays;
 import java.util.List;

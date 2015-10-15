@@ -1,4 +1,4 @@
-package com.example.gongmosample;
+package com.seoul.hanokmania;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

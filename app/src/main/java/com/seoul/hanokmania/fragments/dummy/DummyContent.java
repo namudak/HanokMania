@@ -1,4 +1,4 @@
-package com.example.gongmosample.fragments.dummy;
+package com.seoul.hanokmania.fragments.dummy;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.example.gongmosample.fragments;
+package com.seoul.hanokmania.fragments;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.example.gongmosample.R;
-import com.example.gongmosample.models.Weather;
-import com.example.gongmosample.views.adapters.WeatherAdapter;
+import com.seoul.hanokmania.R;
+import com.seoul.hanokmania.models.Weather;
+import com.seoul.hanokmania.adapters.WeatherAdapter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;

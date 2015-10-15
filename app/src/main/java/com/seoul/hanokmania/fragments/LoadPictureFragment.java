@@ -1,5 +1,5 @@
 
-package com.example.gongmosample.fragments;
+package com.seoul.hanokmania.fragments;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.gongmosample.R;
-import com.example.gongmosample.views.adapters.LoadPictureAdapter;
+import com.seoul.hanokmania.R;
+import com.seoul.hanokmania.adapters.LoadPictureAdapter;
 
 /**
  * Created by junsuk on 15. 9. 25..
