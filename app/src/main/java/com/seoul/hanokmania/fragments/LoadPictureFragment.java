@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.seoul.hanokmania.R;
-import com.seoul.hanokmania.adapters.LoadPictureAdapter;
+import com.seoul.hanokmania.views.adapters.LoadPictureAdapter;
 
 /**
  * Created by junsuk on 15. 9. 25..

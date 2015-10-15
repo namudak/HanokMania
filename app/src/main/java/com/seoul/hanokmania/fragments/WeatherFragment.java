@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 
 import com.seoul.hanokmania.R;
 import com.seoul.hanokmania.models.Weather;
-import com.seoul.hanokmania.adapters.WeatherAdapter;
+import com.seoul.hanokmania.views.adapters.WeatherAdapter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;

@@ -1,5 +1,5 @@
 
-package com.seoul.hanokmania.adapters;
+package com.seoul.hanokmania.views.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
