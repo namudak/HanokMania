@@ -29,7 +29,6 @@ public class HanokProvider extends ContentProvider{
     @Override
     public boolean onCreate() {
         boolean ret= true;
-        //mDbHelper= new HanokOpenHelper(getContext());
         mDbHelper = mDbHelper.getInstance(getContext());
         db= mDbHelper.getWritableDatabase();
 
@@ -57,7 +56,7 @@ public class HanokProvider extends ContentProvider{
                 break;
 
             case HanokContract.TASKS_ITEM:
-                qb.appendWhere(HanokContract.Columns._ID+ "= "+ uri.getLastPathSegment());
+                qb.appendWhere(HanokContract.HanokCol._ID+ "= "+ uri.getLastPathSegment());
                 break;
 
             default:
@@ -111,7 +110,7 @@ public class HanokProvider extends ContentProvider{
                 break;
 
             case HanokContract.TASKS_ITEM:
-                String where= HanokContract.Columns._ID+ "= "+ uri.getLastPathSegment();
+                String where= HanokContract.HanokCol._ID+ "= "+ uri.getLastPathSegment();
                 if (!selection.isEmpty()) {
                     where += " AND "+selection;
                 }
@@ -137,7 +136,7 @@ public class HanokProvider extends ContentProvider{
                 break;
 
             case HanokContract.TASKS_ITEM:
-                String where= HanokContract.Columns._ID+ "= "+ uri.getLastPathSegment();
+                String where= HanokContract.HanokCol._ID+ "= "+ uri.getLastPathSegment();
                 if (!s.isEmpty()) {
                     where += " AND "+s;
                 }

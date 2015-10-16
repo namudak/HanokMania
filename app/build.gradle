@@ -30,8 +30,8 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:design:23.0.1'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:design:23.1.0'
 
     // Http 라이브러리   http://square.github.io/okhttp/
     compile 'com.squareup.okhttp:okhttp:2.5.0'
@@ -43,5 +43,5 @@ dependencies {
     compile 'com.suwonsmartapp:async-bitmap-loader:0.2'
 
     // CardView
-    compile 'com.android.support:cardview-v7:23.0.1'
+    compile 'com.android.support:cardview-v7:23.1.0'
 }

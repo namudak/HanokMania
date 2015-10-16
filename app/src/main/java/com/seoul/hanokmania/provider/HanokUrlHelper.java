@@ -32,22 +32,96 @@ public class HanokUrlHelper extends SQLiteOpenHelper {
 						"%s TEXT, "+
 						"%s TEXT, "+
 						"%s TEXT, "+
+						"%s TEXT, "+
 						"%s TEXT"+ ")",
-						HanokContract.TABLE,
-						HanokContract.Columns.TIME,
-						HanokContract.Columns.GOLD_AM_US,
-						HanokContract.Columns.GOLD_PM_US,
-						HanokContract.Columns.GOLD_AM_GB,
-						HanokContract.Columns.GOLD_PM_GB,
-						HanokContract.Columns.GOLD_AM_EU,
-						HanokContract.Columns.GOLD_PM_EU,
-						HanokContract.Columns.SILVER_US,
-						HanokContract.Columns.SILVER_GB,
-						HanokContract.Columns.SILVER_EU,
-						HanokContract.Columns.GSRATIO
+						HanokContract.TABLES[0],
+						HanokContract.HanokCol.HANOKNUM,
+						HanokContract.HanokCol.ADDR,
+						HanokContract.HanokCol.PLOTTAGE,
+						HanokContract.HanokCol.TOTAR,
+						HanokContract.HanokCol.BUILDAREA,
+						HanokContract.HanokCol.FLOOR,
+						HanokContract.HanokCol.FLOOR2,
+						HanokContract.HanokCol.USE,
+						HanokContract.HanokCol.STRUCTURE,
+						HanokContract.HanokCol.PLANTYPE,
+						HanokContract.HanokCol.BUILDDATE,
+						HanokContract.HanokCol.NOTE
 						);
 
-		Log.d("GSDBHelper","Query to form table: "+sqlQuery);
+		Log.d("HanokUrlHelper","Query to form table: "+sqlQuery);
+		sqlDB.execSQL(sqlQuery);
+
+		sqlQuery =
+				String.format("CREATE TABLE %s (" +
+								"_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT"+ ")",
+						HanokContract.TABLES[1],
+						HanokContract.HanokBukchonCol.HOUSE_TYPE,
+						HanokContract.HanokBukchonCol.TYPE_NAME,
+						HanokContract.HanokBukchonCol.LANGUAGE_TYPE,
+						HanokContract.HanokBukchonCol.HOUSE_ID,
+						HanokContract.HanokBukchonCol.HOUSE_NAME,
+						HanokContract.HanokBukchonCol.HOUSE_ADDR,
+						HanokContract.HanokBukchonCol.HOUSE_OWNER,
+						HanokContract.HanokBukchonCol.HOUSE_ADMIN,
+						HanokContract.HanokBukchonCol.HOUSE_TELL,
+						HanokContract.HanokBukchonCol.HOUSE_HP,
+						HanokContract.HanokBukchonCol.HOUSE_OPEN_TIME,
+						HanokContract.HanokBukchonCol.HOUSE_REG_DATE,
+						HanokContract.HanokBukchonCol.HOUSE_YEAR,
+						HanokContract.HanokBukchonCol.BOOL_CULTURE,
+						HanokContract.HanokBukchonCol.HOUSE_CONTENT,
+						HanokContract.HanokBukchonCol.SERVICE_OK,
+						HanokContract.HanokBukchonCol.PRIORITY
+				);
+
+		Log.d("HanokUrlHelper","Query to form table: "+sqlQuery);
+		sqlDB.execSQL(sqlQuery);
+
+		sqlQuery =
+				String.format("CREATE TABLE %s (" +
+								"_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT"+ ")",
+						HanokContract.TABLES[2],
+						HanokContract.HanokRepairCol.HANOKNUM,
+						HanokContract.HanokRepairCol.SN,
+						HanokContract.HanokRepairCol.ADDR,
+						HanokContract.HanokRepairCol.ITEM,
+						HanokContract.HanokRepairCol.CONSTRUCTION,
+						HanokContract.HanokRepairCol.REQUEST,
+						HanokContract.HanokRepairCol.REVIEW,
+						HanokContract.HanokRepairCol.RESULT,
+						HanokContract.HanokRepairCol.LOANDEC,
+						HanokContract.HanokRepairCol.NOTE
+				);
+
+		Log.d("HanokUrlHelper","Query to form table: "+sqlQuery);
 		sqlDB.execSQL(sqlQuery);
 	}
 

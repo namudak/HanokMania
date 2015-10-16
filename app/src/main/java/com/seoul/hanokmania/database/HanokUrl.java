@@ -4,97 +4,107 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
 
-import com.seoul.hanokmania.network.NetworkUtility;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.seoul.hanokmania.models.Hanok;
 import com.seoul.hanokmania.provider.HanokContract;
 import com.seoul.hanokmania.provider.HanokUrlHelper;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by namudak on 2015-09-20.
  */
 public class HanokUrl {
-    private String URL_METAL_GOLD=
-            "https://www.quandl.com/api/v3/datasets/LBMA/GOLD.json?auth_token=JtnQ9pvNbj8NKJfiNd_4&"+
-            "start_date=%s&end_date=%s";
-    private String URL_METAL_SILVER=
-            "https://www.quandl.com/api/v3/datasets/LBMA/SILVER.json?auth_token=JtnQ9pvNbj8NKJfiNd_4&"+
-            "start_date=%s&end_date=%s";
+//    private String Hanok= "7a4a4d56787362643234584b516641";
+//    private String Hanok_N="435173514473626437334f74657478";
+//    private String Hanok_R="45547a6c6d73626434306151646a4d";
+
+    private String URL_HANOK= "http://openAPI.seoul.go.kr:8088/7a4a4d56787362643234584b516641/"+
+            "json/SeoulHanokStatus/1/700";
+    private String URL_HANOK_N= "";
+    private String URL_HANOK_R= "";
 
     Context mContext= null;
     HanokUrlHelper mDbHelper= null;
+
+    // 클라이언트 오브젝트
+    private OkHttpClient client = new OkHttpClient();
 
     public HanokUrl(Context context, HanokUrlHelper helper){
         this.mContext= context;
         mDbHelper= helper;
     }
-    public void RetrieveJsonData(String start, String today) {
-
-        String strGold= String.format(URL_METAL_GOLD, start, today);
-        String strSilver= String.format(URL_METAL_SILVER, start, today);
+    public void RetrieveJsonData() {
 
         // Create database
         HanokUrlHelper helper = HanokUrlHelper.getInstance(mContext);
 
         try {
-            String jsonStringGold = NetworkUtility.getReturnString(strGold);
-            String jsonStringSilver = NetworkUtility.getReturnString(strSilver);
 
-            JSONObject jsonObjectGold = new JSONObject(jsonStringGold);
-            JSONArray jsonArrayGold = jsonObjectGold.getJSONObject("dataset").getJSONArray("data");
-            JSONObject jsonObjectSilver = new JSONObject(jsonStringSilver);
-            JSONArray jsonArraySilver = jsonObjectSilver.getJSONObject("dataset").getJSONArray("data");
+            List<Hanok> hanokList = null;
 
-            for (int i = 0; i < jsonArrayGold.length(); i++) {
-                String[] strArrayGold = jsonArrayGold.getString(i).split(",");
-                String[] strArraySilver = jsonArraySilver.getString(i).split(",");
+            // HTTP 에서 내용을 String 으로 받아 온다
+            String jsonString = getResponse(URL_HANOK);
 
-                String metalStr= strArrayGold[0].substring(2, 12);
-                String tempStr= strArrayGold[6].replace("]", "");
-                strArrayGold[6]= tempStr;
-                tempStr= strArraySilver[3].replace("]", "");
-                strArraySilver[3]= tempStr;
-                for(int j= 1; j< 7; j++)
-                    metalStr+= ","+ (strArrayGold[j].equals("null") ? null : strArrayGold[j]) ;
-                for(int k= 1; k< 4; k++)
-                    metalStr+= ","+ (strArraySilver[k].equals("null") ? null : strArraySilver[k]);
+            JSONObject jsonObject = new JSONObject(jsonString).getJSONObject("SeoulHanokStatus");
+            JSONArray jsonArray = jsonObject.getJSONArray("row");
 
-                if( strArrayGold[1].endsWith("null") ||
-                        strArraySilver[1].equals("null") ) {
-                    metalStr += "," + null;
-                } else {
-                    Float f1 = Float.valueOf(strArrayGold[1]);
-                    Float f2 = Float.valueOf(strArraySilver[1]);
-                    metalStr += "," + Float.toString(f1/ f2);
-                }
 
-                ContentValues values = new ContentValues();
+            ObjectMapper objectMapper = new ObjectMapper();
 
-                String[] valueArray= metalStr.split(",");
+            hanokList = objectMapper.readValue(jsonArray.toString(),
+                    objectMapper.getTypeFactory().constructCollectionType(
+                            List.class, Hanok.class
+                    ));
 
-                values.clear();
-                values.put(HanokContract.Columns.TIME, valueArray[0]);
-                values.put(HanokContract.Columns.GOLD_AM_US, valueArray[1]);
-                values.put(HanokContract.Columns.GOLD_PM_US, valueArray[2]);
-                values.put(HanokContract.Columns.GOLD_AM_GB, valueArray[3]);
-                values.put(HanokContract.Columns.GOLD_PM_GB, valueArray[4]);
-                values.put(HanokContract.Columns.GOLD_AM_EU, valueArray[5]);
-                values.put(HanokContract.Columns.GOLD_PM_EU, valueArray[6]);
-                values.put(HanokContract.Columns.SILVER_US, valueArray[7]);
-                values.put(HanokContract.Columns.SILVER_GB, valueArray[8]);
-                values.put(HanokContract.Columns.SILVER_EU, valueArray[9]);
-                values.put(HanokContract.Columns.GSRATIO, valueArray[10]);
+            ContentValues values = new ContentValues();
 
-                Uri uri = HanokContract.CONTENT_URI;
-                mContext.getContentResolver().insert(uri, values);
-            }
+
+            values.clear();
+
+            values.put(HanokContract.HanokCol.HANOKNUM, valueArray[0]);
+            values.put(HanokContract.HanokCol.ADDR, valueArray[1]);
+            values.put(HanokContract.HanokCol.PLOTTAGE, valueArray[2]);
+            values.put(HanokContract.HanokCol.TOTAR, valueArray[3]);
+            values.put(HanokContract.HanokCol.BUILDAREA, valueArray[4]);
+            values.put(HanokContract.HanokCol.FLOOR, valueArray[5]);
+            values.put(HanokContract.HanokCol.FLOOR2, valueArray[6]);
+            values.put(HanokContract.HanokCol.USE, valueArray[7]);
+            values.put(HanokContract.HanokCol.STRUCTURE, valueArray[8]);
+            values.put(HanokContract.HanokCol.PLANTYPE, valueArray[9]);
+            values.put(HanokContract.HanokCol.BUILDDATE, valueArray[10]);
+            values.put(HanokContract.HanokCol.NOTE,valueArray[11]);
+
+
+            Uri uri = HanokContract.CONTENT_URI;
+            mContext.getContentResolver().insert(uri, values);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+    /**
+     * url 로 부터 스트림을 읽어 String 으로 반환한다
+     * @param url
+     * @return
+     * @throws IOException
+     */
+    private String getResponse(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        return response.body().string();
+    }
+
 
 }
