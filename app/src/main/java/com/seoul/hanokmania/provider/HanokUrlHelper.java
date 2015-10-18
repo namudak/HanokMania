@@ -22,7 +22,7 @@ public class HanokUrlHelper extends SQLiteOpenHelper {
 		String sqlQuery =
 				String.format("CREATE TABLE %s (" +
 						"_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
-						"%s TEXT UNIQUE, "+
+						"%s TEXT, "+
 						"%s TEXT, "+
 						"%s TEXT, "+
 						"%s TEXT, "+
@@ -123,12 +123,32 @@ public class HanokUrlHelper extends SQLiteOpenHelper {
 
 		Log.d("HanokUrlHelper","Query to form table: "+sqlQuery);
 		sqlDB.execSQL(sqlQuery);
+
+		sqlQuery =
+				String.format("CREATE TABLE %s (" +
+								"_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT, "+
+								"%s TEXT"+ ")",
+						HanokContract.TABLES[3],
+						HanokContract.HanokUserCol.TIME,
+						HanokContract.HanokUserCol.PHOTO_URI,
+						HanokContract.HanokUserCol.PHOTO_ID,
+						HanokContract.HanokUserCol.PRICE
+				);
+
+		Log.d("HanokUrlHelper","Query to form table: "+sqlQuery);
+		sqlDB.execSQL(sqlQuery);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase sqlDB, int i, int i2) {
-		sqlDB.execSQL("DROP TABLE IF EXISTS "+ HanokContract.TABLE);
-		onCreate(sqlDB);
+		for(int n= 0; n< HanokContract.TABLES.length; n++) {
+			sqlDB.execSQL("DROP TABLE IF EXISTS " + HanokContract.TABLES[n]);
+
+			onCreate(sqlDB);
+		}
 	}
 
 	public static synchronized HanokUrlHelper getInstance(Context context) {

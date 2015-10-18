@@ -2,6 +2,9 @@ package com.seoul.hanokmania.managers;
 
 import android.support.v4.app.Fragment;
 
+import com.seoul.hanokmania.fragments.ChartFragment;
+import com.seoul.hanokmania.fragments.Hanok2Fragment;
+import com.seoul.hanokmania.fragments.HanokFragment;
 import com.seoul.hanokmania.fragments.ItemFragment;
 import com.seoul.hanokmania.fragments.LoadPictureFragment;
 import com.seoul.hanokmania.fragments.WeatherFragment;
@@ -17,7 +20,10 @@ public class Manager {
     public static Class FRAGMENTS[] = {
             ItemFragment.class,
             WeatherFragment.class,
-            LoadPictureFragment.class
+            LoadPictureFragment.class,
+            ChartFragment.class,
+            HanokFragment.class,
+            Hanok2Fragment.class
     };
 
     private Manager() {

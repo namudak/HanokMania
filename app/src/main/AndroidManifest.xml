@@ -23,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".database.ManageDbActivity"
+            android:label="@string/title_activity_manage_db" >
+        </activity>
         <!-- Provider 등록 authorities로 Content Provider 구분 -->
         <provider
             android:name=".provider.HanokProvider"

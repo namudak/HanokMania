@@ -6,11 +6,16 @@ package com.seoul.hanokmania.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
+
 /**
  * Created by Ray Choe on 2015-10-16.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)     // 매칭되는 필드가 없을 때 무시
-public class Hanok {
+// 매칭되는 필드가 없을 때 무시
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Hanok implements Serializable{
+
+    // 12 fileds
     // 등록번호
     public String HANOKNUM;
     // 주소
@@ -38,6 +43,10 @@ public class Hanok {
 
     @Override
     public String toString() {
-        return "Hanok [등록번호: " + HANOKNUM + ", 주소: " + ADDR + ", 대지면적: " + PLOTTAGE + "]";
+
+        return HANOKNUM+ ","+ ADDR+ ","+ PLOTTAGE+ ","+
+                TOTAR+ ","+ BUILDAREA+ ","+ FLOOR+ ","+
+                FLOOR2+ ","+ USE+ ","+ STRUCTURE+ ","+
+                PLANTYPE+ ","+ BUILDDATE+ ","+ NOTE+ " ,";
     }
 }

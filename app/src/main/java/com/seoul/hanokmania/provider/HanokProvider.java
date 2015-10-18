@@ -16,18 +16,28 @@ import android.net.Uri;
 public class HanokProvider extends ContentProvider{
 
     private SQLiteDatabase db;
+
+    // Use this field for initial database
+    //private HanokUrlHelper mDbHelper;
+    // Use this field for normal operation
     private HanokOpenHelper mDbHelper;
+
+    private static String TABLE;
 
     public static final UriMatcher uriMatcher= new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        uriMatcher.addURI(HanokContract.AUTHORITY, HanokContract.TABLE, HanokContract.TASKS_LIST);
-        uriMatcher.addURI(HanokContract.AUTHORITY, HanokContract.TABLE+ "/#", HanokContract.TASKS_ITEM);
-
+        uriMatcher.addURI(HanokContract.AUTHORITY, HanokContract.TABLES[0], HanokContract.TASKS_LIST);
+        uriMatcher.addURI(HanokContract.AUTHORITY, HanokContract.TABLES[0]+ "/#", HanokContract.TASKS_ITEM);
+        uriMatcher.addURI(HanokContract.AUTHORITY, HanokContract.TABLES[1], HanokContract.TASKS_LIST);
+        uriMatcher.addURI(HanokContract.AUTHORITY, HanokContract.TABLES[1]+ "/#", HanokContract.TASKS_ITEM);
+        uriMatcher.addURI(HanokContract.AUTHORITY, HanokContract.TABLES[2], HanokContract.TASKS_LIST);
+        uriMatcher.addURI(HanokContract.AUTHORITY, HanokContract.TABLES[2]+ "/#", HanokContract.TASKS_ITEM);
     }
 
     @Override
     public boolean onCreate() {
+
         boolean ret= true;
         mDbHelper = mDbHelper.getInstance(getContext());
         db= mDbHelper.getWritableDatabase();
@@ -43,6 +53,22 @@ public class HanokProvider extends ContentProvider{
         }
 
         return ret;
+    }
+
+    @Override
+    public String getType(Uri uri) {
+
+        switch (uriMatcher.match(uri)) {
+            case HanokContract.TASKS_LIST:
+                return HanokContract.CONTENT_TYPE;
+
+            case HanokContract.TASKS_ITEM:
+                return HanokContract.CONTENT_ITEM_TYPE;
+
+            default:
+                throw new IllegalArgumentException("Invalid URI: "+uri);
+        }
+
     }
 
     @Override
@@ -69,29 +95,13 @@ public class HanokProvider extends ContentProvider{
     }
 
     @Override
-    public String getType(Uri uri) {
-
-        switch (uriMatcher.match(uri)) {
-            case HanokContract.TASKS_LIST:
-                return HanokContract.CONTENT_TYPE;
-
-            case HanokContract.TASKS_ITEM:
-                return HanokContract.CONTENT_ITEM_TYPE;
-
-            default:
-                throw new IllegalArgumentException("Invalid URI: "+uri);
-        }
-
-    }
-
-    @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-
+        int no= uriMatcher.match(uri);
         if (uriMatcher.match(uri) != HanokContract.TASKS_LIST) {
             throw new IllegalArgumentException("Invalid URI: "+uri);
         }
 
-        long id= db.insert(HanokContract.TABLE,null,contentValues);
+        long id= db.insert(HanokContract.TABLE, null, contentValues);
 
         if (id>0) {
             return ContentUris.withAppendedId(uri, id);
@@ -115,7 +125,7 @@ public class HanokProvider extends ContentProvider{
                     where += " AND "+selection;
                 }
 
-                deleted= db.delete(HanokContract.TABLE,where,selectionArgs);
+                deleted= db.delete(HanokContract.TABLE, where, selectionArgs);
                 break;
 
             default:
@@ -140,7 +150,7 @@ public class HanokProvider extends ContentProvider{
                 if (!s.isEmpty()) {
                     where += " AND "+s;
                 }
-                updated= db.update(HanokContract.TABLE,contentValues,where,strings);
+                updated= db.update(HanokContract.TABLE, contentValues, where, strings);
                 break;
 
             default:

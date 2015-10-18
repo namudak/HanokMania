@@ -125,25 +125,6 @@ public class WeatherFragment extends Fragment implements View.OnKeyListener {
 
                 Log.d(TAG, weatherList.toString());
 
-//                // 받아온 JSON String 을 JSON Object로 변환한다
-//                JSONObject jsonObject = new JSONObject(jsonString);
-//                JSONArray jsonArray = jsonObject.getJSONArray("list");
-//
-//                // 날씨 정보 저장할 리스트
-//                weatherList = new ArrayList<>();
-//
-//                for (int i = 0; i < jsonArray.length(); i++) {
-//                    JSONObject object = jsonArray.getJSONObject(i);
-//
-//                    String time = object.getString("dt_txt");
-//                    time = time.split(" ")[1].substring(0, 5);
-//                    String temp = object.getJSONObject("main").getString("temp");
-//                    String description = object.getJSONArray("weather")
-//                            .getJSONObject(0).getString("description");
-//
-//                    weatherList.add(new Weather(time, temp, description));
-//                }
-
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }

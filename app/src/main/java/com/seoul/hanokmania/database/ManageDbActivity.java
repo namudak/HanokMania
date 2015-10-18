@@ -6,46 +6,40 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.seoul.hanokmania.R;
-import com.seoul.hanokmania.provider.HanokOpenHelper;
 import com.seoul.hanokmania.provider.HanokUrlHelper;
-
-import java.text.SimpleDateFormat;
-import java.util.List;
 
 /**
  * Created by namudak on 2015-09-14.
  */
-public class AsyncTaskActivity extends Activity {
-    private static String TAG= AsyncTaskActivity.class.getSimpleName();
+public class ManageDbActivity extends Activity {
+    private static String TAG= ManageDbActivity.class.getSimpleName();
 
     private ProgressBar mProgressBar;
+    private TextView mProgressBarTextView;
 
     private static Context mContext;
+    
     private static HanokUrlHelper mUrlHelper;
-    private static HanokOpenHelper mOpenHelper;
-
-    private SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
-    private static final String URL_START_DATE= "1968-01-02";
-
-    private List mGsList;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_manage_db);
 
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
+        mProgressBarTextView = (TextView) findViewById(R.id.progressbar_text_view);
 
         this.mContext = this.getApplicationContext();
 
         mUrlHelper = HanokUrlHelper.getInstance(mContext);
 
         // Check if new data at url site, get it and insert into db
-        new RetrieveUrlTask().execute();
+        //new RetrieveUrlTask().execute();
 
     }
     /**
@@ -53,21 +47,21 @@ public class AsyncTaskActivity extends Activity {
      * if no db then create db
      *
      */
-
     private class RetrieveUrlTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {//UI
 
             mProgressBar.setVisibility(View.VISIBLE);
+            mProgressBarTextView.setText("Updating data...Please wait.");
 
         }
         @Override
         protected Void doInBackground(Void... params) {//1st parameter
 
-            HanokUrl HanokDb= new HanokUrl(mContext, mUrlHelper);
+            HanokUrl hanokUrl= new HanokUrl(mContext, mUrlHelper);
 
-            HanokDb.RetrieveJsonData();
+            hanokUrl.RetrieveJsonData();
 
             return null;
         }
@@ -80,7 +74,9 @@ public class AsyncTaskActivity extends Activity {
             super.onPostExecute(result);
 
             mProgressBar.setVisibility(View.GONE);
+            mProgressBarTextView.setText("");
         }
     }
+
 
 }

@@ -16,15 +16,20 @@ import android.view.MenuItem;
 
 import com.seoul.hanokmania.managers.Manager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int REQUEST_CODE = 77;
+
     private ViewPager mViewPager;
     private MyAdapter mAdapter;
     private List<String> mTitles;
+
+    List mHanokList= new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +37,13 @@ public class MainActivity extends AppCompatActivity
 
         // 초기화
         init();
+
     }
 
     private void init() {
+
         setContentView(R.layout.activity_main);
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

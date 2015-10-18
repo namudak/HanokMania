@@ -20,16 +20,16 @@ public class HanokOpenHelper extends SQLiteOpenHelper {
     private static HanokOpenHelper sInstance;
     private static SQLiteDatabase db;
 
-    private final Context context;
+    private final Context mContext;
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "hanok.db";
+    private static final String DATABASE_NAME = HanokContract.DB_NAME;
 
     private boolean createDb = false, upgradeDb = false;
 
     public HanokOpenHelper(Context context) {
 
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
+        this.mContext = context;
 
     }
 
@@ -78,7 +78,7 @@ public class HanokOpenHelper extends SQLiteOpenHelper {
         OutputStream myOutput = null;
         try {
             // Open db packaged as asset as the input stream
-            myInput = context.getAssets().open(DATABASE_NAME);
+            myInput = mContext.getAssets().open(DATABASE_NAME);
 
             // Open the db in the application package context:
             myOutput = new FileOutputStream(db.getPath());
@@ -93,7 +93,7 @@ public class HanokOpenHelper extends SQLiteOpenHelper {
 
             // Set the version of the copied database to the current
             // version:
-            SQLiteDatabase copiedDb = context.openOrCreateDatabase(
+            SQLiteDatabase copiedDb = mContext.openOrCreateDatabase(
                     DATABASE_NAME, 0, null);
             copiedDb.execSQL("PRAGMA user_version = " + DATABASE_VERSION);
             copiedDb.close();
@@ -126,7 +126,6 @@ public class HanokOpenHelper extends SQLiteOpenHelper {
         SQLiteDatabase checkDB = null;
 
         try{
-            //String myPath = DB_PATH +"/"+ DB_NAME;
             String myPath= db.getPath();
 
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);

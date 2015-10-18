@@ -21,7 +21,7 @@ import com.seoul.hanokmania.views.adapters.LoadPictureAdapter;
  * Created by junsuk on 15. 9. 25..
  */
 public class LoadPictureFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor> {
+                    implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private ListView mListView;
     private LoadPictureAdapter mAdapter;

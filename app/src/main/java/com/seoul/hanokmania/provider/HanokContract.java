@@ -4,27 +4,49 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.util.Arrays;
+
 /**
  * Created by namudak on 2015-09-14.
  */
 public final class HanokContract {
-    public static final String DB_NAME = "hanok.db";
+    public static final String DB_NAME = "hanok-20151017-1300.db";
     public static final int DB_VERSION = 1;
-    public static final String[] TABLES= {"hanok", "bukchon_hanok", "repair_hanok", "user_hanok"};
-    public static final String TABLE = TABLES[0];
     public static final String AUTHORITY = "com.seoul.hanokmania.HanokProvider";
-    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TABLE);
-    public static final int TASKS_LIST = 1;
-    public static final int TASKS_ITEM = 2;
-    public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/seoul.hanokdb/"+TABLE;
-    public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/seoul/hanokdb" + TABLE;
+    public static final String[] TABLES= {"hanok", "bukchon_hanok", "repair_hanok", "user_hanok"};
+    public static String TABLE= "";
+    public static Uri CONTENT_URI= Uri.parse("");
+    public static final int TASKS_LIST=1;
+    public static final int TASKS_ITEM=2;
+    public static String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/seoul.hanokdb/";
+    public static String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/seoul/hanokdb";
 
     public HanokContract() {}
 
+    /**
+     * For manipulating multiple tables
+     *
+     * @param strDb
+     */
+    public static void setHanokContract(String strDb){
+
+        TABLE= strDb;
+
+        int index= Arrays.asList(TABLES).indexOf(strDb);
+
+        CONTENT_URI= Uri.parse("content://" + AUTHORITY + "/"+ TABLES[index]);
+
+//        TASKS_LIST= index* 10+ 1;
+//        TASKS_ITEM= index* 10+ 2;
+
+        CONTENT_TYPE+= TABLES[index];
+        CONTENT_ITEM_TYPE+= TABLES[index];
+    }
+
+
     public static class HanokCol implements BaseColumns {
         // 13 columns(fields) for table
-        public static final String _ID= BaseColumns._ID;
-
+        //public static final String _ID= BaseColumns._ID;
         public static final String HANOKNUM= "hanoknum";    //등록번호
         public static final String ADDR= "addr";	        //주소
         public static final String PLOTTAGE= "plottage";	//대지면적
@@ -40,7 +62,7 @@ public final class HanokContract {
 
     }
 
-    public static class HanokBukchonCol extends HanokCol implements BaseColumns {
+    public static class HanokBukchonCol implements BaseColumns {
         // 17 columns(fields) for table
         public static final String HOUSE_TYPE= "house_type";	    //건물 종류코드
         public static final String TYPE_NAME= "type_name";	        //건물 종류명
@@ -62,7 +84,7 @@ public final class HanokContract {
 
     }
 
-    public static class HanokRepairCol extends HanokBukchonCol implements BaseColumns {
+    public static class HanokRepairCol implements BaseColumns {
         // 10 columns(fields) for table
         public static final String HANOKNUM= "hanoknum";	//등록번호
         public static final String SN= "sn";	            //차수별
@@ -77,7 +99,7 @@ public final class HanokContract {
 
     }
 
-    public static class HanokUserCol extends HanokBukchonCol implements BaseColumns {
+    public static class HanokUserCol implements BaseColumns {
         // 4 columns(fields) for table
         public static final String TIME= "time";            //YYYY-MM-DD
         public static final String PHOTO_URI= "photo_uri";

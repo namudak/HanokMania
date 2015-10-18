@@ -3,10 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
-
     defaultConfig {
         applicationId "com.seoul.hanokmania"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -21,6 +20,8 @@ android {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
     }
+    productFlavors {
+    }
 }
 
 repositories {
@@ -32,16 +33,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.android.support:design:23.1.0'
-
     // Http 라이브러리   http://square.github.io/okhttp/
     compile 'com.squareup.okhttp:okhttp:2.5.0'
-
     // json 파싱 라이브러리    https://github.com/FasterXML/jackson-databind
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.3'
-
     // 다이나믹 이미지 로더
     compile 'com.suwonsmartapp:async-bitmap-loader:0.2'
-
     // CardView
     compile 'com.android.support:cardview-v7:23.1.0'
 }
