@@ -18,13 +18,13 @@ import java.util.ArrayList;
 public class HanokExpListAdapter extends BaseExpandableListAdapter {
 
 	public ArrayList<String> groupItem, tempChild;
-	public ArrayList<Object> Childtem = new ArrayList<Object>();
+	public ArrayList<Object> childItem = new ArrayList<Object>();
 	public LayoutInflater minflater;
 	public Activity activity;
 
 	public HanokExpListAdapter(ArrayList<String> grList, ArrayList<Object> childItem) {
 		groupItem = grList;
-		this.Childtem = childItem;
+		this.childItem = childItem;
 	}
 
 	public void setInflater(LayoutInflater mInflater, Activity act) {
@@ -45,23 +45,29 @@ public class HanokExpListAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getChildView(int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-		tempChild = (ArrayList<String>) Childtem.get(groupPosition);
+
+		tempChild = (ArrayList<String>) childItem.get(groupPosition);
+
 		ImageView imageView= null;
 		TextView text = null;
+
 		if (convertView == null) {
 			convertView = minflater.inflate(R.layout.expl_child_row, null);
 		}
 		imageView= (ImageView) convertView.findViewById(R.id.childImage);
 		imageView.setImageResource(R.drawable.fewcloudscircleday);
 
+		String[] parm= new String[3];
+		parm= tempChild.get(0).split(",");
+
 		text = (TextView) convertView.findViewById(R.id.tv_addr);
-		text.setText(tempChild.get(childPosition));
+		text.setText(parm[0]);
 
 		text = (TextView) convertView.findViewById(R.id.tv_area);
-		text.setText(tempChild.get(childPosition));
+		text.setText(parm[1]);
 
 		text = (TextView) convertView.findViewById(R.id.tv_use);
-		text.setText(tempChild.get(childPosition));
+		text.setText(parm[2]);
 
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -75,7 +81,7 @@ public class HanokExpListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return ((ArrayList<String>) Childtem.get(groupPosition)).size();
+		return ((ArrayList<String>) childItem.get(groupPosition)).size();
 	}
 
 	@Override
@@ -111,8 +117,7 @@ public class HanokExpListAdapter extends BaseExpandableListAdapter {
 		}
 		TextView text= (TextView) convertView.findViewById(R.id.textView1);
 		text.setText(groupItem.get(groupPosition));
-		//((CheckedTextView) convertView).setText(groupItem.get(groupPosition));
-		//((CheckedTextView) convertView).setChecked(isExpanded);
+
 		return convertView;
 	}
 
