@@ -15,14 +15,14 @@ import com.seoul.hanokmania.R;
 import java.util.ArrayList;
 
 @SuppressWarnings("unchecked")
-public class Hanok2Adapter extends BaseExpandableListAdapter {
+public class HanokExpListAdapter extends BaseExpandableListAdapter {
 
 	public ArrayList<String> groupItem, tempChild;
 	public ArrayList<Object> Childtem = new ArrayList<Object>();
 	public LayoutInflater minflater;
 	public Activity activity;
 
-	public Hanok2Adapter(ArrayList<String> grList, ArrayList<Object> childItem) {
+	public HanokExpListAdapter(ArrayList<String> grList, ArrayList<Object> childItem) {
 		groupItem = grList;
 		this.Childtem = childItem;
 	}
@@ -54,7 +54,13 @@ public class Hanok2Adapter extends BaseExpandableListAdapter {
 		imageView= (ImageView) convertView.findViewById(R.id.childImage);
 		imageView.setImageResource(R.drawable.fewcloudscircleday);
 
-		text = (TextView) convertView.findViewById(R.id.textView1);
+		text = (TextView) convertView.findViewById(R.id.tv_addr);
+		text.setText(tempChild.get(childPosition));
+
+		text = (TextView) convertView.findViewById(R.id.tv_area);
+		text.setText(tempChild.get(childPosition));
+
+		text = (TextView) convertView.findViewById(R.id.tv_use);
 		text.setText(tempChild.get(childPosition));
 
 		convertView.setOnClickListener(new OnClickListener() {

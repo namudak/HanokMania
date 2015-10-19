@@ -1,4 +1,4 @@
-package com.seoul.hanokmania.views.adapters;
+package com.seoul.hanokmania.views;
 
 import android.content.Context;
 import android.view.LayoutInflater;

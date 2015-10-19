@@ -41,7 +41,7 @@ import java.util.concurrent.ExecutionException;
 public class ChartFragment extends Fragment
                             implements View.OnKeyListener{
 
-    private static final String TAG = HanokFragment.class.getSimpleName();
+    private static final String TAG = HanokListFragment.class.getSimpleName();
 
     private List<HanokItem> mHanokList = null;
 
@@ -85,7 +85,8 @@ public class ChartFragment extends Fragment
         } catch (ExecutionException| InterruptedException ie) {
             ie.printStackTrace();
         }
-            return view;
+
+        return view;
     }
 
     @Override
@@ -130,14 +131,16 @@ public class ChartFragment extends Fragment
                         null
                 );
 
+                String[] val= new String[6];
                 while(cursor.moveToNext()) {
-                    String s1= cursor.getString(cursor.getColumnIndexOrThrow(
+                    val[1]= cursor.getString(cursor.getColumnIndexOrThrow(
                             HanokContract.HanokCol.ADDR));
-                    String s2= cursor.getString(cursor.getColumnIndexOrThrow(
+                    val[2]= cursor.getString(cursor.getColumnIndexOrThrow(
                             HanokContract.HanokCol.PLOTTAGE));
-                    String s3= cursor.getString(cursor.getColumnIndexOrThrow(
+                    val[3]= cursor.getString(cursor.getColumnIndexOrThrow(
                             HanokContract.HanokCol.BUILDAREA));
-                    mHanokList.add(new HanokItem(s1, s2, s3));
+                    val[0]= "";val[4]= ""; val[5]= "";
+                    mHanokList.add(new HanokItem(val));
                 }
 
             } catch (Exception e) {

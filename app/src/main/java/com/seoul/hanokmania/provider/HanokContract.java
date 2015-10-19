@@ -13,7 +13,9 @@ public final class HanokContract {
     public static final String DB_NAME = "hanok-20151017-1300.db";
     public static final int DB_VERSION = 1;
     public static final String AUTHORITY = "com.seoul.hanokmania.HanokProvider";
-    public static final String[] TABLES= {"hanok", "bukchon_hanok", "repair_hanok", "user_hanok"};
+    public static final String[] TABLES= {"hanok", "bukchon_hanok", "repair_hanok",
+                                            "user_hanok", "housetypecode",
+                "hanok_hanok_bukchon", "hanok_hanok_repair", "hanok_bukchon_repair"};
     public static String TABLE= "";
     public static Uri CONTENT_URI= Uri.parse("");
     public static final int TASKS_LIST=1;

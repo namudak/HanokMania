@@ -50,10 +50,13 @@ public class HanokItem {
     private String NOTE_R;          //비고
 
 
-    public HanokItem(String s1, String s2, String s3) {
-        ADDR = s1;
-        PLOTTAGE = s2;
-        BUILDAREA = s3;
+    public HanokItem(String[] val) {
+        HANOKNUM= val[0];
+        ADDR= val[1];
+        PLOTTAGE= val[2];
+        BUILDAREA= val[3];
+        USE= val[4];
+        STRUCTURE= val[5];
     }
 
     public String getHANOKNUM() {

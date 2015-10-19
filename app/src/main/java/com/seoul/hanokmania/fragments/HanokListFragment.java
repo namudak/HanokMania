@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.seoul.hanokmania.R;
 import com.seoul.hanokmania.models.HanokItem;
 import com.seoul.hanokmania.provider.HanokContract;
-import com.seoul.hanokmania.views.adapters.HanokAdapter;
+import com.seoul.hanokmania.views.adapters.HanokListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +31,14 @@ import java.util.List;
 /**
  * Created by namudak on 2015. 10. 17.
  */
-public class HanokFragment extends Fragment implements View.OnKeyListener {
+public class HanokListFragment extends Fragment implements View.OnKeyListener {
 
-    private static final String TAG = HanokFragment.class.getSimpleName();
+    private static final String TAG = HanokListFragment.class.getSimpleName();
 
     private List<HanokItem> mHanokList = null;
     
     private ListView mhanokListView;
-    private HanokAdapter mAdapter;
+    private HanokListAdapter mAdapter;
 
     private ProgressBar mProgressBar;
     private TextView mProgressBarTextView;
@@ -110,14 +110,16 @@ public class HanokFragment extends Fragment implements View.OnKeyListener {
                         null
                 );
 
+                String[] val= new String[6];
                 while(cursor.moveToNext()) {
-                    String s1= cursor.getString(cursor.getColumnIndexOrThrow(
+                    val[1]= cursor.getString(cursor.getColumnIndexOrThrow(
                             HanokContract.HanokCol.ADDR));
-                    String s2= cursor.getString(cursor.getColumnIndexOrThrow(
+                    val[2]= cursor.getString(cursor.getColumnIndexOrThrow(
                             HanokContract.HanokCol.PLOTTAGE));
-                    String s3= cursor.getString(cursor.getColumnIndexOrThrow(
+                    val[3]= cursor.getString(cursor.getColumnIndexOrThrow(
                             HanokContract.HanokCol.BUILDAREA));
-                    mHanokList.add(new HanokItem(s1, s2, s3));
+                    val[0]= "";val[4]= ""; val[5]= "";
+                    mHanokList.add(new HanokItem(val));
                 }
 
             } catch (Exception e) {
@@ -136,7 +138,7 @@ public class HanokFragment extends Fragment implements View.OnKeyListener {
         @Override
         protected void onPostExecute(List list) { // 세번째 인자
             
-            mAdapter = new HanokAdapter(getActivity(), list);
+            mAdapter = new HanokListAdapter(getActivity(), list);
             mhanokListView.setAdapter(mAdapter);
 
             mProgressBar.setVisibility(View.GONE);

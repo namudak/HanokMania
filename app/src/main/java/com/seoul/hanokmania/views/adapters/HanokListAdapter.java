@@ -6,19 +6,20 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.seoul.hanokmania.models.HanokItem;
+import com.seoul.hanokmania.views.HanokItemView;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2015-10-17.
  */
-public class HanokAdapter extends BaseAdapter{
+public class HanokListAdapter extends BaseAdapter{
 
     private final Context mContext;
 
     private List<HanokItem> mHanokItem;
 
-    public HanokAdapter(Context context, List<HanokItem> data) {
+    public HanokListAdapter(Context context, List<HanokItem> data) {
         this.mContext= context;
         this.mHanokItem = data;
     }
