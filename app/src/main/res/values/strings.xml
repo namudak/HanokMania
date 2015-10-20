@@ -16,6 +16,7 @@
     <string name="nav_menu_title_4">Chart Show</string>
     <string name="nav_menu_title_5">한옥 목록</string>
     <string name="nav_menu_title_6">한옥 확장 목록</string>
+    <string name="nav_menu_title_7">한옥 현황</string>
 
     <string-array name="nav_menu_array">
         <item>@string/nav_menu_title_1</item>
@@ -24,6 +25,7 @@
         <item>@string/nav_menu_title_4</item>
         <item>@string/nav_menu_title_5</item>
         <item>@string/nav_menu_title_6</item>
+        <item>@string/nav_menu_title_7</item>
     </string-array>
 
     <string name="title_activity_manage_db">ManageDbActivity</string>

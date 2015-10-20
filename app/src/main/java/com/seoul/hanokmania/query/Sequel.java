@@ -26,7 +26,8 @@ public class Sequel {
 
     private String mQuery=
             "select distinct hanoknum, addr, plottage, buildarea, use, structure "+
-                    "from hanok_bukchon_repair " +
+                    "from hanok " +
+                    "where _id< 20 and hanoknum<> '-' "+
                     "order by hanoknum, addr";
 
     ArrayList<String> groupItem = new ArrayList<String>();
