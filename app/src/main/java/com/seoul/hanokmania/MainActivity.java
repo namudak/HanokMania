@@ -38,6 +38,10 @@ public class MainActivity extends AppCompatActivity
         // 초기화
         init();
 
+        // For Database creation and retrieving data from api url
+//        Intent intent= new Intent(getApplicationContext(),
+//                                        ManageDbActivity.class);
+//        startActivity(intent);
     }
 
     private void init() {

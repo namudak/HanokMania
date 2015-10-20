@@ -26,8 +26,8 @@ public class Sequel {
 
     private String mQuery=
             "select distinct hanoknum, addr, plottage, buildarea, use, structure "+
-                    "from hanok " +
-                    "where _id< 20 and hanoknum<> '-' "+
+                    "from hanok_bukchon_repair " +
+                    "where _id< 12 and hanoknum<> '-' "+
                     "order by hanoknum, addr";
 
     ArrayList<String> groupItem = new ArrayList<String>();
@@ -72,7 +72,6 @@ public class Sequel {
                         mQuery,
                         null
                 );
-
 
                 String[] val= new String[6];
                 while(cursor.moveToNext()) {

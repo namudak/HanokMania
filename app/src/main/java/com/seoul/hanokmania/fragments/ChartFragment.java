@@ -23,6 +23,7 @@ import com.seoul.hanokmania.provider.HanokContract;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
+import org.achartengine.chart.BarChart;
 import org.achartengine.chart.PointStyle;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
@@ -217,10 +218,14 @@ public class ChartFragment extends Fragment
         multiRenderer.addSeriesRenderer(buildAreaRenderer);
 
         // Create view
-        return ChartFactory.getLineChartView(
-                getContext(),
+//        return ChartFactory.getLineChartView(
+//                getContext(),
+//                dataset,
+//                multiRenderer);
+        return ChartFactory.getBarChartView(getActivity(),
                 dataset,
-                multiRenderer);
+                multiRenderer,
+                BarChart.Type.DEFAULT);
     }
 
 }

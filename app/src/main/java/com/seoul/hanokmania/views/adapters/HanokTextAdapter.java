@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,21 +14,22 @@ import com.seoul.hanokmania.R;
 import java.util.ArrayList;
 
 @SuppressWarnings("unchecked")
-public class HanokExpListAdapter extends BaseExpandableListAdapter {
+public class HanokTextAdapter extends BaseExpandableListAdapter {
 
-	public ArrayList<String> groupItem, tempChild;
-	public ArrayList<Object> childItem = new ArrayList<Object>();
-	public LayoutInflater minflater;
-	public Activity activity;
+	public ArrayList<String> mGroupItem;
+	public ArrayList<String> mTempChild;
+	public ArrayList<Object> mChildItem = new ArrayList<Object>();
+	public LayoutInflater mInflater;
+	public Activity mActivity;
 
-	public HanokExpListAdapter(ArrayList<String> grList, ArrayList<Object> childItem) {
-		groupItem = grList;
-		this.childItem = childItem;
+	public HanokTextAdapter(ArrayList<String> grList, ArrayList<Object> childItem) {
+		mGroupItem = grList;
+		mChildItem = childItem;
 	}
 
 	public void setInflater(LayoutInflater mInflater, Activity act) {
-		this.minflater = mInflater;
-		activity = act;
+		mInflater = mInflater;
+		mActivity = act;
 	}
 
 	@Override
@@ -46,42 +46,51 @@ public class HanokExpListAdapter extends BaseExpandableListAdapter {
 	public View getChildView(int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 
-		tempChild = (ArrayList<String>) childItem.get(groupPosition);
+		ViewHolder holder;
 
-		ImageView imageView= null;
-		TextView text = null;
+		mTempChild = (ArrayList<String>) mChildItem.get(groupPosition);
 
 		if (convertView == null) {
-			convertView = minflater.inflate(R.layout.expl_child_row, null);
+			convertView = mInflater.inflate(R.layout.graph_child_row, null);
+
+			holder = new ViewHolder();
+			holder.addr = (TextView) convertView.findViewById(R.id.tv_addr);
+			holder.area = (TextView) convertView.findViewById(R.id.tv_area);
+			holder.use = (TextView) convertView.findViewById(R.id.tv_use);
+
+			convertView.setTag(holder);
+
+		} else {
+			holder = (ViewHolder)convertView.getTag();
 		}
-		imageView= (ImageView) convertView.findViewById(R.id.childImage);
-		imageView.setImageResource(R.drawable.fewcloudscircleday);
 
 		String[] parm= new String[3];
-		parm= tempChild.get(0).split(",");
+		parm= mTempChild.get(childPosition).split(",");
 
-		text = (TextView) convertView.findViewById(R.id.tv_addr);
-		text.setText(parm[0]);
-
-		text = (TextView) convertView.findViewById(R.id.tv_area);
-		text.setText(parm[1]);
-
-		text = (TextView) convertView.findViewById(R.id.tv_use);
-		text.setText(parm[2]);
+		holder.addr.setText(parm[0]);
+		holder.area.setText(parm[1]);
+		holder.use.setText(parm[2]);
 
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(activity, tempChild.get(childPosition),
+				Toast.makeText(mActivity, mTempChild.get(childPosition),
 						Toast.LENGTH_SHORT).show();
 			}
 		});
+
 		return convertView;
 	}
 
+	private static class ViewHolder {
+		public TextView addr;
+		public TextView area;
+		public TextView use;
+
+	}
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return ((ArrayList<String>) childItem.get(groupPosition)).size();
+		return ((ArrayList<String>) mChildItem.get(groupPosition)).size();
 	}
 
 	@Override
@@ -91,7 +100,7 @@ public class HanokExpListAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getGroupCount() {
-		return groupItem.size();
+		return mGroupItem.size();
 	}
 
 	@Override
@@ -113,10 +122,10 @@ public class HanokExpListAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = minflater.inflate(R.layout.expl_group_row, null);
+			convertView = mInflater.inflate(R.layout.text_group_row, null);
 		}
 		TextView text= (TextView) convertView.findViewById(R.id.textView1);
-		text.setText(groupItem.get(groupPosition));
+		text.setText(mGroupItem.get(groupPosition));
 
 		return convertView;
 	}

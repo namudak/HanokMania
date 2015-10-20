@@ -16,7 +16,7 @@ import com.seoul.hanokmania.R;
 import com.seoul.hanokmania.query.Footman;
 import com.seoul.hanokmania.query.HanokQuery;
 import com.seoul.hanokmania.query.Sequel;
-import com.seoul.hanokmania.views.adapters.HanokExpListAdapter;
+import com.seoul.hanokmania.views.adapters.HanokTextAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +24,12 @@ import java.util.List;
 /**
  * Created by namudak on 2015-10-18.
  */
-public class HanokExpListFragment extends Fragment implements
+public class HanokTextFragment extends Fragment implements
                                     ExpandableListView.OnChildClickListener {
 
-    private static final String TAG = HanokExpListFragment.class.getSimpleName();
-    private String GROUPFORMAT= "%s@%s";
-    private String CHILDFORMAT[]= {"건축/대지면적 : %s / %s(㎡)",
-                            "건폐율= %s(％)", "용도 : %s 구조 : %s"};
+    private static final String TAG = HanokTextFragment.class.getSimpleName();
 
-    private HanokExpListAdapter mAdapter;
+    private HanokTextAdapter mAdapter;
     private ExpandableListView mhanokListView;
 
     ArrayList<String> groupItem = new ArrayList<String>();
@@ -46,7 +43,7 @@ public class HanokExpListFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.explist_main, container, false);
+        View view = inflater.inflate(R.layout.text_main, container, false);
 
         mhanokListView = (ExpandableListView) view.findViewById(R.id.expandable_list);
 
@@ -66,7 +63,7 @@ public class HanokExpListFragment extends Fragment implements
 
         List list= footman.placeQueries();
 
-        mAdapter = new HanokExpListAdapter((ArrayList)list.get(0), (ArrayList)list.get(1));
+        mAdapter = new HanokTextAdapter((ArrayList)list.get(0), (ArrayList)list.get(1));
 
         mAdapter.setInflater(
                 inflater,

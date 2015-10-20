@@ -61,6 +61,7 @@ public final class HanokContract {
         public static final String PLANTYPE= "plantype";	//평면형식
         public static final String BUILDDATE= "builddate";	//건립일
         public static final String NOTE= "note";	        //비고
+        //public static final String HANOKNUM2= "hanoknum2";	//북촌용 ID
 
     }
 
@@ -107,6 +108,13 @@ public final class HanokContract {
         public static final String PHOTO_URI= "photo_uri";
         public static final String PHOTO_ID= "photo_id";
         public static final String PRICE= "price";
+
+    }
+
+    public static class HanokHouseTypeCodeCol implements BaseColumns {
+        // 4 columns(fields) for table
+        public static final String HOUSETYPE= "housetype";
+        public static final String NAMEKIND= "namekind";
 
     }
 

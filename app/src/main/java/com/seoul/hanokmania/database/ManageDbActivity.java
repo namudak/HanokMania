@@ -39,7 +39,7 @@ public class ManageDbActivity extends Activity {
         mUrlHelper = HanokUrlHelper.getInstance(mContext);
 
         // Check if new data at url site, get it and insert into db
-        //new RetrieveUrlTask().execute();
+        new RetrieveUrlTask().execute();
 
     }
     /**

@@ -92,7 +92,7 @@ public class HanokUrlHelper extends SQLiteOpenHelper {
 						HanokContract.HanokBukchonCol.PRIORITY
 				);
 
-		Log.d("HanokUrlHelper","Query to form table: "+sqlQuery);
+		Log.d("HanokUrlHelper", "Query to form table: " + sqlQuery);
 		sqlDB.execSQL(sqlQuery);
 
 		sqlQuery =
@@ -121,7 +121,7 @@ public class HanokUrlHelper extends SQLiteOpenHelper {
 						HanokContract.HanokRepairCol.NOTE
 				);
 
-		Log.d("HanokUrlHelper","Query to form table: "+sqlQuery);
+		Log.d("HanokUrlHelper", "Query to form table: " + sqlQuery);
 		sqlDB.execSQL(sqlQuery);
 
 		sqlQuery =
@@ -138,7 +138,19 @@ public class HanokUrlHelper extends SQLiteOpenHelper {
 						HanokContract.HanokUserCol.PRICE
 				);
 
-		Log.d("HanokUrlHelper","Query to form table: "+sqlQuery);
+		Log.d("HanokUrlHelper", "Query to form table: " + sqlQuery);
+		sqlDB.execSQL(sqlQuery);
+
+		sqlQuery =
+				String.format("CREATE TABLE %s (" +
+								"_id INTEGER PRIMARY KEY AUTOINCREMENT, "+
+							"%s TEXT," +
+							"%s TEXT" +	")",
+						HanokContract.TABLES[4],
+						HanokContract.HanokHouseTypeCodeCol.HOUSETYPE,
+						HanokContract.HanokHouseTypeCodeCol.NAMEKIND
+				);
+		Log.d("HanokUrlHelper", "Query to form table: " + sqlQuery);
 		sqlDB.execSQL(sqlQuery);
 
 		// View creation
