@@ -1,12 +1,15 @@
 package com.seoul.hanokmania.views.adapters;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seoul.hanokmania.R;
@@ -18,13 +21,15 @@ import java.util.ArrayList;
 @SuppressWarnings("unchecked")
 public class HanokStatusAdapter extends BaseExpandableListAdapter {
 
+    private final Context mContext;
     public ArrayList<String> groupItem;
     public ArrayList<GraphicalView> tempChild;
     public ArrayList<Object> childItem = new ArrayList<Object>();
     public LayoutInflater minflater;
     public Activity activity;
 
-    public HanokStatusAdapter(ArrayList<String> grList, ArrayList<Object> childItem) {
+    public HanokStatusAdapter(Context context, ArrayList<String> grList, ArrayList<Object> childItem) {
+        mContext = context;
         groupItem = grList;
         this.childItem = childItem;
     }
@@ -56,9 +61,14 @@ public class HanokStatusAdapter extends BaseExpandableListAdapter {
             convertView = minflater.inflate(R.layout.status_child_row, null);
         }
 
-        LinearLayout layout = (LinearLayout) convertView.findViewById(R.id.childImage);
-        layout.addView(graphView);
-        graphView.repaint();
+        ImageView layout = (ImageView) convertView.findViewById(R.id.childImage);
+
+        Bitmap bitmap = Bitmap.createBitmap(600, 600, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        graphView.draw(canvas);
+
+        layout.setImageBitmap(bitmap);
 
         convertView.setOnClickListener(new OnClickListener() {
             @Override

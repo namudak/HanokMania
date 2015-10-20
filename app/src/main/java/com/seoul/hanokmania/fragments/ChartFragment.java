@@ -1,11 +1,9 @@
 package com.seoul.hanokmania.fragments;
 
-import android.annotation.TargetApi;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -164,7 +162,6 @@ public class ChartFragment extends Fragment
 
         }
     }
-    @TargetApi(Build.VERSION_CODES.M)
     private GraphicalView getLineChart() {
 
         String[] strAddr= new String[mHanokList.size()];

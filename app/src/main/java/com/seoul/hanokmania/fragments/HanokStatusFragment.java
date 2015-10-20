@@ -83,7 +83,7 @@ public class HanokStatusFragment extends Fragment implements
             childItem.add(graph);
         }
 
-        mAdapter = new HanokStatusAdapter((ArrayList)list.get(0), (ArrayList)childItem);
+        mAdapter = new HanokStatusAdapter(getActivity(), (ArrayList)list.get(0), (ArrayList)childItem);
 
         mAdapter.setInflater(
                 inflater,
@@ -130,8 +130,8 @@ public class HanokStatusFragment extends Fragment implements
         XYSeries buildAreaSeries = new XYSeries("한옥 건축면적");
         for( int i = 0; i< 18; i++) {
             strAddr[i] = ""+ i+ "th";
-            plottageSeries.add(i, new Float(i* 2));
-            buildAreaSeries.add(i, new Float(i));
+            plottageSeries.add(i, (float) (i * 2));
+            buildAreaSeries.add(i, (float) i);
         }
 
         // Creating a dataset to hold series
