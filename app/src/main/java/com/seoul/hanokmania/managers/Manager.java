@@ -2,6 +2,7 @@ package com.seoul.hanokmania.managers;
 
 import android.support.v4.app.Fragment;
 
+import com.seoul.hanokmania.fragments.BukchonFragment;
 import com.seoul.hanokmania.fragments.ChartFragment;
 import com.seoul.hanokmania.fragments.HanokTextFragment;
 import com.seoul.hanokmania.fragments.HanokListFragment;
@@ -25,7 +26,8 @@ public class Manager {
             ChartFragment.class,
             HanokListFragment.class,
             HanokTextFragment.class,
-            HanokGraphFragment.class
+            HanokGraphFragment.class,
+            BukchonFragment.class
     };
 
     private Manager() {
