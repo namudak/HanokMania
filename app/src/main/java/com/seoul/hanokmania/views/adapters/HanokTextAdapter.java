@@ -54,9 +54,14 @@ public class HanokTextAdapter extends BaseExpandableListAdapter {
 			convertView = mInflater.inflate(R.layout.graph_child_row, null);
 
 			holder = new ViewHolder();
-			holder.addr = (TextView) convertView.findViewById(R.id.tv_addr);
-			holder.area = (TextView) convertView.findViewById(R.id.tv_area);
+			holder.plot = (TextView) convertView.findViewById(R.id.tv_plottage);
+			holder.barea = (TextView) convertView.findViewById(R.id.tv_buildarea);
+			holder.totar = (TextView) convertView.findViewById(R.id.tv_totar);
+			holder.fratio = (TextView) convertView.findViewById(R.id.tv_floorratio);
+			holder.cratio = (TextView) convertView.findViewById(R.id.tv_coverageratio);
 			holder.use = (TextView) convertView.findViewById(R.id.tv_use);
+			holder.stru = (TextView) convertView.findViewById(R.id.tv_structure);
+			holder.addr = (TextView) convertView.findViewById(R.id.tv_addr);
 
 			convertView.setTag(holder);
 
@@ -67,9 +72,14 @@ public class HanokTextAdapter extends BaseExpandableListAdapter {
 		String[] parm= new String[3];
 		parm= mTempChild.get(childPosition).split(",");
 
-		holder.addr.setText(parm[0]);
-		holder.area.setText(parm[1]);
-		holder.use.setText(parm[2]);
+		holder.plot.setText(parm[0]);
+		holder.barea.setText(parm[1]);
+		holder.totar.setText(parm[2]);
+		holder.fratio.setText(parm[3]);
+		holder.cratio.setText(parm[4]);
+		holder.use.setText(parm[5]);
+		holder.stru.setText(parm[6]);
+		holder.addr.setText(parm[7]);
 
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -83,10 +93,14 @@ public class HanokTextAdapter extends BaseExpandableListAdapter {
 	}
 
 	private static class ViewHolder {
-		public TextView addr;
-		public TextView area;
+		public TextView plot;
+		public TextView barea;
+		public TextView totar;
+		public TextView fratio;
+		public TextView cratio;
 		public TextView use;
-
+		public TextView stru;
+		public TextView addr;
 	}
 	@Override
 	public int getChildrenCount(int groupPosition) {

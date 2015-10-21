@@ -12,24 +12,40 @@ android:padding="8dp">
         android:layout_margin="5dp"
         android:contentDescription="@string/dummy" />
 
-    <TextView
-        android:id="@+id/tv_addr"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="10:10"
-        android:textSize="24sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="24dp">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_area"
+            android:id="@+id/tv_plottage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="대지며적"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_buildarea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#0000ff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_totar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_floorratio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_coverageratio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textColor="#0000ff"
             android:textSize="16sp"
             android:textStyle="italic" />
@@ -38,9 +54,20 @@ android:padding="8dp">
             android:id="@+id/tv_use"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="건축면적"
             android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/tv_structure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_addr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp" />
     </LinearLayout>
+
 
 </LinearLayout>

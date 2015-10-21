@@ -40,7 +40,7 @@ import java.util.concurrent.ExecutionException;
 public class ChartFragment extends Fragment
                             implements View.OnKeyListener{
 
-    private static final String TAG = HanokListFragment.class.getSimpleName();
+    private static final String TAG = ListFragment.class.getSimpleName();
 
     private List<HanokItem> mHanokList = null;
 

@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.seoul.hanokmania.fragments.ChartFragment;
 import com.seoul.hanokmania.fragments.HanokTextFragment;
-import com.seoul.hanokmania.fragments.HanokListFragment;
+import com.seoul.hanokmania.fragments.ListFragment;
 import com.seoul.hanokmania.fragments.HanokGraphFragment;
 import com.seoul.hanokmania.fragments.ItemFragment;
 import com.seoul.hanokmania.fragments.LoadPictureFragment;
@@ -23,7 +23,7 @@ public class Manager {
             WeatherFragment.class,
             LoadPictureFragment.class,
             ChartFragment.class,
-            HanokListFragment.class,
+            ListFragment.class,
             HanokTextFragment.class,
             HanokGraphFragment.class
     };
