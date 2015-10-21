@@ -1,6 +1,8 @@
 package com.seoul.hanokmania.views.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +23,10 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
     private List mGroupList;
     private List<List<BukchonItem>> mChildList;
     private LayoutInflater mInflater;
+    private Context mContext;
 
     public BukchonExpListAdapter(Context context, List mGroupList, List<List<BukchonItem>> mChildList) {
+        mContext = context;
         mInflater = LayoutInflater.from(context);
         this.mGroupList = mGroupList;
         this.mChildList = mChildList;
@@ -142,6 +146,7 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
         } else {
             viewHolder.itemPhoneNum.setVisibility(View.VISIBLE);
             viewHolder.itemPhoneNum.setText("전화 : " + phoneNum);
+            Linkify.addLinks(viewHolder.itemPhoneNum, Linkify.PHONE_NUMBERS);
         }
         String homePage = bukchonHanok.getHomePage();
         if(homePage.equals("")) {
@@ -149,6 +154,7 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
         } else {
             viewHolder.itemHomePage.setVisibility(View.VISIBLE);
             viewHolder.itemHomePage.setText("홈페이지 : " + homePage);
+            Linkify.addLinks(viewHolder.itemHomePage, Linkify.WEB_URLS);
         }
         String cultural = bukchonHanok.getCultural();
         if(cultural.equals("")) {
@@ -171,6 +177,21 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
             viewHolder.itemContent.setVisibility(View.VISIBLE);
             viewHolder.itemContent.setText("설명 : " + content);
 
+        }
+        String house_id = bukchonHanok.getHouse_id();
+        if(house_id != null) {
+            if(check(house_id)) {
+
+                int resourceId[] = getResourceId(house_id);
+
+                viewHolder.itemImageViewLeft.setImageResource(resourceId[0]);
+                viewHolder.itemImageViewCenter.setImageResource(resourceId[1]);
+                viewHolder.itemImageViewRight.setImageResource(resourceId[2]);
+            } else {
+                viewHolder.itemImageViewLeft.setImageResource(R.drawable.bukchon_1_default);
+                viewHolder.itemImageViewCenter.setImageResource(R.drawable.bukchon_2_default);
+                viewHolder.itemImageViewRight.setImageResource(R.drawable.bukchon_3_default);
+            }
         }
 
 
@@ -195,14 +216,35 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public void nullCheck(String str) {
-        switch (str) {
-            case "":
-                break;
-            default:
-                break;
+    private boolean check(String house_id) {
+        boolean result = false;
+
+        String[] resource = new String[]{"2", "6", "7", "8", "9", "12", "14", "16", "17", "20", "22", "23"
+        , "24" , "25" , "28" , "30" , "32" , "35" , "37" , "39" , "42" , "45" , "47" , "49" ,
+                "50" , "53" , "54" , "97" , "204" , "218" , "219"
+                , "221" , "223" , "224" , "226" , "227" , "228" , "229" , "230" , "233" , "234"};
+
+        for(int i = 0; i < resource.length; i++) {
+            if(house_id.equals(resource[i])) {
+                result = true;
+            }
         }
-    };
+
+        return result;
+    }
+
+    private int[] getResourceId(String house_id) {
+
+        Resources r = mContext.getResources();
+        int drawableId1 = r.getIdentifier("bukchon_1_" + house_id, "drawable", "com.seoul.hanokmania");
+        int drawableId2 = r.getIdentifier("bukchon_2_" + house_id, "drawable", "com.seoul.hanokmania");
+        int drawableId3 = r.getIdentifier("bukchon_3_" + house_id, "drawable", "com.seoul.hanokmania");
+
+        int[] resourceId = new int[]{drawableId1, drawableId2, drawableId3};
+
+        return resourceId;
+
+    }
 
     static class ViewHolder {
         TextView groupName;

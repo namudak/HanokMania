@@ -1,11 +1,17 @@
 package com.seoul.hanokmania.fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -24,10 +30,30 @@ import java.util.List;
  */
 public class BukchonFragment extends Fragment {
 
+    private static final String TAG = BukchonFragment.class.getSimpleName();
     private ExpandableListView mListView;
 
     private List mGroupList;
     private List<List<BukchonItem>> mChildList;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_go_home:
+                Uri uri = Uri.parse("http://bukchon.seoul.go.kr/index.jsp");
+                Intent it  = new Intent(Intent.ACTION_VIEW,uri);
+                startActivity(it);
+                break;
+            case R.id.action_sort:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.bukchon, menu);
+    }
 
     public static BukchonFragment newInstance() {
         BukchonFragment fragment = new BukchonFragment();
@@ -41,7 +67,8 @@ public class BukchonFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bukchon, container, false);
-        mListView = (ExpandableListView)view.findViewById(R.id.expandable_list_view);
+        mListView = (ExpandableListView) view.findViewById(R.id.expandable_list_view);
+        setHasOptionsMenu(true);
         return view;
     }
 
@@ -71,11 +98,33 @@ public class BukchonFragment extends Fragment {
                         HanokContract.HanokBukchonCol.BOOL_CULTURE,
                         HanokContract.HanokBukchonCol.HOUSE_CONTENT};
 
-        Cursor cursor = db.query(HanokContract.TABLES[7], projection, null, null, null, null, null);
+        Cursor cursor = db.query(true, HanokContract.TABLES[7], projection, null, null, null, null, null, null);
 
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
+            // GroupList data
             String house_name = cursor.getString(cursor.getColumnIndexOrThrow(HanokContract.HanokBukchonCol.HOUSE_NAME));
-            mGroupList.add(house_name);
+
+            // ChildList data
+            String type_name = cursor.getString(cursor.getColumnIndexOrThrow(HanokContract.HanokBukchonCol.TYPE_NAME));
+            String house_id = cursor.getString(cursor.getColumnIndexOrThrow(HanokContract.HanokBukchonCol.HOUSE_ID));
+            String house_addr = cursor.getString(cursor.getColumnIndexOrThrow(HanokContract.HanokBukchonCol.HOUSE_ADDR));
+            String house_owner = cursor.getString(cursor.getColumnIndexOrThrow(HanokContract.HanokBukchonCol.HOUSE_OWNER));
+            String house_tell = cursor.getString(cursor.getColumnIndexOrThrow(HanokContract.HanokBukchonCol.HOUSE_TELL));
+            String house_hp = cursor.getString(cursor.getColumnIndexOrThrow(HanokContract.HanokBukchonCol.HOUSE_HP));
+            String bool_culture = cursor.getString(cursor.getColumnIndexOrThrow(HanokContract.HanokBukchonCol.BOOL_CULTURE));
+            String house_content = cursor.getString(cursor.getColumnIndexOrThrow(HanokContract.HanokBukchonCol.HOUSE_CONTENT));
+
+            Log.d(TAG, "설명 : " + house_content);
+
+
+            if (house_name != null) {
+                mGroupList.add(house_name);
+                BukchonItem bukchonItem = new BukchonItem(house_name, house_addr, house_owner,
+                        house_tell, house_hp, bool_culture, type_name, house_content, house_id);
+                List<BukchonItem> childContent = new ArrayList<>();
+                childContent.add(bukchonItem);
+                mChildList.add(childContent);
+            }
         }
 
         mListView.setAdapter(new BukchonExpListAdapter(getContext(), mGroupList, mChildList));
