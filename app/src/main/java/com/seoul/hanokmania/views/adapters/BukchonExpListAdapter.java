@@ -2,6 +2,7 @@ package com.seoul.hanokmania.views.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,6 +146,7 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
         } else {
             viewHolder.itemPhoneNum.setVisibility(View.VISIBLE);
             viewHolder.itemPhoneNum.setText("전화 : " + phoneNum);
+            Linkify.addLinks(viewHolder.itemPhoneNum, Linkify.PHONE_NUMBERS);
         }
         String homePage = bukchonHanok.getHomePage();
         if(homePage.equals("")) {
@@ -152,6 +154,7 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
         } else {
             viewHolder.itemHomePage.setVisibility(View.VISIBLE);
             viewHolder.itemHomePage.setText("홈페이지 : " + homePage);
+            Linkify.addLinks(viewHolder.itemHomePage, Linkify.WEB_URLS);
         }
         String cultural = bukchonHanok.getCultural();
         if(cultural.equals("")) {

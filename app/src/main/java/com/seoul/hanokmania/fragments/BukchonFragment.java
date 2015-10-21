@@ -1,12 +1,17 @@
 package com.seoul.hanokmania.fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -31,6 +36,25 @@ public class BukchonFragment extends Fragment {
     private List mGroupList;
     private List<List<BukchonItem>> mChildList;
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_go_home:
+                Uri uri = Uri.parse("http://bukchon.seoul.go.kr/index.jsp");
+                Intent it  = new Intent(Intent.ACTION_VIEW,uri);
+                startActivity(it);
+                break;
+            case R.id.action_sort:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.bukchon, menu);
+    }
+
     public static BukchonFragment newInstance() {
         BukchonFragment fragment = new BukchonFragment();
         return fragment;
@@ -44,6 +68,7 @@ public class BukchonFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bukchon, container, false);
         mListView = (ExpandableListView) view.findViewById(R.id.expandable_list_view);
+        setHasOptionsMenu(true);
         return view;
     }
 
