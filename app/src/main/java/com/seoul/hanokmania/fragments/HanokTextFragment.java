@@ -32,8 +32,8 @@ public class HanokTextFragment extends Fragment implements
     private HanokTextAdapter mAdapter;
     private ExpandableListView mhanokListView;
 
-    ArrayList<String> groupItem = new ArrayList<String>();
-    ArrayList<Object> childItem = new ArrayList<Object>();
+    ArrayList<String> groupItem = new ArrayList<>();
+    ArrayList<Object> childItem = new ArrayList<>();
 
     private ProgressBar mProgressBar;
     private TextView mProgressBarTextView;
@@ -50,8 +50,8 @@ public class HanokTextFragment extends Fragment implements
         mhanokListView.setDividerHeight(2);
         mhanokListView.setClickable(true);
 
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
-        mProgressBarTextView= (TextView) view.findViewById(R.id.progressbar_text_view);
+//        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+//        mProgressBarTextView= (TextView) view.findViewById(R.id.progressbar_text_view);
 
         // Retrieve query result as list
         Sequel aQuery = new Sequel(getContext());
@@ -63,7 +63,8 @@ public class HanokTextFragment extends Fragment implements
 
         List list= footman.placeQueries();
 
-        mAdapter = new HanokTextAdapter((ArrayList)list.get(0), (ArrayList)list.get(1));
+        mAdapter = new HanokTextAdapter((ArrayList<String>)list.get(0),
+                        (ArrayList<Object>)list.get(1));
 
         mAdapter.setInflater(
                 inflater,

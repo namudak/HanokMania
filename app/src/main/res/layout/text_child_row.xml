@@ -18,17 +18,27 @@ android:padding="8dp">
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/tv_hanoknum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#0000ff"
+            android:textSize="16sp"
+            android:text="@string/dummy"
+            android:textStyle="italic"/>
+
+        <TextView
             android:id="@+id/tv_plottage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:text="@string/dummy"/>
 
         <TextView
             android:id="@+id/tv_buildarea"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#0000ff"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:text="@string/dummy"/>
 
         <TextView
             android:id="@+id/tv_totar"
@@ -40,6 +50,7 @@ android:padding="8dp">
             android:id="@+id/tv_floorratio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#0000ff"
             android:textSize="16sp" />
 
         <TextView
@@ -47,8 +58,7 @@ android:padding="8dp">
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#0000ff"
-            android:textSize="16sp"
-            android:textStyle="italic" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_use"

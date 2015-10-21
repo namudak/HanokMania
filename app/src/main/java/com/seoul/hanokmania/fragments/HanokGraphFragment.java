@@ -1,8 +1,5 @@
 package com.seoul.hanokmania.fragments;
 
-import android.annotation.TargetApi;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,19 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seoul.hanokmania.R;
+import com.seoul.hanokmania.fragments.graph.HanokBarChart;
 import com.seoul.hanokmania.query.Footman;
 import com.seoul.hanokmania.query.HanokQuery;
 import com.seoul.hanokmania.query.Sequel;
 import com.seoul.hanokmania.views.adapters.HanokGraphAdapter;
 
-import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.BarChart;
-import org.achartengine.chart.PointStyle;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,8 +65,17 @@ public class HanokGraphFragment extends Fragment implements
 
         List list= footman.placeQueries();
 
+        ArrayList<Object> childItem = new ArrayList<>();
+        HanokBarChart chart= new HanokBarChart();
+        for(int i= 0; i< 6; i++) {
+            List<GraphicalView> graph = new ArrayList<>();
+            graph.add(chart.getGraphView(getActivity(), list));
+            childItem.add(graph);
+        }
 
-        mAdapter = new HanokGraphAdapter((ArrayList)list.get(0), (ArrayList)list.get(1));
+
+        //mAdapter = new HanokGraphAdapter((ArrayList)list.get(0), (ArrayList)list.get(1));
+        mAdapter = new HanokGraphAdapter((ArrayList<String>)list.get(0), childItem);
 
         mAdapter.setInflater(
                 inflater,
@@ -112,74 +112,101 @@ public class HanokGraphFragment extends Fragment implements
     }
 
 
-    @TargetApi(Build.VERSION_CODES.M)
-    private GraphicalView getLineGraph() {
+//    private GraphicalView getBarGraph() {
+//        String[] titles = new String[] { "2007", "2008" };
+//        List<double[]> values = new ArrayList<double[]>();
+//        values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030, 11200, 9500, 10500,
+//                11600, 13500 });
+//        values.add(new double[] { 14230, 12300, 14240, 15244, 15900, 19200, 22030, 21200, 19500, 15500,
+//                12600, 14000 });
+//        int[] colors = new int[] { Color.CYAN, Color.BLUE };
+//        XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
+//        renderer.setOrientation(Orientation.VERTICAL);
+//        setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.5,
+//                12.5, 0, 24000, Color.GRAY, Color.LTGRAY);
+//        renderer.setXLabels(1);
+//        renderer.setYLabels(10);
+//        renderer.addXTextLabel(1, "Jan");
+//        renderer.addXTextLabel(3, "Mar");
+//        renderer.addXTextLabel(5, "May");
+//        renderer.addXTextLabel(7, "Jul");
+//        renderer.addXTextLabel(10, "Oct");
+//        renderer.addXTextLabel(12, "Dec");
+//        int length = renderer.getSeriesRendererCount();
+//        for (int i = 0; i < length; i++) {
+//            SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
+//            seriesRenderer.setDisplayChartValues(true);
+//        }
+//
+//        return ChartFactory.getBarChartView(getActivity(),
+//                buildBarDataset(titles, values),
+//                renderer,
+//                BarChart.Type.DEFAULT);
+//    }
 
-        //String[] strAddr= new String[mHanokList.size()];
-        String[] strAddr= new String[18];
-
-        // Series Set
-        XYSeries plottageSeries = new XYSeries("한옥 대지면적");
-        XYSeries buildAreaSeries = new XYSeries("한옥 건축면적");
-        for( int i = 0; i< 18; i++) {
-            strAddr[i] = ""+ i+ "th";
-            plottageSeries.add(i, (float) (i * 2));
-            buildAreaSeries.add(i, (float) i);
-        }
-
-        // Creating a dataset to hold series
-        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-        // Add series to the dataset
-        dataset.addSeries(plottageSeries);
-        dataset.addSeries(buildAreaSeries);
-
-        // Now we create Plottage Renderer
-        XYSeriesRenderer plottageRenderer = new XYSeriesRenderer();
-        plottageRenderer.setLineWidth(2);
-        plottageRenderer.setColor(Color.YELLOW);
-        plottageRenderer.setDisplayBoundingPoints(true);
-        plottageRenderer.setPointStyle(PointStyle.POINT);
-        plottageRenderer.setPointStrokeWidth(3);
-
-        // Now we create BuildArea Renderer
-        XYSeriesRenderer buildAreaRenderer = new XYSeriesRenderer();
-        buildAreaRenderer.setLineWidth(2);
-        buildAreaRenderer.setColor(Color.RED);
-        buildAreaRenderer.setDisplayBoundingPoints(true);
-        buildAreaRenderer.setPointStyle(PointStyle.POINT);
-        buildAreaRenderer.setPointStrokeWidth(3);
-
-        // Creating a XYMultipleSeriesRenderer to customize the whole chart
-        XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-        multiRenderer.setApplyBackgroundColor(true);
-        multiRenderer.setBackgroundColor(Color.LTGRAY);
-        multiRenderer.setXLabels(0);
-        multiRenderer.setChartTitle("한옥 대지/건축 면적");
-        multiRenderer.setXTitle("지역(동)");
-        multiRenderer.setYTitle("면적(㎡)");
-        multiRenderer.setZoomButtonsVisible(true);
-        for( int i= 0;i<strAddr.length;i++){
-            if (i % 3 == 0) {
-                multiRenderer.addXTextLabel(i, strAddr[i]);
-            }
-        }
-
-        // Adding Plottage and BuildArea renderer to multiRenderer
-        multiRenderer.addSeriesRenderer(plottageRenderer);
-        multiRenderer.addSeriesRenderer(buildAreaRenderer);
-
-        // Create view
+//    private GraphicalView getLineGraph() {
+//
+//        //String[] strAddr= new String[mHanokList.size()];
+//        String[] strAddr= new String[18];
+//
+//        // Series Set
+//        XYSeries plottageSeries = new XYSeries("한옥 대지면적");
+//        XYSeries buildAreaSeries = new XYSeries("한옥 건축면적");
+//        for( int i = 0; i< 18; i++) {
+//            strAddr[i] = ""+ i+ "th";
+//            plottageSeries.add(i, (float) (i * 2));
+//            buildAreaSeries.add(i, (float) i);
+//        }
+//
+//        // Creating a dataset to hold series
+//        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+//        // Add series to the dataset
+//        dataset.addSeries(plottageSeries);
+//        dataset.addSeries(buildAreaSeries);
+//
+//        // Now we create Plottage Renderer
+//        XYSeriesRenderer plottageRenderer = new XYSeriesRenderer();
+//        plottageRenderer.setLineWidth(2);
+//        plottageRenderer.setColor(Color.YELLOW);
+//        plottageRenderer.setDisplayBoundingPoints(true);
+//        plottageRenderer.setPointStyle(PointStyle.POINT);
+//        plottageRenderer.setPointStrokeWidth(3);
+//
+//        // Now we create BuildArea Renderer
+//        XYSeriesRenderer buildAreaRenderer = new XYSeriesRenderer();
+//        buildAreaRenderer.setLineWidth(2);
+//        buildAreaRenderer.setColor(Color.RED);
+//        buildAreaRenderer.setDisplayBoundingPoints(true);
+//        buildAreaRenderer.setPointStyle(PointStyle.POINT);
+//        buildAreaRenderer.setPointStrokeWidth(3);
+//
+//        // Creating a XYMultipleSeriesRenderer to customize the whole chart
+//        XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
+//        multiRenderer.setApplyBackgroundColor(true);
+//        multiRenderer.setBackgroundColor(Color.LTGRAY);
+//        multiRenderer.setXLabels(0);
+//        multiRenderer.setChartTitle("한옥 대지면적 규모");
+//        multiRenderer.setXTitle("면적(㎡)");
+//        multiRenderer.setYTitle("숫자");
+//        multiRenderer.setZoomButtonsVisible(true);
+//        for( int i= 0;i<strAddr.length;i++){
+//            if (i % 3 == 0) {
+//                multiRenderer.addXTextLabel(i, strAddr[i]);
+//            }
+//        }
+//
+//        // Adding Plottage and BuildArea renderer to multiRenderer
+//        multiRenderer.addSeriesRenderer(plottageRenderer);
+//        multiRenderer.addSeriesRenderer(buildAreaRenderer);
+//
+//        // Create view
 //        return ChartFactory.getLineChartView(
 //                getActivity(),
 //                dataset,
 //                multiRenderer);
+//
+//    }
 
-        return ChartFactory.getBarChartView(getActivity(),
-                dataset,
-                multiRenderer,
-                BarChart.Type.DEFAULT);
-
-    }
 
 //    private GraphicalView getPieGraph() {
 //

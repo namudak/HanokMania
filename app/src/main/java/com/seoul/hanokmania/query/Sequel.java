@@ -21,32 +21,34 @@ public class Sequel {
     private static final String TAG = Sequel.class.getSimpleName();
 
     private String[] GROUPFORMAT= {
-            "한옥 대지 면적(㎡) 30 이하",
-            "한옥 대지 면적(㎡) 60 이하",
-            "한옥 대지 면적(㎡) 120 이하",
-            "한옥 대지 면적(㎡) 200 이하",
-            "한옥 대지 면적(㎡) 200 이상"
+            "한옥 대지 면적(㎡) 30  이하 [%s]",
+            "한옥 대지 면적(㎡) 60  이하 [%s]",
+            "한옥 대지 면적(㎡) 90  이하 [%s]",
+            "한옥 대지 면적(㎡) 120 이하 [%s]",
+            "한옥 대지 면적(㎡) 240 이하 [%s]",
+            "한옥 대지 면적(㎡) 240 이상 [%s]"
     };
     private String CHILDFORMAT[]= {
+            "등록 번호 : %s",
             "대지 면적(㎡) : %s",
             "건축 면적(㎡) : %s",
             "연 면적(㎡) : %s",
             "용적율(㎡) : %s",
             "건폐율(％) : %s",
-            "용도 : %s,",
+            "용도 : %s",
             "구조 : %s",
             "법정동 : %s"
     };
-    private int[] countNum= new int[GROUPFORMAT.length];
+    // Number of hanok along plottage
+    private int[] mCountNum= new int[GROUPFORMAT.length+ 1];
 
     private String mPlottageQuery=
             "select hanoknum, addr, plottage, totar, buildarea, use, structure "+
                     "from hanok " +
-                    "where hanoknum<> '-' "+
-                    "order by addr";
+                    "order by cast(plottage as integer) asc; ";
 
-    ArrayList<String> groupItem = new ArrayList<String>();
-    ArrayList<Object> childItem = new ArrayList<Object>();
+    ArrayList<String> groupItem = new ArrayList<>();
+    ArrayList<Object> childItem = new ArrayList<>();
 
     Context mContext;
 
@@ -58,7 +60,7 @@ public class Sequel {
 
         List list= new ArrayList<>();
         try {
-            list =new HanokTask().execute().get();
+            list =new HanokTextTask().execute().get();
         } catch (ExecutionException | InterruptedException ie) {
             ie.printStackTrace();
         }
@@ -66,7 +68,7 @@ public class Sequel {
         return list;
     }
 
-    class HanokTask extends AsyncTask<Void, Void, List> {
+    class HanokTextTask extends AsyncTask<Void, Void, List> {
         @Override
         protected void onPreExecute() {
 
@@ -87,10 +89,8 @@ public class Sequel {
                         mPlottageQuery,
                         null
                 );
-                // For plottage graph
-                for(int i= 0; i< GROUPFORMAT.length; i++) {
-                    groupItem.add(GROUPFORMAT[i]);
-                }
+
+                ArrayList<String> tempChild = new ArrayList<>();
                 String[] val= new String[7];
                 while(cursor.moveToNext()) {
                     val[0]= cursor.getString(cursor.getColumnIndexOrThrow(
@@ -108,29 +108,79 @@ public class Sequel {
                     val[6]= cursor.getString(cursor.getColumnIndexOrThrow(
                             HanokContract.HanokCol.STRUCTURE));
 
-
-                    ArrayList<String> child = new ArrayList<String>();
-                    int coverageRatio= Integer.parseInt(val[4])/
-                            Integer.parseInt(val[2]);
-                    int floorareaRatio= Integer.parseInt(val[3])/
-                            Integer.parseInt(val[2]);
-                    child.add(
-                        String.format(CHILDFORMAT[0], val[2])+
-                        String.format(CHILDFORMAT[1], val[3])+ ","+
-                        String.format(CHILDFORMAT[2], val[4])+ ","+
-                        String.format(CHILDFORMAT[3], String.valueOf(floorareaRatio))+ ","+
-                        String.format(CHILDFORMAT[4], String.valueOf(coverageRatio))+ ","+
-                        String.format(CHILDFORMAT[5], val[5])+ ","+
-                        String.format(CHILDFORMAT[6], val[6])+ ","+
-                        String.format(CHILDFORMAT[7], val[1])
+                    // Store count number to array for each level
+                    putCountArray(Float.parseFloat(val[2]));
+                    Float coverageRatio= 100.0f* Float.parseFloat(val[4])/
+                            Float.parseFloat(val[2]);
+                    Float floorareaRatio= 100.0f* Float.parseFloat(val[3])/
+                            Float.parseFloat(val[2]);
+                    tempChild.add(
+                        String.format(CHILDFORMAT[0], val[0])+ ","+
+                        String.format(CHILDFORMAT[1], val[2])+ ","+
+                        String.format(CHILDFORMAT[2], val[3])+ ","+
+                        String.format(CHILDFORMAT[3], val[4])+ ","+
+                        String.format(CHILDFORMAT[4], String.valueOf(floorareaRatio))+ ","+
+                        String.format(CHILDFORMAT[5], String.valueOf(coverageRatio))+ ","+
+                        String.format(CHILDFORMAT[6], val[5])+ ","+
+                        String.format(CHILDFORMAT[7], val[6])+ ","+
+                        String.format(CHILDFORMAT[8], val[1])
                     );
-                    childItem.add(child);
                 }
+
+                // Set groupItem as formated
+                for(int i= 0; i< GROUPFORMAT.length; i++) {
+                    groupItem.add(String .format(GROUPFORMAT[i],
+                            String.valueOf(mCountNum[i+ 1])
+                    ));
+                }
+                // Sum of mCountNum array
+//                int sum=0;
+//                for(int num : mCountNum)
+//                    sum+= num;
+                // Set childItem on mCountNum
+                // Todo optimized later by multi for loop
+                int from, to;
+                ArrayList<String> child = new ArrayList<>();
+                for (int j = 0; j < mCountNum[1]; j++) {
+                    child.add(tempChild.get(j));
+                }
+                childItem.add(child);
+                from= mCountNum[1]; to= from+ mCountNum[2];
+                child = new ArrayList<>();
+                for (int j = from; j < to; j++) {
+                    child.add(tempChild.get(j));
+                }
+                childItem.add(child);
+                from= to; to= from+ mCountNum[3];
+                child = new ArrayList<>();
+                for (int j = from; j < to; j++) {
+                    child.add(tempChild.get(j));
+                }
+                childItem.add(child);
+                from= to; to= from+ mCountNum[4];
+                child = new ArrayList<>();
+                for (int j = from; j < to; j++) {
+                    child.add(tempChild.get(j));
+                }
+                childItem.add(child);
+                from= to; to= from+ mCountNum[5];
+                child = new ArrayList<>();
+                for (int j = from; j < to; j++) {
+                    child.add(tempChild.get(j));
+                }
+                childItem.add(child);
+                from= to; to= from+ mCountNum[6];
+                child = new ArrayList<>();
+                for (int j = from; j < to; j++) {
+                    child.add(tempChild.get(j));
+                }
+                childItem.add(child);
 
             } catch (Exception e) {
                 Log.e(TAG, e.getMessage());
             }
-            List list= new ArrayList<>();
+
+            List<Object> list= new ArrayList<>();
             list.add(groupItem);
             list.add(childItem);
 
@@ -150,5 +200,26 @@ public class Sequel {
 //            mProgressBarTextView.setText("");
 
         }
+    }
+
+    /**
+     * store plottage count to array
+     */
+    private void putCountArray(Float plottage) {
+
+        if(plottage< 30.0 ) {
+            mCountNum[1]+= 1;
+        } else if(plottage< 60.0) {
+            mCountNum[2]+= 1;
+        } else if(plottage< 90.0) {
+            mCountNum[3] += 1;
+        }else if(plottage< 120.0) {
+            mCountNum[4]+= 1;
+        }else if(plottage< 240.0) {
+            mCountNum[5]+= 1;
+        }else {
+            mCountNum[6]+= 1;
+        }
+
     }
 }
