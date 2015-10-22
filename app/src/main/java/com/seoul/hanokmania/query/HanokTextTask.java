@@ -17,10 +17,9 @@ import java.util.List;
  */
 class HanokTextTask extends AsyncTask<Void, Void, List> {
 
-    private static final String TAG = Sequel.class.getSimpleName();
+    private static final String TAG = HanokTextTask.class.getSimpleName();
 
     private Context mContext;
-    private String mPlottageQuery;
 
     private String[] GROUPFORMAT= {
             "한옥 대지 면적(㎡) 30  이하 [%s]",
@@ -69,7 +68,7 @@ class HanokTextTask extends AsyncTask<Void, Void, List> {
             SQLiteDatabase db= dbHelper.getReadableDatabase();
 
             Cursor cursor= db.rawQuery(
-                    mPlottageQuery,
+                    QueryContract.mQuery[QueryContract.QUERYPLOTTAGE],
                     null
             );
 

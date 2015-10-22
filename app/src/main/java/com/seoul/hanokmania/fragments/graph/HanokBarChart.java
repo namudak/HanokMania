@@ -51,7 +51,7 @@ public class HanokBarChart extends AbstractChart {
   }
 
   /**
-   * Executes the chart demo.
+   * Executes the chart.
    *
    * @param context the context
    * @return the built graphicalview
@@ -78,7 +78,8 @@ public class HanokBarChart extends AbstractChart {
     renderer.setZoomRate(1.1f);
     renderer.setBarSpacing(0.5f);
 
-    return ChartFactory.getBarChartView(context,
+    return ChartFactory.getBarChartView(
+            context,
             buildBarDataset(titles, values),
             renderer,
             Type.STACKED);

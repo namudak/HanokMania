@@ -54,7 +54,7 @@ public class HanokTextFragment extends Fragment implements
 //        mProgressBarTextView= (TextView) view.findViewById(R.id.progressbar_text_view);
 
         // Retrieve query result as list
-        Sequel aQuery = new Sequel(getContext());
+        Sequel aQuery = new Sequel(getActivity());
 
         HanokTextQuery hanokTextQuery = new HanokTextQuery(aQuery);
 

@@ -13,7 +13,7 @@ public class QueryContract {
     public static final String mBuilddateQuery=
             "select substr(builddate,1,4), count(*) from hanok " +
                     "group by substr(builddate, 1, 4) " +
-                    "order by substr(builddate, 1, 4) desc ";
+                    "order by substr(builddate, 1, 4) desc; ";
 
     public static final String mHousetypeQuery=
             "select count(*) from hanok_hanok_bukchon " +
@@ -26,6 +26,7 @@ public class QueryContract {
     public static final String mSn=
             "select substr(sn, 1, 4), count(*) from repair_hanok " +
             "group by substr(sn, 1, 4);";
+
 
     public static final String[] mQuery= {
             mPlottageQuery,
