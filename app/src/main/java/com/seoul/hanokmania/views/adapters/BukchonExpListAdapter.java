@@ -246,6 +246,12 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
 
     }
 
+    public void swapData(List groupData, List<List<BukchonItem>> childData) {
+        mGroupList = groupData;
+        mChildList = childData;
+        notifyDataSetChanged();
+    }
+
     static class ViewHolder {
         TextView groupName;
 
