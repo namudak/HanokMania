@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.seoul.hanokmania.R;
 import com.seoul.hanokmania.query.Footman;
-import com.seoul.hanokmania.query.HanokQuery;
+import com.seoul.hanokmania.query.HanokTextQuery;
 import com.seoul.hanokmania.query.Sequel;
 import com.seoul.hanokmania.views.adapters.HanokTextAdapter;
 
@@ -56,10 +56,10 @@ public class HanokTextFragment extends Fragment implements
         // Retrieve query result as list
         Sequel aQuery = new Sequel(getContext());
 
-        HanokQuery hanokQuery = new HanokQuery(aQuery);
+        HanokTextQuery hanokTextQuery = new HanokTextQuery(aQuery);
 
         Footman footman = new Footman();
-        footman.takeQuery(hanokQuery);
+        footman.takeQuery(hanokTextQuery);
 
         List list= footman.placeQueries();
 
