@@ -1,5 +1,6 @@
 package com.seoul.hanokmania.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ExpandableListView;
 
 import com.seoul.hanokmania.R;
@@ -29,7 +31,7 @@ import java.util.List;
 /**
  * Created by Ray Choe on 2015-10-20.
  */
-public class BukchonFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class BukchonFragment extends Fragment implements SearchView.OnQueryTextListener, View.OnFocusChangeListener {
 
     private static final String TAG = BukchonFragment.class.getSimpleName();
     private ExpandableListView mListView;
@@ -61,6 +63,7 @@ public class BukchonFragment extends Fragment implements SearchView.OnQueryTextL
         MenuItem menuItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) menuItem.getActionView();
         mSearchView.setOnQueryTextListener(this);
+        mSearchView.setOnQueryTextFocusChangeListener(this);
     }
 
     public static BukchonFragment newInstance() {
@@ -212,19 +215,11 @@ public class BukchonFragment extends Fragment implements SearchView.OnQueryTextL
     }
 
     @Override
-    public void onPause() {
-        Log.d(TAG, "onPause");
-    mSearchView.clearFocus();
-        Log.d(TAG, "" + mSearchView.hasFocus());
-
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        Log.d(TAG, "onStop");
-        mSearchView.clearFocus();
-        Log.d(TAG, "" + mSearchView.hasFocus());
-        super.onStop();
+    public void onFocusChange(View v, boolean hasFocus) {
+        Log.d(TAG, "포커스 : " + hasFocus);
+        if(hasFocus != true) {
+            final InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
     }
 }
