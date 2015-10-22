@@ -41,4 +41,7 @@ dependencies {
     compile 'com.suwonsmartapp:async-bitmap-loader:0.2'
     // CardView
     compile 'com.android.support:cardview-v7:23.1.0'
+
+    // EventBus     https://github.com/greenrobot/EventBus
+    compile 'de.greenrobot:eventbus:2.4.0'
 }

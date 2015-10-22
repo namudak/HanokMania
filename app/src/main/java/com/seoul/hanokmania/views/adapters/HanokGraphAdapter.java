@@ -5,17 +5,19 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.seoul.hanokmania.R;
+import com.seoul.hanokmania.events.ChartClickEvent;
 
 import org.achartengine.GraphicalView;
 
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 @SuppressWarnings("unchecked")
 public class HanokGraphAdapter extends BaseExpandableListAdapter {
@@ -61,21 +63,25 @@ public class HanokGraphAdapter extends BaseExpandableListAdapter {
 
         }
 
-        ImageView itemView = (ImageView) convertView.findViewById(R.id.childImage);
+        final ImageView itemView = (ImageView) convertView.findViewById(R.id.childImage);
 
-        Bitmap bitmap = Bitmap.createBitmap(600, 600, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(1000, 600, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
         graphView.draw(canvas);
 
         itemView.setImageBitmap(bitmap);
 
-        convertView.setOnClickListener(new OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(mActivity, tempChild.get(childPosition),
+//                Toast.makeText(mActivity, childPosition + "",
 //                        Toast.LENGTH_SHORT).show();
+                ChartClickEvent event = new ChartClickEvent();
+                event.chartView = itemView;
+                EventBus.getDefault().post(event);
             }
+
         });
 
         return convertView;
