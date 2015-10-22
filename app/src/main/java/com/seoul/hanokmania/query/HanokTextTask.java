@@ -48,9 +48,8 @@ class HanokTextTask extends AsyncTask<Void, Void, List> {
     // Number of hanok along plottage
     private int[] mCountNum= new int[GROUPFORMAT.length+ 1];
 
-    public HanokTextTask(Context context, String plottageQuery){
+    public HanokTextTask(Context context){
         mContext= context;
-        mPlottageQuery= plottageQuery;
     }
 
     @Override

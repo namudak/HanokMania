@@ -13,13 +13,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.seoul.hanokmania.R;
-import com.seoul.hanokmania.fragments.graph.HanokBarChart;
 import com.seoul.hanokmania.query.Footman;
 import com.seoul.hanokmania.query.HanokGraphQuery;
 import com.seoul.hanokmania.query.Sequel;
 import com.seoul.hanokmania.views.adapters.HanokGraphAdapter;
-
-import org.achartengine.GraphicalView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,18 +62,7 @@ public class HanokGraphFragment extends Fragment implements
 
         List list= footman.placeQueries();
 
-        ArrayList<Object> childItem = new ArrayList<>();
-        HanokBarChart chart= new HanokBarChart();
-        for(int i= 0; i< 6; i++) {
-            List<GraphicalView> graph = new ArrayList<>();
-            graph.add(chart.getGraphView(getActivity(), list));
-            childItem.add(graph);
-        }
-
-
-        //mAdapter = new HanokGraphAdapter((ArrayList)list.get(0), (ArrayList)list.get(1));
-        mAdapter = new HanokGraphAdapter((ArrayList<String>)list.get(0), childItem);
-
+        mAdapter = new HanokGraphAdapter((ArrayList)list.get(0), (ArrayList)list.get(1));
         mAdapter.setInflater(
                 inflater,
                 getActivity());

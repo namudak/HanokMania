@@ -12,8 +12,6 @@ public class HanokGraphQuery implements I_Query{
         this.hanok = aQuery;
     }
 
-    public List execute() {
-        return hanok.selectGraph();
-    }
+    public List execute() {return hanok.selectGraph();}
 
 }
