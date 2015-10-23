@@ -14,6 +14,8 @@ import com.seoul.hanokmania.R;
  */
 public class GuideFragment_2 extends Fragment {
 
+    private static final String TAG = GuideFragment_2.class.getSimpleName();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

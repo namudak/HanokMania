@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,6 +23,7 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
     private ViewPager mViewPager;
     private ImageView mIndicator;
     private List<Fragment> mFragmentList;
+    private GuideAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,25 +31,34 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_guide);
 
 
-        mViewPager = (ViewPager)findViewById(R.id.guide_view_pager);
-        mIndicator = (ImageView)findViewById(R.id.guide_indicator);
+        mViewPager = (ViewPager) findViewById(R.id.guide_view_pager);
+        mIndicator = (ImageView) findViewById(R.id.guide_indicator);
 
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new GuideFragment_1());
         mFragmentList.add(new GuideFragment_2());
 
-        mViewPager.setAdapter(new GuideAdapter(getSupportFragmentManager(), mFragmentList));
-        mViewPager.addOnPageChangeListener(this);
+        mAdapter = new GuideAdapter(getSupportFragmentManager(), mFragmentList);
 
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.addOnPageChangeListener(this);
 
 
     }
 
     @Override
     public void onClick(View v) {
-        SharedPreferences sharedPreferences = getSharedPreferences("hanokmania", MODE_PRIVATE);
-        sharedPreferences.edit().putBoolean("first", false).commit();
-        finish();
+        switch (v.getId()) {
+            case R.id.guide_next_button:
+                mViewPager.setCurrentItem(1);
+                break;
+            case R.id.guide_close_button:
+                SharedPreferences sharedPreferences = getSharedPreferences("hanokmania", MODE_PRIVATE);
+                sharedPreferences.edit().putBoolean("first", false).commit();
+                finish();
+                break;
+        }
+
     }
 
     @Override
@@ -72,6 +83,6 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        Log.d(TAG, "state : " + state);
     }
 }

@@ -14,10 +14,13 @@ import com.seoul.hanokmania.R;
  */
 public class GuideFragment_1 extends Fragment {
 
+    private static final String TAG = GuideFragment_1.class.getSimpleName();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_guide_1, container, false);
+        view.findViewById(R.id.guide_next_button).setOnClickListener((View.OnClickListener) getActivity());
         return view;
     }
 
@@ -25,4 +28,5 @@ public class GuideFragment_1 extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
+
 }
