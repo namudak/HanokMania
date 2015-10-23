@@ -27,20 +27,34 @@ public class QueryContract {
             "select substr(sn, 1, 4), count(*) from repair_hanok " +
             "group by substr(sn, 1, 4);";
 
+    public static final String mRealPlottageQuery=
+            "select hanoknum, addr, plottage, totar, buildarea, use, structure " +
+            "from hanok " +
+            "where plottage > 0.0 " +
+            "order by cast(plottage as integer) asc;";
+
+    public static final String mRealBuilddateQuery=
+            "select  count(*) from hanok " +
+            "where cast(substr(builddate, 1, 4) as integer)? ? " +
+            "and length(builddate)> 0";
+
 
     public static final String[] mQuery= {
             mPlottageQuery,
             mBuilddateQuery,
             mHousetypeQuery,
             mBoolculture,
-            mSn
+            mSn,
+            mRealPlottageQuery,
+            mRealBuilddateQuery
     };
-
 
     public static final int QUERYPLOTTAGE= 0;
     public static final int QUERYBUILDDATE= 1;
     public static final int QUERYHOUSETYPE= 2;
     public static final int QUERYBOOLCULTURE= 3;
     public static final int QUERYSN= 4;
+    public static final int QUERYREALPLOTTAGE= 5;
+    public static final int QUERYREALBUILDDATE= 6;
 
 }

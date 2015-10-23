@@ -91,7 +91,7 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
                 List<Object> graph = new ArrayList<>();
                 switch (i) {
                     case 0://한옥 건립일@Pie
-                        HanokPieChart chart0= new HanokPieChart();
+                        HanokBarChart chart0= new HanokBarChart();
                         graph.add(chart0.getGraphView(mContext, getBuildQuery()));
                         break;
                     case 1://등록 한옥 중 북촌한옥 비율(단위:％)@Pie
@@ -174,7 +174,7 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
         SQLiteDatabase db= mDbHelper.getReadableDatabase();
 
         Cursor cursor= db.rawQuery(
-                QueryContract.mQuery[QueryContract.QUERYPLOTTAGE],
+                QueryContract.mQuery[QueryContract.QUERYREALPLOTTAGE],
                 null
         );
 
@@ -203,15 +203,15 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
             Float floorareaRatio= 100.0f* Float.parseFloat(val[3])/
                     Float.parseFloat(val[2]);
             childList.add(
-                    String.format(CHILDFORMAT[0], val[0])+ ","+
-                    String.format(CHILDFORMAT[1], val[2])+ ","+
-                    String.format(CHILDFORMAT[2], val[3])+ ","+
-                    String.format(CHILDFORMAT[3], val[4])+ ","+
-                    String.format(CHILDFORMAT[4], String.valueOf(floorareaRatio))+ ","+
-                    String.format(CHILDFORMAT[5], String.valueOf(coverageRatio))+ ","+
-                    String.format(CHILDFORMAT[6], val[5])+ ","+
-                    String.format(CHILDFORMAT[7], val[6])+ ","+
-                    String.format(CHILDFORMAT[8], val[1])
+                    val[0]+ ","+
+                    val[2]+ ","+
+                    val[3]+ ","+
+                    val[4]+ ","+
+                    String.valueOf(floorareaRatio)+ ","+
+                    String.valueOf(coverageRatio)+ ","+
+                    val[5]+ ","+
+                    val[6]+ ","+
+                    val[1]
             );
         }
 
@@ -247,14 +247,14 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
         SQLiteDatabase db= mDbHelper.getReadableDatabase();
 
         Cursor cursor= db.rawQuery(
-                QueryContract.mQuery[QueryContract.QUERYBUILDDATE],
-                null
+                QueryContract.mQuery[QueryContract.QUERYREALBUILDDATE],
+                new String[] {"<", "2000"}
         );
 
         ArrayList<String> childList = new ArrayList<>();
         String[] val= new String[2];
         while(cursor.moveToNext()) {
-            val[0]= cursor.getString(0);//buildyear
+            val[0]= "1900년대";
             val[1]= String.valueOf(cursor.getInt(1));//count
 
             childList.add(
@@ -262,6 +262,41 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
                     String.format(CHILDFORMAT[9], val[1])
             );
         }
+        cursor.close();
+
+        cursor= db.rawQuery(
+                QueryContract.mQuery[QueryContract.QUERYREALBUILDDATE],
+                new String[] {">", "2000"}
+        );
+
+        childList = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            val[0]= "2000년대";
+            val[1]= String.valueOf(cursor.getInt(1));//count
+
+            childList.add(
+                    String.format(CHILDFORMAT[9], val[0])+ ","+
+                    String.format(CHILDFORMAT[9], val[1])
+            );
+        }
+        cursor.close();
+
+        cursor= db.rawQuery(
+                QueryContract.mQuery[QueryContract.QUERYREALBUILDDATE],
+                new String[] {"=", "0"}
+        );
+
+        childList = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            val[0]= "미상";
+            val[1]= String.valueOf(cursor.getInt(1));//count
+
+            childList.add(
+                    String.format(CHILDFORMAT[9], val[0])+ ","+
+                    String.format(CHILDFORMAT[9], val[1])
+            );
+        }
+        cursor.close();
 
         return  childList;
     }
@@ -338,7 +373,7 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
 
             childList.add(
                     String.format(CHILDFORMAT[9], val[0])+ ","+
-                            String.format(CHILDFORMAT[9], val[1])
+                    String.format(CHILDFORMAT[9], val[1])
             );
         }
 
