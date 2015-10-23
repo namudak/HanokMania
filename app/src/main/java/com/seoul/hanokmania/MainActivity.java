@@ -1,6 +1,7 @@
 package com.seoul.hanokmania;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -18,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.seoul.hanokmania.guide.GuideActivity;
 import com.seoul.hanokmania.managers.Manager;
 
 import java.util.ArrayList;
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity
                         MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
             }
         }
+
+
     }
 
     @Override
@@ -139,6 +143,8 @@ public class MainActivity extends AppCompatActivity
 
         // 첫 번째 아이템이 선택 된 것으로 표시
         navigationView.getMenu().getItem(0).setChecked(true);
+
+        startActivity(new Intent(MainActivity.this, GuideActivity.class));
     }
 
     @Override
