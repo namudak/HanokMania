@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.seoul.hanokmania.fragments.graph.HanokBarChart;
+import com.seoul.hanokmania.fragments.graph.HanokDoughnutChart;
 import com.seoul.hanokmania.fragments.graph.HanokLineChart;
 import com.seoul.hanokmania.fragments.graph.HanokPieChart;
 import com.seoul.hanokmania.provider.HanokContract;
@@ -91,7 +92,7 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
                 List<Object> graph = new ArrayList<>();
                 switch (i) {
                     case 0://한옥 건립일@Pie
-                        HanokBarChart chart0= new HanokBarChart();
+                        HanokDoughnutChart chart0= new HanokDoughnutChart();
                         graph.add(chart0.getGraphView(mContext, getBuildQuery()));
                         break;
                     case 1://등록 한옥 중 북촌한옥 비율(단위:％)@Pie
