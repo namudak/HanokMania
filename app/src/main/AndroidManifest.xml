@@ -29,6 +29,7 @@
         </activity>
         <activity android:name=".guide.GuideActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".activities.ChartActivity" />
         <!-- Provider 등록 authorities로 Content Provider 구분 -->
         <provider
             android:name=".provider.HanokProvider"

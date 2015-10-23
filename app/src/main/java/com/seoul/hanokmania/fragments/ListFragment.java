@@ -31,9 +31,9 @@ import java.util.List;
 /**
  * Created by namudak on 2015. 10. 17.
  */
-public class HanokListFragment extends Fragment implements View.OnKeyListener {
+public class ListFragment extends Fragment implements View.OnKeyListener {
 
-    private static final String TAG = HanokListFragment.class.getSimpleName();
+    private static final String TAG = ListFragment.class.getSimpleName();
 
     private List<HanokItem> mHanokList = null;
     

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,13 +19,13 @@ public class HanokTextAdapter extends BaseExpandableListAdapter {
 
 	public ArrayList<String> mGroupItem;
 	public ArrayList<String> mTempChild;
-	public ArrayList<Object> mChildItem = new ArrayList<Object>();
+	public ArrayList<Object> mChildItem = new ArrayList<>();
 	public LayoutInflater mInflater;
 	public Activity mActivity;
 
 	public HanokTextAdapter(ArrayList<String> grList, ArrayList<Object> childItem) {
-		mGroupItem = grList;
-		mChildItem = childItem;
+		this.mGroupItem = grList;
+		this.mChildItem = childItem;
 	}
 
 	public void setInflater(LayoutInflater inflater, Activity act) {
@@ -50,13 +51,22 @@ public class HanokTextAdapter extends BaseExpandableListAdapter {
 
 		mTempChild = (ArrayList<String>) mChildItem.get(groupPosition);
 
+		ImageView imageView= null;
+
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.graph_child_row, null);
+			convertView = mInflater.inflate(R.layout.text_child_row, null);
 
 			holder = new ViewHolder();
-			holder.addr = (TextView) convertView.findViewById(R.id.tv_addr);
-			holder.area = (TextView) convertView.findViewById(R.id.tv_area);
+			holder.childImage= (ImageView) convertView.findViewById(R.id.childImage);
+			holder.num = (TextView) convertView.findViewById(R.id.tv_hanoknum);
+			holder.plot = (TextView) convertView.findViewById(R.id.tv_plottage);
+			holder.barea = (TextView) convertView.findViewById(R.id.tv_buildarea);
+			holder.totar = (TextView) convertView.findViewById(R.id.tv_totar);
+			holder.fratio = (TextView) convertView.findViewById(R.id.tv_floorratio);
+			holder.cratio = (TextView) convertView.findViewById(R.id.tv_coverageratio);
 			holder.use = (TextView) convertView.findViewById(R.id.tv_use);
+			holder.stru = (TextView) convertView.findViewById(R.id.tv_structure);
+			holder.addr = (TextView) convertView.findViewById(R.id.tv_addr);
 
 			convertView.setTag(holder);
 
@@ -64,12 +74,20 @@ public class HanokTextAdapter extends BaseExpandableListAdapter {
 			holder = (ViewHolder)convertView.getTag();
 		}
 
-		String[] parm= new String[3];
+
+		String[] parm= new String[mTempChild.get(childPosition).length()];
 		parm= mTempChild.get(childPosition).split(",");
 
-		holder.addr.setText(parm[0]);
-		holder.area.setText(parm[1]);
-		holder.use.setText(parm[2]);
+		holder.childImage.setImageResource(R.drawable.fewcloudscircleday);
+		holder.num.setText(parm[0]);
+		holder.plot.setText(parm[1]);
+		holder.barea.setText(parm[2]);
+		holder.totar.setText(parm[3]);
+		holder.fratio.setText(parm[4]);
+		holder.cratio.setText(parm[5]);
+		holder.use.setText(parm[6]);
+		holder.stru.setText(parm[7]);
+		holder.addr.setText(parm[8]);
 
 		convertView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -83,10 +101,16 @@ public class HanokTextAdapter extends BaseExpandableListAdapter {
 	}
 
 	private static class ViewHolder {
-		public TextView addr;
-		public TextView area;
+		public ImageView childImage;
+		public TextView num;
+		public TextView plot;
+		public TextView barea;
+		public TextView totar;
+		public TextView fratio;
+		public TextView cratio;
 		public TextView use;
-
+		public TextView stru;
+		public TextView addr;
 	}
 	@Override
 	public int getChildrenCount(int groupPosition) {

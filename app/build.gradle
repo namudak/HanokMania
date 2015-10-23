@@ -52,4 +52,6 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.4'
     // Set this dependency to use JUnit 4 rules
     androidTestCompile 'com.android.support.test:rules:0.4'
+    // EventBus     https://github.com/greenrobot/EventBus
+    compile 'de.greenrobot:eventbus:2.4.0'
 }

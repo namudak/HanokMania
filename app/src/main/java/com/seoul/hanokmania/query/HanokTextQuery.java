@@ -5,15 +5,15 @@ import java.util.List;
 /**
  * Created by namudak on 2015-10-20.
  */
-public class HanokQuery  implements I_Query{
+public class HanokTextQuery implements I_Query{
     private Sequel hanok;
 
-    public HanokQuery(Sequel aQuery){
+    public HanokTextQuery(Sequel aQuery){
         this.hanok = aQuery;
     }
 
     public List execute() {
-        return hanok.select();
+        return hanok.selectText();
     }
 
 }

@@ -3,9 +3,11 @@ package com.seoul.hanokmania;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,15 +18,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.ChangeImageTransform;
+import android.transition.TransitionSet;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.Toast;
 
+import com.seoul.hanokmania.activities.ChartActivity;
+import com.seoul.hanokmania.events.ChartClickEvent;
+import com.seoul.hanokmania.events.Event;
 import com.seoul.hanokmania.guide.GuideActivity;
 import com.seoul.hanokmania.managers.Manager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,11 +46,21 @@ public class MainActivity extends AppCompatActivity
     private MyAdapter mAdapter;
     private List<String> mTitles;
 
-    List mHanokList= new ArrayList<>();
+    List mHanokList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Transition 기능을 사용
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            TransitionSet set = new TransitionSet();
+            set.addTransition(new ChangeImageTransform());
+            getWindow().setExitTransition(set);
+            getWindow().setEnterTransition(set);
+        }
 
         // 초기화
         init();
@@ -191,4 +211,32 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * EventBus 이벤트를 수신하는 콜백 메소드
+     * @param event ChartClickEvent 등등
+     */
+    public void onEvent(Event event) {
+        // com.seoul.hanokmania.views.adapters.HanokGraphAdapter 에서 호출 됨
+        if (event instanceof ChartClickEvent) {
+            ChartClickEvent e = (ChartClickEvent) event;
+            // Activity Transition 은 롤리팝 전용
+            Intent intent = new Intent(this, ChartActivity.class);
+            ActivityOptionsCompat option = ActivityOptionsCompat.makeSceneTransitionAnimation(this, e.chartView, "chart");
+            ActivityCompat.startActivity(this, intent, option.toBundle());
+        }
+    }
 }

@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@+id/childImage"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:layout_below="@+id/graph_lay1_txt12"
-android:layout_centerHorizontal="true"
-android:layout_marginBottom="10dp"
-android:layout_marginTop="40dp"
-android:layout_weight="1"
-android:orientation="horizontal" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/childImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:contentDescription="@string/dummy"
+        android:transitionName="chart"/>
+
 </LinearLayout>

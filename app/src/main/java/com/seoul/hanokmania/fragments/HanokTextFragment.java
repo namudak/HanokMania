@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.seoul.hanokmania.R;
 import com.seoul.hanokmania.query.Footman;
-import com.seoul.hanokmania.query.HanokQuery;
+import com.seoul.hanokmania.query.HanokTextQuery;
 import com.seoul.hanokmania.query.Sequel;
 import com.seoul.hanokmania.views.adapters.HanokTextAdapter;
 
@@ -32,8 +32,8 @@ public class HanokTextFragment extends Fragment implements
     private HanokTextAdapter mAdapter;
     private ExpandableListView mhanokListView;
 
-    ArrayList<String> groupItem = new ArrayList<String>();
-    ArrayList<Object> childItem = new ArrayList<Object>();
+    ArrayList<String> groupItem = new ArrayList<>();
+    ArrayList<Object> childItem = new ArrayList<>();
 
     private ProgressBar mProgressBar;
     private TextView mProgressBarTextView;
@@ -50,20 +50,21 @@ public class HanokTextFragment extends Fragment implements
         mhanokListView.setDividerHeight(2);
         mhanokListView.setClickable(true);
 
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
-        mProgressBarTextView= (TextView) view.findViewById(R.id.progressbar_text_view);
+//        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+//        mProgressBarTextView= (TextView) view.findViewById(R.id.progressbar_text_view);
 
         // Retrieve query result as list
-        Sequel aQuery = new Sequel(getContext());
+        Sequel aQuery = new Sequel(getActivity());
 
-        HanokQuery hanokQuery = new HanokQuery(aQuery);
+        HanokTextQuery hanokTextQuery = new HanokTextQuery(aQuery);
 
         Footman footman = new Footman();
-        footman.takeQuery(hanokQuery);
+        footman.takeQuery(hanokTextQuery);
 
         List list= footman.placeQueries();
 
-        mAdapter = new HanokTextAdapter((ArrayList)list.get(0), (ArrayList)list.get(1));
+        mAdapter = new HanokTextAdapter((ArrayList<String>)list.get(0),
+                        (ArrayList<Object>)list.get(1));
 
         mAdapter.setInflater(
                 inflater,
