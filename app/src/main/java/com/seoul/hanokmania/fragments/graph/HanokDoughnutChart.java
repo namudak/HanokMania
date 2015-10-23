@@ -59,13 +59,24 @@ public class HanokDoughnutChart extends AbstractChart {
      */
     public GraphicalView getGraphView(Context context, List list) {
 
-        List<double[]> values = new ArrayList<double[]>();
-        values.add(new double[] { 12, 14, 11, 10, 19 });
-        values.add(new double[] { 10, 9, 14, 20, 11 });
         List<String[]> titles = new ArrayList<String[]>();
-        titles.add(new String[] { "P1", "P2", "P3", "P4", "P5" });
-        titles.add(new String[] { "Project1", "Project2", "Project3", "Project4", "Project5" });
-        int[] colors = new int[] { Color.BLUE, Color.GREEN, Color.MAGENTA, Color.YELLOW, Color.CYAN };
+        List<double[]> values = new ArrayList<double[]>();
+        String[] str= new String[list.size()- 1];
+        String[] strTitle= new String[list.size()- 1];
+        double[] val= new double[list.size()- 1];
+        for(int i= 0; i< list.size()- 1; i++){
+            str= list.get(i).toString().split(",");
+            strTitle[i]= str[0];
+            val[i]= Float.parseFloat(str[1]);
+        }
+        titles.add(strTitle);
+        values.add(val);
+        //titles.add(new String[] { "P1", "P2", "P3", "P4", "P5" });
+        //titles.add(new String[] { "Project1", "Project2", "Project3", "Project4", "Project5" });
+        //values.add(new double[] { 12, 14, 11, 10, 19 });
+        //values.add(new double[] { 10, 9, 14, 20, 11 });
+        int[] colors = new int[] { Color.MAGENTA, Color.YELLOW, Color.CYAN };
+        //int[] colors = new int[] { Color.BLUE, Color.GREEN, Color.MAGENTA, Color.YELLOW, Color.CYAN };
 
         DefaultRenderer renderer = buildCategoryRenderer(colors);
         renderer.setApplyBackgroundColor(true);
