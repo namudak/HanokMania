@@ -11,12 +11,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class Sequel {
 
-    private String mPlottageQuery=
-            "select hanoknum, addr, plottage, totar, buildarea, use, structure "+
-                    "from hanok " +
-                    "order by cast(plottage as integer) asc; ";
-
-    Context mContext;
+    private Context mContext;
 
     public Sequel(Context context) {
         mContext= context;
@@ -26,7 +21,7 @@ public class Sequel {
 
         List list= new ArrayList<>();
         try {
-            list =new HanokTextTask(mContext, mPlottageQuery).execute().get();
+            list =new HanokTextTask(mContext).execute().get();
         } catch (ExecutionException | InterruptedException ie) {
             ie.printStackTrace();
         }
@@ -38,12 +33,13 @@ public class Sequel {
 
         List list= new ArrayList<>();
         try {
-            list =new HanokTextTask(mContext, mPlottageQuery).execute().get();
+            list =new HanokGraphTask(mContext).execute().get();
         } catch (ExecutionException | InterruptedException ie) {
             ie.printStackTrace();
         }
 
         return list;
     }
+
 
 }

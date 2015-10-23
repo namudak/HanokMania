@@ -3,6 +3,7 @@ package com.seoul.hanokmania.views.adapters;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +23,9 @@ import de.greenrobot.event.EventBus;
 @SuppressWarnings("unchecked")
 public class HanokGraphAdapter extends BaseExpandableListAdapter {
 
-    public ArrayList<String> mGroupItem;
+    public ArrayList<String> mGroupItem = new ArrayList<>();;
     public ArrayList<GraphicalView> mTempChild;
-    public ArrayList<Object> mChildItem = new ArrayList<Object>();
+    public ArrayList<Object> mChildItem = new ArrayList<>();
     public LayoutInflater mInflater;
     public Activity mActivity;
 
@@ -53,14 +54,13 @@ public class HanokGraphAdapter extends BaseExpandableListAdapter {
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
-
+Log.d("SSSSS>>>", ""+groupPosition+"///"+ childPosition);
         mTempChild = (ArrayList<GraphicalView>) mChildItem.get(groupPosition);
 
-        final GraphicalView graphView= mTempChild.get(0);
+        final GraphicalView graphView= mTempChild.get(childPosition);
 
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.graph_child_row, null);
-
         }
 
         final ImageView itemView = (ImageView) convertView.findViewById(R.id.childImage);
@@ -75,8 +75,6 @@ public class HanokGraphAdapter extends BaseExpandableListAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Toast.makeText(mActivity, childPosition + "",
-//                        Toast.LENGTH_SHORT).show();
                 ChartClickEvent event = new ChartClickEvent();
                 event.chartView = itemView;
                 EventBus.getDefault().post(event);
@@ -89,7 +87,7 @@ public class HanokGraphAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return ((ArrayList<String>) mChildItem.get(groupPosition)).size();
+        return ((ArrayList<Object>) mChildItem.get(groupPosition)).size();
     }
 
     @Override
@@ -120,10 +118,11 @@ public class HanokGraphAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
+        Log.d("BBBBB>>>", ""+groupPosition+"///");
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.graph_group_row, null);
         }
-        TextView text= (TextView) convertView.findViewById(R.id.tv_group);
+        TextView text= (TextView) convertView.findViewById(R.id.textView1);
         text.setText(mGroupItem.get(groupPosition));
 
         return convertView;

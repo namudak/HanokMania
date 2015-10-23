@@ -17,10 +17,9 @@ import java.util.List;
  */
 class HanokTextTask extends AsyncTask<Void, Void, List> {
 
-    private static final String TAG = Sequel.class.getSimpleName();
+    private static final String TAG = HanokTextTask.class.getSimpleName();
 
     private Context mContext;
-    private String mPlottageQuery;
 
     private String[] GROUPFORMAT= {
             "한옥 대지 면적(㎡) 30  이하 [%s]",
@@ -48,9 +47,8 @@ class HanokTextTask extends AsyncTask<Void, Void, List> {
     // Number of hanok along plottage
     private int[] mCountNum= new int[GROUPFORMAT.length+ 1];
 
-    public HanokTextTask(Context context, String plottageQuery){
+    public HanokTextTask(Context context){
         mContext= context;
-        mPlottageQuery= plottageQuery;
     }
 
     @Override
@@ -70,7 +68,7 @@ class HanokTextTask extends AsyncTask<Void, Void, List> {
             SQLiteDatabase db= dbHelper.getReadableDatabase();
 
             Cursor cursor= db.rawQuery(
-                    mPlottageQuery,
+                    QueryContract.mQuery[QueryContract.QUERYPLOTTAGE],
                     null
             );
 
