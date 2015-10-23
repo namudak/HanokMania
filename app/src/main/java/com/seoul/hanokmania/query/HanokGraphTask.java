@@ -248,14 +248,14 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
 
         Cursor cursor= db.rawQuery(
                 QueryContract.mQuery[QueryContract.QUERYREALBUILDDATE],
-                new String[] {"<", "2000"}
+                new String[] {"2000"}
         );
 
         ArrayList<String> childList = new ArrayList<>();
         String[] val= new String[2];
         while(cursor.moveToNext()) {
             val[0]= "1900년대";
-            val[1]= String.valueOf(cursor.getInt(1));//count
+            val[1]= String.valueOf(cursor.getInt(0));//count
 
             childList.add(
                     String.format(CHILDFORMAT[9], val[0])+ ","+
@@ -266,13 +266,13 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
 
         cursor= db.rawQuery(
                 QueryContract.mQuery[QueryContract.QUERYREALBUILDDATE],
-                new String[] {">", "2000"}
+                new String[] { "2000"}
         );
 
         childList = new ArrayList<>();
         while(cursor.moveToNext()) {
             val[0]= "2000년대";
-            val[1]= String.valueOf(cursor.getInt(1));//count
+            val[1]= String.valueOf(cursor.getInt(0));//count
 
             childList.add(
                     String.format(CHILDFORMAT[9], val[0])+ ","+
@@ -283,13 +283,13 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
 
         cursor= db.rawQuery(
                 QueryContract.mQuery[QueryContract.QUERYREALBUILDDATE],
-                new String[] {"=", "0"}
+                new String[] {"0"}
         );
 
         childList = new ArrayList<>();
         while(cursor.moveToNext()) {
             val[0]= "미상";
-            val[1]= String.valueOf(cursor.getInt(1));//count
+            val[1]= String.valueOf(cursor.getInt(0));//count
 
             childList.add(
                     String.format(CHILDFORMAT[9], val[0])+ ","+

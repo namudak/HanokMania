@@ -35,7 +35,7 @@ public class QueryContract {
 
     public static final String mRealBuilddateQuery=
             "select  count(*) from hanok " +
-            "where cast(substr(builddate, 1, 4) as integer)? ? " +
+            "where cast(substr(builddate, 1, 4) as integer)> ? " +
             "and length(builddate)> 0";
 
 
