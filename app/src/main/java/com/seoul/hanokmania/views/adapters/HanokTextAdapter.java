@@ -27,8 +27,8 @@ public class HanokTextAdapter extends BaseExpandableListAdapter {
 		mChildItem = childItem;
 	}
 
-	public void setInflater(LayoutInflater mInflater, Activity act) {
-		mInflater = mInflater;
+	public void setInflater(LayoutInflater inflater, Activity act) {
+		mInflater = inflater;
 		mActivity = act;
 	}
 
