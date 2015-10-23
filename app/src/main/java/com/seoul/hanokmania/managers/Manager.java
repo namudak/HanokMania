@@ -3,13 +3,7 @@ package com.seoul.hanokmania.managers;
 import android.support.v4.app.Fragment;
 
 import com.seoul.hanokmania.fragments.BukchonFragment;
-import com.seoul.hanokmania.fragments.ChartFragment;
-import com.seoul.hanokmania.fragments.HanokTextFragment;
-import com.seoul.hanokmania.fragments.ListFragment;
 import com.seoul.hanokmania.fragments.HanokGraphFragment;
-import com.seoul.hanokmania.fragments.ItemFragment;
-import com.seoul.hanokmania.fragments.LoadPictureFragment;
-import com.seoul.hanokmania.fragments.WeatherFragment;
 
 /**
  * Created by junsuk on 2015. 10. 15..
@@ -20,14 +14,8 @@ public class Manager {
 
     // TODO: 메뉴 순서대로 Fragment 를 배열로 지정
     public static Class FRAGMENTS[] = {
-            ItemFragment.class,
-            WeatherFragment.class,
-            LoadPictureFragment.class,
-            ChartFragment.class,
-            ListFragment.class,
-            HanokTextFragment.class,
-            HanokGraphFragment.class,
-            BukchonFragment.class
+            BukchonFragment.class,
+            HanokGraphFragment.class
     };
 
     private Manager() {
