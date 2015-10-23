@@ -1,5 +1,6 @@
 package com.seoul.hanokmania.guide;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -40,6 +41,8 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        SharedPreferences sharedPreferences = getSharedPreferences("hanokmania", MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean("first", false).commit();
         finish();
     }
 

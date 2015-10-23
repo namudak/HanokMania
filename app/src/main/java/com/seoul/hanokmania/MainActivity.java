@@ -2,6 +2,7 @@ package com.seoul.hanokmania;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -164,7 +165,11 @@ public class MainActivity extends AppCompatActivity
         // 첫 번째 아이템이 선택 된 것으로 표시
         navigationView.getMenu().getItem(0).setChecked(true);
 
-        startActivity(new Intent(MainActivity.this, GuideActivity.class));
+        SharedPreferences sharedPreferences = getSharedPreferences("hanokmania", MODE_PRIVATE);
+        if(sharedPreferences.getBoolean("first", true)) {
+            startActivity(new Intent(MainActivity.this, GuideActivity.class));
+        }
+
     }
 
     @Override
