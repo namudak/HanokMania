@@ -3,13 +3,16 @@ package com.seoul.hanokmania.query;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.seoul.hanokmania.fragments.graph.HanokBarChart;
 import com.seoul.hanokmania.fragments.graph.HanokDoughnutChart;
 import com.seoul.hanokmania.fragments.graph.HanokLineChart;
+import com.seoul.hanokmania.fragments.graph.HanokMultiBarChart;
 import com.seoul.hanokmania.fragments.graph.HanokPieChart;
+import com.seoul.hanokmania.fragments.graph.HanokStackedBarChart;
 import com.seoul.hanokmania.provider.HanokContract;
 import com.seoul.hanokmania.provider.HanokOpenHelper;
 
@@ -30,16 +33,23 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
     private static HanokOpenHelper mDbHelper;
 
     private String[] GROUPFORMAT= {
-            "등록 한옥 건립일",
-            "등록 한옥 중 북촌한옥 비율(단위:％)",
-            "등록 한옥 중 문화재 비율(단위:％)",
-            "년도 별 한옥 수선 건수 ",
-            "대지 면적 구간 한옥 숫자 ",
-            "대지 면적 구간 평균 대지면적(단위:㎡)",
-            "대지 면적 구간 평균 건축면적(단위:㎡)",
-            "대지 면적 구간 평균 건폐율(단위:％)",
-            "대지 면적 구간 평균 연면적(단위:㎡)",
-            "대지 면적 구간 평균 용적율(단위:％)"
+            "⑴ 등록 한옥 건립일",
+            "⑵ 등록 한옥 중 북촌한옥 비율(％)",
+            "⑶ 등록 한옥 중 문화재 비율(％)",
+            "⑷ 년도 별 한옥 수선 현황",
+            "⑸ 대지 구간 별 한옥 현황 ",
+            "⑹ 대지 구간 별 평균 대지면적(㎡)\n"+
+            "⊙ 대지 구간 별 평균 건축면적(㎡)\n"+
+            "⊙ 대지 구간 별 평균 연면적(㎡)",
+            "⑺ 대지 구간 별 평균 대지면적(㎡)\n" +
+            "⊙ 대지 구간 별 평균 건축면적(㎡)\n"+
+            "⊙ 대지 구간 별 평균 건폐율(％)",
+            "⑻ 대지 구간 별 평균 대지면적(㎡)\n" +
+            "⊙ 대지 구간 별 평균 연면적(㎡)\n"+
+            "⊙ 대지 구간 별 평균 용적율(％)",
+            "⑼ 용도 별 북촌 한옥 현황",
+            "⑽ 구조 별 북촌 한옥 현황"
+
     };
     private String CHILDFORMAT[]= {
             "등록 번호 : %s",
@@ -50,19 +60,19 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
             "건폐율(％) : %s",
             "용도 : %s",
             "구조 : %s",
-            "법정동 : %s",
-            "%s"
+            "법정동 : %s"
     };
 
-    ArrayList<String> groupItem = new ArrayList<>();
-    ArrayList<Object> childItem = new ArrayList<>();
+    List<String> groupItem = new ArrayList<>();
+    List<Object> childItem = new ArrayList<>();
 
     // Number of hanok along plottage
     private String[] mLevel= {"0~30(㎡)", "30~60(㎡)", "60~90(㎡)",
-                    "90`120(㎡)", "120~240(㎡)", "240~"};
+                    "90`120(㎡)", "120~240(㎡)", "240(㎡)~"};
     private int[] mCountNum= new int[mLevel.length+ 1];
 
     private int mHanokTotal= 0;
+    private int mBukchonHanokTotal= 0;
 
     public HanokGraphTask(Context context){
         mContext= context;
@@ -73,9 +83,6 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
     @Override
     protected void onPreExecute() {
 
-//            mProgressBar.setVisibility(View.VISIBLE);
-//            mProgressBarTextView.setText("Retrieving data...Please wait.");
-
         try {
 
             List<String> childList= getPlottageQuery();
@@ -85,53 +92,80 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
                 groupItem.add(String.format(GROUPFORMAT[i]));
             }
             // Sum of hanok in seoul
-            for(int num : mCountNum)
-                mHanokTotal+= num;
+            mHanokTotal= getTotalHanokQuery();
+            // Sum of hanok in seoul
+            mBukchonHanokTotal = getTotalBukchonHanokQuery();
 
             for(int i= 0; i< GROUPFORMAT.length; i++) {
                 List<Object> graph = new ArrayList<>();
                 switch (i) {
                     case 0://한옥 건립일@Pie
-                        HanokDoughnutChart chart0= new HanokDoughnutChart();
-                        graph.add(chart0.getGraphView(mContext, getBuildQuery()));
+                        graph.add(getBuildQuery());
+                        graph.add("※ 건립일 미상 564 가옥(94%) 제외");
                         break;
                     case 1://등록 한옥 중 북촌한옥 비율(단위:％)@Pie
-                        HanokPieChart chart1= new HanokPieChart();
-                        graph.add(chart1.getGraphView(mContext, getHousetypeQuery()));
+                        graph.add(getHousetypeQuery());
+                        graph.add(String.format("※ 서울시 등록 한옥 숫자 : %s\n",mHanokTotal)+
+                                String.format("북촌 한옥 수 : %s", mBukchonHanokTotal));
                         break;
                     case 2://등록 한옥 중 문화재 비율(단위:％)@Pie
-                        HanokBarChart chart2= new HanokBarChart();
-                        graph.add(chart2.getGraphView(mContext, getBoolcultureQuery()));
+                        graph.add(getBoolcultureQuery());
+                        graph.add(String.format("※ 서울시 등록 중 북촌 한옥 숫자 : %s",
+                                mBukchonHanokTotal));
                         break;
                     case 3://년도 별 한옥 수선 건수@Line
                         HanokLineChart chart3= new HanokLineChart();
                         graph.add(chart3.getGraphView(mContext, getSnQuery()));
+                        graph.add("※ 2001년 ~ 2015년 까지의 한옥 수선 현황");
                         break;
                     case 4://대지 면적 구간 한옥 숫자@Bar
                         HanokBarChart chart4= new HanokBarChart();
                         graph.add(chart4.getGraphView(mContext, getCountHanok()));
+                        graph.add("※ -");
                         break;
-                    case 5://대지 면적 구간 평균 대지면적(단위:㎡)@Bar
-                        HanokBarChart chart5= new HanokBarChart();
-                        graph.add(chart5.getGraphView(mContext, getAvg(1, childList)));
-                    case 6://대지 면적 구간 평균 건축면적(단위:㎡)@Bar
-                        HanokBarChart chart6= new HanokBarChart();
-                        graph.add(chart6.getGraphView(mContext, getAvg(2, childList)));
+                    case 5://대지 면적 구간 평균 대지/건축/연면적(단위:㎡)@Bar
+                        List list5= new ArrayList();
+                        list5.add(getAvg(3, childList));
+                        list5.add(getAvg(2, childList));//too many 0
+                        list5.add(getAvg(1, childList));
+                        HanokMultiBarChart chart5= new HanokMultiBarChart();
+                        graph.add(chart5.getGraphView(mContext, list5));
+                        graph.add("※ -");
+                    case 6://대지 면적 구간 평균 건축면적/건폐율(단위:㎡)@Stacked Bar
+                        List list6= new ArrayList();
+                        list6.add("건폐율(%), 건축 면적(㎡), 대지 면적(㎡)");
+                        list6.add("한옥 대지/건축 면적 및 건폐율, 대지 면적, 한옥 수");
+                        list6.add(getAvg(4, childList));
+                        list6.add(getAvg(2, childList));//too many 0
+                        list6.add(getAvg(1, childList));
+                        HanokStackedBarChart chart6= new HanokStackedBarChart();
+                        graph.add(chart6.getGraphView(mContext, list6));
+                        graph.add("※ -");
                         break;
-                    case 7://대지 면적 구간 평균 건폐율(단위:％)@Bar
-                        HanokBarChart chart7= new HanokBarChart();
-                        graph.add(chart7.getGraphView(mContext, getAvg(5, childList)));
+                    case 7://대지 면적 구간 평균 연면적/용적율(단위:％)@Stacked Bar
+                        List list7= new ArrayList();
+                        list7.add("용적율(%), 연 면적(㎡), 대지 면적(㎡)");
+                        list7.add("한옥 대지/건축 면적 및 용적율, 대지 면적, 한옥 수");
+                        list7.add(getAvg(5, childList));
+                        list7.add(getAvg(3, childList));//too many 0
+                        list7.add(getAvg(1, childList));
+                        HanokStackedBarChart chart7= new HanokStackedBarChart();
+                        graph.add(chart7.getGraphView(mContext, list7));
+                        graph.add("※ -");
                         break;
-                    case 8://대지 면적 구간 평균 연면적(단위:㎡)@Bar
-                        HanokBarChart chart8= new HanokBarChart();
-                        graph.add(chart8.getGraphView(mContext, getAvg(3, childList)));
+                    case 8://북촌 한옥 용도 별 현황@Pie
+                        HanokPieChart chart8= new HanokPieChart();
+                        graph.add(chart8.getGraphView(mContext, getUseHanok()));
+                        graph.add("※ -");
                         break;
-                    case 9://대지 면적 구간 평균 용적율(단위:％)@Bar
-                        HanokBarChart chart9= new HanokBarChart();
-                        graph.add(chart9.getGraphView(mContext, getAvg(4, childList)));
+                    case 9://북촌 한옥 구조 별 현황@Pie
+                        HanokPieChart chart9= new HanokPieChart();
+                        graph.add(chart9.getGraphView(mContext, getStructureHanok()));
+                        graph.add("※ -");
                         break;
                 }
                 childItem.add(graph);
+
             }
 
 
@@ -160,8 +194,6 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
     @Override
     protected void onPostExecute(List list) { // 세번째 인자
 
-//            mProgressBar.setVisibility(View.GONE);
-//            mProgressBarTextView.setText("");
         groupItem= new ArrayList<>();
         childItem= new ArrayList<>();
 
@@ -216,6 +248,8 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
             );
         }
 
+        cursor.close();
+
         return  childList;
     }
 
@@ -230,25 +264,76 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
             mCountNum[2]+= 1;
         } else if(plottage< 90.0) {
             mCountNum[3] += 1;
-        }else if(plottage< 120.0) {
+        } else if(plottage< 120.0) {
             mCountNum[4]+= 1;
-        }else if(plottage< 240.0) {
+        } else if(plottage< 240.0) {
             mCountNum[5]+= 1;
-        }else {
+        } else {
             mCountNum[6]+= 1;
         }
 
     }
 
     /**
+     * get total number of enrolled hanok
+     *
+     */
+    private int getTotalHanokQuery() {
+
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                QueryContract.mQuery[
+                        QueryContract.QUERYHANOK],
+                null
+        );
+
+        int totalHanok= 0;
+        while (cursor.moveToNext()) {
+            totalHanok= cursor.getInt(0);//count
+        }
+
+        cursor.close();
+
+        return totalHanok;
+    }
+
+    /**
+     * get total number of enrolled hanok
+     *
+     */
+    private int getTotalBukchonHanokQuery() {
+
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                QueryContract.mQuery[
+                        QueryContract.QUERYBUKCHONHANOK],
+                null
+        );
+
+        int totalBukchonHanok= 0;
+        while (cursor.moveToNext()) {
+            totalBukchonHanok= cursor.getInt(0);//count
+        }
+
+        cursor.close();
+
+        return totalBukchonHanok;
+    }
+
+    /**
      * get Db List for 'hanok' on builddate
      */
-    private List getBuildQuery() {
+    private GraphicalView getBuildQuery() {
 
         SQLiteDatabase db= mDbHelper.getReadableDatabase();
 
+        String strQuery= String.format(QueryContract.mQuery[
+                QueryContract.QUERYREALBUILDDATE], "<");
+
         Cursor cursor= db.rawQuery(
-                QueryContract.mQuery[QueryContract.QUERYREALBUILDDATE],
+                strQuery,
                 new String[] {"2000"}
         );
 
@@ -259,53 +344,68 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
             val[1]= String.valueOf(cursor.getInt(0));//count
 
             childList.add(
-                    String.format(CHILDFORMAT[9], val[0])+ ","+
-                    String.format(CHILDFORMAT[9], val[1])
+                    val[0]+ ","+ val[1]
             );
         }
+
         cursor.close();
 
+        strQuery= String.format(QueryContract.mQuery[
+                QueryContract.QUERYREALBUILDDATE], ">");
+
         cursor= db.rawQuery(
-                QueryContract.mQuery[QueryContract.QUERYREALBUILDDATE],
+                strQuery,
                 new String[] { "2000"}
         );
 
-        childList = new ArrayList<>();
         while(cursor.moveToNext()) {
             val[0]= "2000년대";
             val[1]= String.valueOf(cursor.getInt(0));//count
 
             childList.add(
-                    String.format(CHILDFORMAT[9], val[0])+ ","+
-                    String.format(CHILDFORMAT[9], val[1])
+                    val[0]+ ","+ val[1]
             );
         }
+
         cursor.close();
 
+        strQuery= String.format(QueryContract.mQuery[
+                QueryContract.QUERYREALBUILDDATE], "=");
+
         cursor= db.rawQuery(
-                QueryContract.mQuery[QueryContract.QUERYREALBUILDDATE],
+                strQuery,
                 new String[] {"0"}
         );
 
-        childList = new ArrayList<>();
         while(cursor.moveToNext()) {
             val[0]= "미상";
             val[1]= String.valueOf(cursor.getInt(0));//count
 
             childList.add(
-                    String.format(CHILDFORMAT[9], val[0])+ ","+
-                    String.format(CHILDFORMAT[9], val[1])
+                    val[0]+ ","+ val[1]
             );
         }
+
         cursor.close();
 
-        return  childList;
+        // Prepare data for pie chart
+        int[] colors = new int[]{Color.YELLOW, Color.CYAN};
+        double[] values = new double[2];
+        String[] name_list = new String[2];
+        for(int i= 0; i< childList.size()- 1; i++) {
+            String[] str= childList.get(i).split(",");
+            name_list[i]= str[0];
+            values[i]= Double.parseDouble(str[1]);
+        }
+        HanokPieChart chart= new HanokPieChart(colors, values, name_list);
+
+        return  chart.getGraphView(mContext);
     }
 
     /**
      * get Db List for 'hanok' on house_type
      */
-    private List getHousetypeQuery() {
+    private GraphicalView getHousetypeQuery() {
 
         SQLiteDatabase db= mDbHelper.getReadableDatabase();
 
@@ -314,24 +414,27 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
                 null
         );
 
-        ArrayList<String> childList = new ArrayList<>();
-        int val;
+        int bukchonNum= 0;
         while(cursor.moveToNext()) {
-            val= cursor.getInt(0);//count
-
-            childList.add(
-                    String.format(CHILDFORMAT[9], val)+ ","+
-                    String.format(CHILDFORMAT[9], mHanokTotal)
-            );
+            bukchonNum= cursor.getInt(0);
         }
+        cursor.close();
 
-        return  childList;
+        // Prepare data for doughnutpie chart
+        int[] colors = new int[]{Color.YELLOW, Color.CYAN};
+        double[] values =  new double[]{(double)bukchonNum, (double)mHanokTotal};
+        String[] name_list = new String[]{"북촌 한옥", "기타 한옥"};
+
+        HanokDoughnutChart chart= new HanokDoughnutChart(
+                colors, values, name_list, "서울시 등록한옥 중 북촌한옥");
+
+        return  chart.getGraphView(mContext);
     }
 
     /**
      * get Db List for 'hanok_hanok_bukchon' on bool_culture
      */
-    private List getBoolcultureQuery() {
+    private GraphicalView getBoolcultureQuery() {
 
         SQLiteDatabase db= mDbHelper.getReadableDatabase();
 
@@ -340,18 +443,21 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
                 null
         );
 
-        ArrayList<String> childList = new ArrayList<>();
-        int val;
+        int cultureNum= 0;
         while(cursor.moveToNext()) {
-            val= cursor.getInt(0);//count
-
-            childList.add(
-                    String.format(CHILDFORMAT[9], val)+ ","+
-                    String.format(CHILDFORMAT[9], mHanokTotal)
-            );
+            cultureNum= cursor.getInt(0);
         }
+        cursor.close();
 
-        return  childList;
+        // Prepare data for doughnutpie chart
+        int[] colors = new int[]{Color.YELLOW, Color.CYAN};
+        double[] values =  new double[]{(double)cultureNum, (double)mBukchonHanokTotal};
+        String[] name_list = new String[]{"한옥 문화재", "기타 북촌 한옥"};
+
+        HanokDoughnutChart chart= new HanokDoughnutChart(
+                colors, values, name_list, "북촌 한옥 중 문화재 지정 비율");
+
+        return  chart.getGraphView(mContext);
     }
 
     /**
@@ -373,10 +479,10 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
             val[1]= String.valueOf(cursor.getInt(1));//count
 
             childList.add(
-                    String.format(CHILDFORMAT[9], val[0])+ ","+
-                    String.format(CHILDFORMAT[9], val[1])
+                    val[0]+ ","+ val[1]
             );
         }
+        cursor.close();
 
         return  childList;
     }
@@ -395,8 +501,8 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
             val[1]= String.valueOf(mCountNum[i+ 1]);
 
             childList.add(
-                    String.format(CHILDFORMAT[9], val[0])+ ","+
-                    String.format(CHILDFORMAT[9], val[1]));
+                    val[0]+ ","+ val[1]
+            );
         }
 
         return childList;
@@ -421,67 +527,125 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
         }
         avg = val / (float) mCountNum[1];
 
-
-        childList.add(String.format(GROUPFORMAT[9], avg));
-
+        childList.add(mLevel[0]+ ","+ String.format("%d", (int)avg));
 
         from = mCountNum[1];
         to = from + mCountNum[2];
-        childList = new ArrayList<>();
+        val= 0.0f;
         for (int j = from; j < to; j++) {
             parm = list.get(j).split(",");
             val += Float.parseFloat(parm[num]);
         }
         avg = val / (float) mCountNum[2];
 
-
-        childList.add(String.format(GROUPFORMAT[9], avg));
+        childList.add(mLevel[1]+ ","+ String.format("%d", (int)avg));
 
         from= to; to= from+ mCountNum[3];
-        childList = new ArrayList<>();
+        val= 0.0f;
         for (int j = from; j < to; j++) {
             parm = list.get(j).split(",");
             val += Float.parseFloat(parm[num]);
         }
         avg = val / (float) mCountNum[3];
 
-
-        childList.add(String.format(GROUPFORMAT[9], avg));
+        childList.add(mLevel[2]+ ","+ String.format("%d", (int)avg));
 
         from= to; to= from+ mCountNum[4];
-        childList = new ArrayList<>();
+        val= 0.0f;
         for (int j = from; j < to; j++) {
             parm = list.get(j).split(",");
             val += Float.parseFloat(parm[num]);
         }
         avg = val / (float) mCountNum[4];
 
-
-        childList.add(String.format(GROUPFORMAT[9], avg));
+        childList.add(mLevel[3]+ ","+ String.format("%d", (int)avg));
 
         from= to; to= from+ mCountNum[5];
-        childList = new ArrayList<>();
+        val= 0.0f;
         for (int j = from; j < to; j++) {
             parm = list.get(j).split(",");
             val += Float.parseFloat(parm[num]);
         }
         avg = val / (float) mCountNum[5];
 
-
-        childList.add(String.format(GROUPFORMAT[9], avg));
+        childList.add(mLevel[4]+ ","+ String.format("%d", (int)avg));
 
         from= to; to= from+ mCountNum[6];
-        childList = new ArrayList<>();
+        val= 0.0f;
         for (int j = from; j < to; j++) {
             parm = list.get(j).split(",");
             val += Float.parseFloat(parm[num]);
         }
         avg = val / (float) mCountNum[6];
 
-
-        childList.add(String.format(GROUPFORMAT[9], avg));
+        childList.add(mLevel[5]+ ","+ String.format("%d", (int)avg));
 
         return childList;
 
     }
+
+    /**
+     * get hanok count on use
+     *
+     */
+    private List getUseHanok() {
+
+        SQLiteDatabase db= mDbHelper.getReadableDatabase();
+
+        Cursor cursor= db.rawQuery(
+                QueryContract.mQuery[QueryContract.QUERYUSE],
+                null
+        );
+
+        ArrayList<String> childList = new ArrayList<>();
+        String val[]= new String[2];
+        while(cursor.moveToNext()) {
+            val[0]= cursor.getString(0);// use
+            if(val[0].length()== 0) {
+                val[0]= "기타";
+            }
+            val[1]= String.valueOf(cursor.getInt(1));//count
+
+            childList.add(
+                    val[0] + "," + val[1]
+            );
+        }
+        cursor.close();
+
+        return  childList;
+
+    }
+
+    /**
+     * get hanok count on structure
+     *
+     */
+    private List getStructureHanok() {
+
+        SQLiteDatabase db= mDbHelper.getReadableDatabase();
+
+        Cursor cursor= db.rawQuery(
+                QueryContract.mQuery[QueryContract.QUERYSTRUCTURE],
+                null
+        );
+
+        ArrayList<String> childList = new ArrayList<>();
+        String val[]= new String[2];
+        while(cursor.moveToNext()) {
+            val[0]= cursor.getString(0);// structure
+            if(val[0].length()== 0) {
+                val[0]= "기타";
+            }
+            val[1]= String.valueOf(cursor.getInt(1));//count
+
+            childList.add(
+                    val[0]+ ","+ val[1]
+            );
+        }
+        cursor.close();
+
+        return  childList;
+
+    }
+
 }

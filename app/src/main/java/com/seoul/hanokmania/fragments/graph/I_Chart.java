@@ -50,6 +50,8 @@ public interface I_Chart {
    * @param context the context
    * @return the built grphicalview
    */
-  GraphicalView getGraphView(Context context, List data);
+  GraphicalView getGraphView(Context context);
+  GraphicalView getGraphView(Context context, List list);
+
 
 }

@@ -98,14 +98,14 @@ class HanokTextTask extends AsyncTask<Void, Void, List> {
                         Float.parseFloat(val[2]);
                 tempChild.add(
                         String.format(CHILDFORMAT[0], val[0])+ ","+
-                                String.format(CHILDFORMAT[1], val[2])+ ","+
-                                String.format(CHILDFORMAT[2], val[3])+ ","+
-                                String.format(CHILDFORMAT[3], val[4])+ ","+
-                                String.format(CHILDFORMAT[4], String.valueOf(floorareaRatio))+ ","+
-                                String.format(CHILDFORMAT[5], String.valueOf(coverageRatio))+ ","+
-                                String.format(CHILDFORMAT[6], val[5])+ ","+
-                                String.format(CHILDFORMAT[7], val[6])+ ","+
-                                String.format(CHILDFORMAT[8], val[1])
+                        String.format(CHILDFORMAT[1], val[2])+ ","+
+                        String.format(CHILDFORMAT[2], val[3])+ ","+
+                        String.format(CHILDFORMAT[3], val[4])+ ","+
+                        String.format(CHILDFORMAT[4], String.valueOf(floorareaRatio))+ ","+
+                        String.format(CHILDFORMAT[5], String.valueOf(coverageRatio))+ ","+
+                        String.format(CHILDFORMAT[6], val[5])+ ","+
+                        String.format(CHILDFORMAT[7], val[6])+ ","+
+                        String.format(CHILDFORMAT[8], val[1])
                 );
             }
 

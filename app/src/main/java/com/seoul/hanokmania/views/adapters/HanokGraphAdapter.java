@@ -3,7 +3,6 @@ package com.seoul.hanokmania.views.adapters;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,25 +12,25 @@ import android.widget.TextView;
 
 import com.seoul.hanokmania.R;
 import com.seoul.hanokmania.events.ChartClickEvent;
+import com.seoul.hanokmania.query.QueryContract;
 
 import org.achartengine.GraphicalView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
 @SuppressWarnings("unchecked")
 public class HanokGraphAdapter extends BaseExpandableListAdapter {
 
-    public ArrayList<String> mGroupItem = new ArrayList<>();;
-    public ArrayList<GraphicalView> mTempChild;
-    public ArrayList<Object> mChildItem = new ArrayList<>();
+    public List<String> mGroupItem = new ArrayList<>();;
+    public List<Object> mTempChild= new ArrayList<>();
+    public List<Object> mChildItem = new ArrayList<>();
     public LayoutInflater mInflater;
     public Activity mActivity;
 
-    private boolean bGraph= false;
-
-    public HanokGraphAdapter(ArrayList<String> grList, ArrayList<Object> childItem) {
+    public HanokGraphAdapter(List<String> grList, List<Object> childItem) {
         mGroupItem = grList;
         mChildItem = childItem;
     }
@@ -42,52 +41,60 @@ public class HanokGraphAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public Object getChild(int groupPosition, int childPosition) {
-        return null;
-    }
+    public Object getChild(int groupPosition, int childPosition) {return null; }
 
     @Override
     public long getChildId(int groupPosition, int childPosition) {
-        return 0;
+
+        return childPosition;
+    }
+
+    @Override
+    public int getChildrenCount(int groupPosition) {
+        return 1;
     }
 
     @Override
     public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
-Log.d("SSSSS>>>", ""+groupPosition+"///"+ childPosition);
-        mTempChild = (ArrayList<GraphicalView>) mChildItem.get(groupPosition);
-
-        final GraphicalView graphView= mTempChild.get(childPosition);
+                             boolean isLastChild, View convertView, final ViewGroup parent) {
 
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.graph_child_row, null);
         }
 
-        final ImageView itemView = (ImageView) convertView.findViewById(R.id.childImage);
+        mTempChild = (ArrayList<Object>)mChildItem.get(groupPosition);
 
-        Bitmap bitmap = Bitmap.createBitmap(1000, 600, Bitmap.Config.ARGB_8888);
+        final ImageView itemView= (ImageView) convertView.findViewById(R.id.childImage);
+        TextView text= (TextView) convertView.findViewById(R.id.tv_child);;
+
+        final GraphicalView graphView= (GraphicalView)mTempChild.get(0);
+
+        Bitmap bitmap = Bitmap.createBitmap(500, 500, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
 
         graphView.draw(canvas);
 
         itemView.setImageBitmap(bitmap);
+        itemView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
+        text.setText(mTempChild.get(1).toString());
+
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ChartClickEvent event = new ChartClickEvent();
                 event.chartView = itemView;
+
+                //Put the chartview on static field@QueryContract
+                QueryContract.mChartView= graphView;
+
                 EventBus.getDefault().post(event);
             }
 
         });
 
         return convertView;
-    }
-
-    @Override
-    public int getChildrenCount(int groupPosition) {
-        return ((ArrayList<Object>) mChildItem.get(groupPosition)).size();
     }
 
     @Override
@@ -118,7 +125,7 @@ Log.d("SSSSS>>>", ""+groupPosition+"///"+ childPosition);
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
-        Log.d("BBBBB>>>", ""+groupPosition+"///");
+
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.graph_group_row, null);
         }
