@@ -171,6 +171,7 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
                         break;
                     case TYPE_CULTURAL:
                         target.setText("문화재 지정 내용 : " + data);
+                        break;
                     case TYPE_ADDRESS:
                         target.setText("주소 : " + data);
                         break;
