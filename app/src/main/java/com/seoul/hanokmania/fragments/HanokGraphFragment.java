@@ -29,9 +29,6 @@ public class HanokGraphFragment extends Fragment implements
 
     private static final String TAG = HanokTextFragment.class.getSimpleName();
 
-    private HanokGraphAdapter mAdapter;
-    private ExpandableListView mhanokListView;
-
     private ProgressBar mProgressBar;
     private TextView mProgressBarTextView;
 
@@ -42,25 +39,37 @@ public class HanokGraphFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.graph_main, container, false);
 
-        mhanokListView = (ExpandableListView) view.findViewById(R.id.expandable_list);
+        ExpandableListView mhanokListView = (ExpandableListView) view.findViewById(R.id.expandable_list);
 
         mhanokListView.setDividerHeight(2);
         mhanokListView.setClickable(true);
 
-//        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
-//        mProgressBarTextView= (TextView) view.findViewById(R.id.progressbar_text_view);
+        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
+        mProgressBarTextView= (TextView) view.findViewById(R.id.progressbar_text_view);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
 
-        // Retrieve query result as list
-        Sequel aQuery = new Sequel(getActivity());
+        // It takes a while seconds, so...
+        mSwipeRefreshLayout.setVisibility(view.GONE);
+        mProgressBar.setVisibility(view.VISIBLE);
+        mProgressBarTextView.setText("Retrieving data...Please wait.");
 
-        HanokGraphQuery hanokGraphQuery = new HanokGraphQuery(aQuery);
 
-        Footman footman = new Footman();
-        footman.takeQuery(hanokGraphQuery);
+            // Retrieve query result as list
+            Sequel aQuery = new Sequel(getActivity());
 
-        List list= footman.placeQueries();
+            HanokGraphQuery hanokGraphQuery = new HanokGraphQuery(aQuery);
 
-        mAdapter = new HanokGraphAdapter((ArrayList)list.get(0),
+            Footman footman = new Footman();
+            footman.takeQuery(hanokGraphQuery);
+
+            List list= footman.placeQueries();
+
+        // It's ok, so...
+        mSwipeRefreshLayout.setVisibility(view.VISIBLE);
+        mProgressBar.setVisibility(view.GONE);
+        mProgressBarTextView.setText("");
+
+        HanokGraphAdapter mAdapter = new HanokGraphAdapter((ArrayList)list.get(0),
                                             (ArrayList)list.get(1));
         mAdapter.setInflater(
                 inflater,
@@ -68,7 +77,7 @@ public class HanokGraphFragment extends Fragment implements
         mhanokListView.setAdapter(mAdapter);
         mhanokListView.setOnChildClickListener(this);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -91,7 +100,7 @@ public class HanokGraphFragment extends Fragment implements
     @Override
     public boolean onChildClick(ExpandableListView parent, View v,
                                 int groupPosition, int childPosition, long id) {
-        Toast.makeText(getContext(), "Clicked On Child",
+        Toast.makeText(getActivity(), "Clicked On Child",
                 Toast.LENGTH_SHORT).show();
         return true;
     }

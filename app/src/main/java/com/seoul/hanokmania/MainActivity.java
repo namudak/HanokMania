@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
 
     private ViewPager mViewPager;
-    private MyAdapter mAdapter;
     private List<String> mTitles;
 
     List mHanokList = new ArrayList<>();
@@ -136,10 +135,10 @@ public class MainActivity extends AppCompatActivity
         // 타이틀 목록
         mTitles = Arrays.asList(getResources().getStringArray(R.array.nav_menu_array));
 
-        mAdapter = new MyAdapter(getSupportFragmentManager());
+        MyAdapter adapter = new MyAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        mViewPager.setAdapter(mAdapter);
+        mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -195,7 +194,10 @@ public class MainActivity extends AppCompatActivity
         mViewPager.setCurrentItem(index, true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        if(drawer!= null) {
+            drawer.closeDrawers();
+        }
+
         return true;
     }
 
@@ -244,6 +246,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, ChartActivity.class);
             ActivityOptionsCompat option = ActivityOptionsCompat.makeSceneTransitionAnimation(this, e.chartView, "chart");
             ActivityCompat.startActivity(this, intent, option.toBundle());
+
         }
     }
 }

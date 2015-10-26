@@ -29,9 +29,6 @@ public class HanokTextFragment extends Fragment implements
 
     private static final String TAG = HanokTextFragment.class.getSimpleName();
 
-    private HanokTextAdapter mAdapter;
-    private ExpandableListView mhanokListView;
-
     ArrayList<String> groupItem = new ArrayList<>();
     ArrayList<Object> childItem = new ArrayList<>();
 
@@ -45,10 +42,10 @@ public class HanokTextFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.text_main, container, false);
 
-        mhanokListView = (ExpandableListView) view.findViewById(R.id.expandable_list);
+        ExpandableListView hanokListView = (ExpandableListView) view.findViewById(R.id.expandable_list);
 
-        mhanokListView.setDividerHeight(2);
-        mhanokListView.setClickable(true);
+        hanokListView.setDividerHeight(2);
+        hanokListView.setClickable(true);
 
 //        mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
 //        mProgressBarTextView= (TextView) view.findViewById(R.id.progressbar_text_view);
@@ -63,14 +60,14 @@ public class HanokTextFragment extends Fragment implements
 
         List list= footman.placeQueries();
 
-        mAdapter = new HanokTextAdapter((ArrayList<String>)list.get(0),
+        HanokTextAdapter adapter = new HanokTextAdapter((ArrayList<String>)list.get(0),
                         (ArrayList<Object>)list.get(1));
 
-        mAdapter.setInflater(
+        adapter.setInflater(
                 inflater,
                 getActivity());
-        mhanokListView.setAdapter(mAdapter);
-        mhanokListView.setOnChildClickListener(this);
+        hanokListView.setAdapter(adapter);
+        hanokListView.setOnChildClickListener(this);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

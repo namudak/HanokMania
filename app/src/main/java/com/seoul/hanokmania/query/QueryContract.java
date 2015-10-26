@@ -1,16 +1,24 @@
 package com.seoul.hanokmania.query;
 
+import org.achartengine.GraphicalView;
+
 /**
  * Created by namudak on 2015-10-22.
  */
 public class QueryContract {
 
-    public static final String mPlottageQuery=
+    public static String mHanokQuery=
+            "select count(*) from hanok;";
+
+    public static String mBukchonHanokQuery=
+            "select count(*) from bukchon_hanok;";
+
+    public static String mPlottageQuery=
             "select hanoknum, addr, plottage, totar, buildarea, use, structure "+
                     "from hanok " +
                     "order by cast(plottage as integer) asc; ";
 
-    public static final String mBuilddateQuery=
+    public static String mBuilddateQuery=
             "select substr(builddate,1,4), count(*) from hanok " +
                     "group by substr(builddate, 1, 4) " +
                     "order by substr(builddate, 1, 4) desc; ";
@@ -19,42 +27,60 @@ public class QueryContract {
             "select count(*) from hanok_hanok_bukchon " +
             "where house_type<> 'NULL';";
 
-    public static final String mBoolculture=
+    public static String mBoolculture=
             "select count(*) from hanok_hanok_bukchon " +
             "where bool_culture<> 'NULL' and bool_culture<> '';";
 
-    public static final String mSn=
+    public static String mSn=
             "select substr(sn, 1, 4), count(*) from repair_hanok " +
             "group by substr(sn, 1, 4);";
 
-    public static final String mRealPlottageQuery=
+    public static String mRealPlottageQuery=
             "select hanoknum, addr, plottage, totar, buildarea, use, structure " +
             "from hanok " +
             "where plottage > 0.0 " +
             "order by cast(plottage as integer) asc;";
 
-    public static final String mRealBuilddateQuery=
+    public static String mRealBuilddateQuery=
             "select  count(*) from hanok " +
-            "where cast(substr(builddate, 1, 4) as integer)? ? " +
+            "where cast(substr(builddate, 1, 4) as integer)%s ? " +
             "and length(builddate)> 0";
 
+    public static String mUseQuery=
+            "select use, count(*) from hanok " +
+            "group by use;";
 
-    public static final String[] mQuery= {
+    public static String mStructureQuery=
+            "select structure, count(*) from hanok " +
+            "group by structure;";
+
+
+    public static String[] mQuery= {
+            mHanokQuery,
+            mBukchonHanokQuery,
             mPlottageQuery,
             mBuilddateQuery,
             mHousetypeQuery,
             mBoolculture,
             mSn,
             mRealPlottageQuery,
-            mRealBuilddateQuery
+            mRealBuilddateQuery,
+            mUseQuery,
+            mStructureQuery
     };
 
-    public static final int QUERYPLOTTAGE= 0;
-    public static final int QUERYBUILDDATE= 1;
-    public static final int QUERYHOUSETYPE= 2;
-    public static final int QUERYBOOLCULTURE= 3;
-    public static final int QUERYSN= 4;
-    public static final int QUERYREALPLOTTAGE= 5;
-    public static final int QUERYREALBUILDDATE= 6;
+    public static final int QUERYHANOK= 0;
+    public static final int QUERYBUKCHONHANOK= 1;
+    public static final int QUERYPLOTTAGE= 2;
+    public static final int QUERYBUILDDATE= 3;
+    public static final int QUERYHOUSETYPE= 4;
+    public static final int QUERYBOOLCULTURE= 5;
+    public static final int QUERYSN= 6;
+    public static final int QUERYREALPLOTTAGE= 7;
+    public static final int QUERYREALBUILDDATE= 8;
+    public static final int QUERYUSE= 9;
+    public static final int QUERYSTRUCTURE= 10;
+
+    public static GraphicalView mChartView;
 
 }

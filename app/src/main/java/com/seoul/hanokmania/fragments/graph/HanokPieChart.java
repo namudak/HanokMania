@@ -18,7 +18,20 @@ public class HanokPieChart extends AbstractChart {
     /**
      * pie chart.
      */
+//        int[] COLORS = new int[]{Color.GREEN, Color.BLUE, Color.MAGENTA, Color.CYAN};
+//        double[] VALUES = new double[]{10, 11, 12, 13};
+//        String[] NAME_LIST = new String[]{"A", "B", "C", "D"};
+    private int[] mColors;
+    private double[] mValues;
+    private String[] mName_List;
 
+    public HanokPieChart() {}
+
+    public HanokPieChart(int[] colors, double[] values, String[] name_list) {
+        mColors= colors;
+        mValues= values;
+        mName_List= name_list;
+    }
     /**
      * Returns the chart name.
      *
@@ -37,26 +50,15 @@ public class HanokPieChart extends AbstractChart {
         return "The monthly sales for the last 2 years (stacked pie chart)";
     }
 
-    /**
-     * Executes the chart.
-     *
-     * @param context the context
-     * @return the built graphicalview
-     */
-    public GraphicalView getGraphView(Context context, List list) {
-
-        int[] COLORS = new int[]{Color.GREEN, Color.BLUE, Color.MAGENTA, Color.CYAN};
-
-        double[] VALUES = new double[]{10, 11, 12, 13};
-
-        String[] NAME_LIST = new String[]{"A", "B", "C", "D"};
+    @Override
+    public GraphicalView getGraphView(Context context) {
 
         CategorySeries mSeries = new CategorySeries("");
 
         DefaultRenderer mRenderer = new DefaultRenderer();
 
         mRenderer.setApplyBackgroundColor(true);
-        mRenderer.setBackgroundColor(Color.argb(100, 50, 50, 50));
+        mRenderer.setBackgroundColor(Color.BLACK);
         mRenderer.setChartTitleTextSize(20);
         mRenderer.setLabelsTextSize(15);
         mRenderer.setLegendTextSize(15);
@@ -64,10 +66,10 @@ public class HanokPieChart extends AbstractChart {
         mRenderer.setZoomButtonsVisible(true);
         mRenderer.setStartAngle(90);
 
-        for (int i = 0; i < VALUES.length; i++) {
-            mSeries.add(NAME_LIST[i] + " " + VALUES[i], VALUES[i]);
+        for (int i = 0; i < mValues.length; i++) {
+            mSeries.add(mName_List[i] + " " + mValues[i], mValues[i]);
             SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
-            renderer.setColor(COLORS[(mSeries.getItemCount() - 1) % COLORS.length]);
+            renderer.setColor(mColors[(mSeries.getItemCount() - 1) % mColors.length]);
             mRenderer.addSeriesRenderer(renderer);
         }
 
@@ -75,7 +77,44 @@ public class HanokPieChart extends AbstractChart {
                 context,
                 mSeries,
                 mRenderer);
+    }
 
+    @Override
+    public GraphicalView getGraphView(Context context, List list) {
+        int[] colors = new int[]{Color.GREEN, Color.YELLOW, Color.MAGENTA};
+        String[] name_list = new String[3];
+        double[] values = new double[3];
 
+        String[] parm= new String[2];
+        for( int i = 0; i< list.size(); i++) {
+            parm = list.get(i).toString().split(",");
+            name_list[i] = parm[0];
+            values[i] = Float.parseFloat(parm[1]);
+        }
+
+        CategorySeries mSeries = new CategorySeries("");
+
+        DefaultRenderer mRenderer = new DefaultRenderer();
+
+        mRenderer.setApplyBackgroundColor(true);
+        mRenderer.setBackgroundColor(Color.BLACK);
+        mRenderer.setChartTitleTextSize(20);
+        mRenderer.setLabelsTextSize(15);
+        mRenderer.setLegendTextSize(15);
+        mRenderer.setMargins(new int[]{20, 30, 15, 0});
+        mRenderer.setZoomButtonsVisible(true);
+        mRenderer.setStartAngle(90);
+
+        for (int i = 0; i < values.length; i++) {
+            mSeries.add(name_list[i] + " " + values[i], values[i]);
+            SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
+            renderer.setColor(colors[(mSeries.getItemCount() - 1) % colors.length]);
+            mRenderer.addSeriesRenderer(renderer);
+        }
+
+        return ChartFactory.getPieChartView(
+                context,
+                mSeries,
+                mRenderer);
     }
 }

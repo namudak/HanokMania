@@ -17,11 +17,12 @@ package com.seoul.hanokmania.fragments.graph;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Paint.Align;
+import android.graphics.Paint;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.chart.BarChart.Type;
+import org.achartengine.chart.BarChart;
+import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class HanokBarChart extends AbstractChart {
    *
    * @return the chart name
    */
-  public String getName() {
+    public String getName() {
     return "Sales stacked bar chart";
   }
 
@@ -46,71 +47,63 @@ public class HanokBarChart extends AbstractChart {
    *
    * @return the chart description
    */
-  public String getDesc() {
-    return "The monthly sales for the last 2 years (stacked bar chart)";
-  }
+    public String getDesc() {
+    return "The monthly sales for the last 2 years (stacked bar chart)";}
 
-  /**
-   * Executes the chart.
-   *
-   * @param context the context
-   * @return the built graphicalview
-   */
-  public GraphicalView getGraphView(Context context, List list) {
-      String[] titles = new String[] { "2008", "2007" };
-      List<double[]> values = new ArrayList<>();
-      values.add(new double[] { 14230, 12300, 14240, 15244, 15900, 19200, 22030, 21200, 19500, 15500,
-              12600, 14000 });
-      values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030, 11200, 9500, 10500,
-              11600, 13500 });
-      int[] colors = new int[] { Color.BLUE, Color.CYAN };
-      XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-      setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.5,
-              12.5, 0, 24000, Color.GRAY, Color.LTGRAY);
-      renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
-      renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
-      renderer.setXLabels(12);
-      renderer.setYLabels(10);
-      renderer.setXLabelsAlign(Align.LEFT);
-      renderer.setYLabelsAlign(Align.LEFT);
-      renderer.setPanEnabled(true, false);
-      // renderer.setZoomEnabled(false);
-      renderer.setZoomRate(1.1f);
-      renderer.setBarSpacing(0.5f);
 
-      return ChartFactory.getBarChartView(
-              context,
-              buildBarDataset(titles, values),
-              renderer,
-              Type.STACKED);
-  }
-//  public GraphicalView getGraphView(Context context, List list) {
-//    String[] titles = new String[] { "2008", "2007" };
-//    List<double[]> values = new ArrayList<>();
-//    values.add(new double[] { 14230, 12300, 14240, 15244, 15900, 19200, 22030, 21200, 19500, 15500,
-//            12600, 14000 });
-//    values.add(new double[] { 5230, 7300, 9240, 10540, 7900, 9200, 12030, 11200, 9500, 10500,
-//            11600, 13500 });
-//    int[] colors = new int[] { Color.BLUE, Color.CYAN };
-//    XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-//    setChartSettings(renderer, "Monthly sales in the last 2 years", "Month", "Units sold", 0.5,
-//            12.5, 0, 24000, Color.GRAY, Color.LTGRAY);
-//    renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
-//    renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
-//    renderer.setXLabels(12);
-//    renderer.setYLabels(10);
-//    renderer.setXLabelsAlign(Align.LEFT);
-//    renderer.setYLabelsAlign(Align.LEFT);
-//    renderer.setPanEnabled(true, false);
-//    // renderer.setZoomEnabled(false);
-//    renderer.setZoomRate(1.1f);
-//    renderer.setBarSpacing(0.5f);
-//
-//    return ChartFactory.getBarChartView(
-//            context,
-//            buildBarDataset(titles, values),
-//            renderer,
-//            Type.STACKED);
-//  }
+    @Override
+    public GraphicalView getGraphView(Context context, List list) {
+
+        String[] strLevel= new String[list.size()];
+
+        String[] titles = new String[] { "한옥 수" };
+        List<double[]> values = new ArrayList<double[]>();
+        double[] item= new double[list.size()];
+        String[] parm= new String[2];
+        for( int i = 0; i< list.size(); i++) {
+            parm= list.get(i).toString().split(",");
+            strLevel[i] = parm[0];
+            item[i]= Float.parseFloat(parm[1]);
+        }
+        values.add(item);
+
+        int[] colors = new int[] { Color.BLUE};
+        XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
+        renderer.setOrientation(XYMultipleSeriesRenderer.Orientation.HORIZONTAL);
+        setChartSettings(
+                renderer,
+                "대지 면적 구간 별 한옥 수", "대지 면적 구간", "한옥 수",
+                0.5, 6.5,
+                0, 200,
+                Color.GRAY, Color.WHITE);
+        renderer.setXLabels(1);
+        renderer.setYLabels(10);
+        renderer.setShowGrid(true);
+        renderer.setAxisTitleTextSize(10.0f);
+        renderer.setBackgroundColor(Color.BLACK);
+        renderer.setYLabelsAlign(Paint.Align.RIGHT);
+        renderer.setBarSpacing(0.5f);
+        for(int i= 0; i< strLevel.length; i++) {
+            renderer.addXTextLabel(i+ 1, strLevel[i]);
+        }
+        int length = renderer.getSeriesRendererCount();
+        for (int i = 0; i < length; i++) {
+            SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
+            seriesRenderer.setDisplayChartValues(true);
+        }
+
+        // Create view
+        return ChartFactory.getBarChartView(
+                context,
+                buildBarDataset(titles, values),
+                renderer,
+                BarChart.Type.DEFAULT);
+
+    }
+
+    @Override
+    public GraphicalView getGraphView(Context context) {
+        return null;
+    }
 
 }
