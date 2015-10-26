@@ -47,35 +47,35 @@
         <TextView
             android:id="@+id/item_name_tv"
             android:singleLine="true"
-            android:text="명      칭 : "
+            android:text="명칭 : "
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
             android:singleLine="true"
             android:id="@+id/item_addr_tv"
-            android:text="주      소 : "
+            android:text="주소 : "
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
             android:singleLine="true"
             android:id="@+id/item_type_tv"
-            android:text="종      류 : "
+            android:text="종류 : "
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
             android:singleLine="true"
             android:id="@+id/item_owner_tv"
-            android:text="소  유  자 : "
+            android:text="소유자 : "
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
             android:singleLine="true"
             android:id="@+id/item_phone_tv"
-            android:text="전      화 : "
+            android:text="전화 : "
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

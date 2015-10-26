@@ -10,12 +10,12 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="HanokMania"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name="com.seoul.hanokmania.MainActivity"
-            android:label="HanokMania"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +28,7 @@
             android:label="@string/title_activity_manage_db" >
         </activity>
         <activity android:name=".guide.GuideActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.Transparent"/>
         <activity android:name=".activities.ChartActivity" />
         <!-- Provider 등록 authorities로 Content Provider 구분 -->
         <provider
