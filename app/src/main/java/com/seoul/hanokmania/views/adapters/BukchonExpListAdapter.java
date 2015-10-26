@@ -3,6 +3,7 @@ package com.seoul.hanokmania.views.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +19,14 @@ import java.util.List;
 /**
  * Created by Ray Choe on 2015-10-20.
  */
-public class BukchonExpListAdapter extends BaseExpandableListAdapter {
+public class BukchonExpListAdapter extends BaseExpandableListAdapter implements View.OnClickListener {
 
+    private static final String TAG = BukchonExpListAdapter.class.getSimpleName();
     private List mGroupList;
     private List<List<BukchonItem>> mChildList;
     private LayoutInflater mInflater;
     private Context mContext;
+    private ViewHolder mViewHolder;
 
     public BukchonExpListAdapter(Context context, List mGroupList, List<List<BukchonItem>> mChildList) {
         mContext = context;
@@ -89,31 +92,35 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+
 
         if(convertView == null) {
 
             convertView = mInflater.inflate(R.layout.child_layout, parent, false);
 
-            viewHolder = new ViewHolder();
-            viewHolder.itemAddress = (TextView)convertView.findViewById(R.id.item_addr_tv);
-            viewHolder.itemHomePage = (TextView)convertView.findViewById(R.id.item_homepage_tv);
-            viewHolder.itemName = (TextView)convertView.findViewById(R.id.item_name_tv);
-            viewHolder.itemOwner = (TextView)convertView.findViewById(R.id.item_owner_tv);
-            viewHolder.itemPhoneNum = (TextView)convertView.findViewById(R.id.item_phone_tv);
-            viewHolder.itemCultural = (TextView)convertView.findViewById(R.id.item_cultural_tv);
-            viewHolder.itemType = (TextView)convertView.findViewById(R.id.item_type_tv);
-            viewHolder.itemContent = (TextView)convertView.findViewById(R.id.item_content_tv);
+            mViewHolder = new ViewHolder();
+            mViewHolder.itemAddress = (TextView)convertView.findViewById(R.id.item_addr_tv);
+            mViewHolder.itemHomePage = (TextView)convertView.findViewById(R.id.item_homepage_tv);
+            mViewHolder.itemName = (TextView)convertView.findViewById(R.id.item_name_tv);
+            mViewHolder.itemOwner = (TextView)convertView.findViewById(R.id.item_owner_tv);
+            mViewHolder.itemPhoneNum = (TextView)convertView.findViewById(R.id.item_phone_tv);
+            mViewHolder.itemCultural = (TextView)convertView.findViewById(R.id.item_cultural_tv);
+            mViewHolder.itemType = (TextView)convertView.findViewById(R.id.item_type_tv);
+            mViewHolder.itemContent = (TextView)convertView.findViewById(R.id.item_content_tv);
 
-            viewHolder.itemImageViewLeft = (ImageView)convertView.findViewById(R.id.hanok_picture_left_iv);
-            viewHolder.itemImageViewCenter = (ImageView)convertView.findViewById(R.id.hanok_picture_center_iv);
-            viewHolder.itemImageViewRight = (ImageView)convertView.findViewById(R.id.hanok_picture_right_iv);
+            mViewHolder.itemImageViewLeft = (ImageView)convertView.findViewById(R.id.hanok_picture_left_iv);
+            mViewHolder.itemImageViewCenter = (ImageView)convertView.findViewById(R.id.hanok_picture_center_iv);
+            mViewHolder.itemImageViewRight = (ImageView)convertView.findViewById(R.id.hanok_picture_right_iv);
 
-            convertView.setTag(viewHolder);
+            mViewHolder.itemImageViewLeft.setOnClickListener(this);
+            mViewHolder.itemImageViewCenter.setOnClickListener(this);
+            mViewHolder.itemImageViewRight.setOnClickListener(this);
+
+            convertView.setTag(mViewHolder);
 
         } else {
 
-            viewHolder = (ViewHolder)convertView.getTag();
+            mViewHolder = (ViewHolder)convertView.getTag();
 
         }
 
@@ -121,76 +128,75 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
         BukchonItem bukchonHanok = (BukchonItem) getChild(groupPosition, childPosition);
         String name = bukchonHanok.getName();
         if(name.equals("")) {
-            viewHolder.itemName.setVisibility(View.GONE);
+            mViewHolder.itemName.setVisibility(View.GONE);
         } else {
-            viewHolder.itemName.setVisibility(View.VISIBLE);
-            viewHolder.itemName.setText("명칭 : " + name);
+            mViewHolder.itemName.setVisibility(View.VISIBLE);
+            mViewHolder.itemName.setText("명칭 : " + name);
         }
         String address = bukchonHanok.getAddress();
         if(address.equals("")) {
-            viewHolder.itemAddress.setVisibility(View.GONE);
+            mViewHolder.itemAddress.setVisibility(View.GONE);
         } else {
-            viewHolder.itemAddress.setVisibility(View.VISIBLE);
-            viewHolder.itemAddress.setText("주소 : " + address);
+            mViewHolder.itemAddress.setVisibility(View.VISIBLE);
+            mViewHolder.itemAddress.setText("주소 : " + address);
         }
         String owner = bukchonHanok.getOwner();
         if(owner.equals("")) {
-            viewHolder.itemOwner.setVisibility(View.GONE);
+            mViewHolder.itemOwner.setVisibility(View.GONE);
         } else {
-            viewHolder.itemOwner.setVisibility(View.VISIBLE);
-            viewHolder.itemOwner.setText("소유자 : " + owner);
+            mViewHolder.itemOwner.setVisibility(View.VISIBLE);
+            mViewHolder.itemOwner.setText("소유자 : " + owner);
         }
         String phoneNum = bukchonHanok.getPhoneNum();
         if(phoneNum.equals("")) {
-            viewHolder.itemPhoneNum.setVisibility(View.GONE);
+            mViewHolder.itemPhoneNum.setVisibility(View.GONE);
         } else {
-            viewHolder.itemPhoneNum.setVisibility(View.VISIBLE);
-            viewHolder.itemPhoneNum.setText("전화 : " + phoneNum);
-            Linkify.addLinks(viewHolder.itemPhoneNum, Linkify.PHONE_NUMBERS);
+            mViewHolder.itemPhoneNum.setVisibility(View.VISIBLE);
+            mViewHolder.itemPhoneNum.setText("전화 : " + phoneNum);
+            Linkify.addLinks(mViewHolder.itemPhoneNum, Linkify.PHONE_NUMBERS);
         }
         String homePage = bukchonHanok.getHomePage();
         if(homePage.equals("")) {
-            viewHolder.itemHomePage.setVisibility(View.GONE);
+            mViewHolder.itemHomePage.setVisibility(View.GONE);
         } else {
-            viewHolder.itemHomePage.setVisibility(View.VISIBLE);
-            viewHolder.itemHomePage.setText("홈페이지 : " + homePage);
-            Linkify.addLinks(viewHolder.itemHomePage, Linkify.WEB_URLS);
+            mViewHolder.itemHomePage.setVisibility(View.VISIBLE);
+            mViewHolder.itemHomePage.setText("홈페이지 : " + homePage);
+            Linkify.addLinks(mViewHolder.itemHomePage, Linkify.WEB_URLS);
         }
         String cultural = bukchonHanok.getCultural();
         if(cultural.equals("")) {
-            viewHolder.itemCultural.setVisibility(View.GONE);
+            mViewHolder.itemCultural.setVisibility(View.GONE);
         } else {
-            viewHolder.itemCultural.setVisibility(View.VISIBLE);
-            viewHolder.itemCultural.setText("문화재 지정 내용 : " + cultural);
+            mViewHolder.itemCultural.setVisibility(View.VISIBLE);
+            mViewHolder.itemCultural.setText("문화재 지정 내용 : " + cultural);
         }
         String type = bukchonHanok.getType();
         if(type.equals("")) {
-            viewHolder.itemType.setVisibility(View.GONE);
+            mViewHolder.itemType.setVisibility(View.GONE);
         } else {
-            viewHolder.itemType.setVisibility(View.VISIBLE);
-            viewHolder.itemType.setText("종류 : " + type);
+            mViewHolder.itemType.setVisibility(View.VISIBLE);
+            mViewHolder.itemType.setText("종류 : " + type);
         }
         String content = bukchonHanok.getContent();
         if(content.equals("")) {
-            viewHolder.itemContent.setVisibility(View.GONE);
+            mViewHolder.itemContent.setVisibility(View.GONE);
         } else {
-            viewHolder.itemContent.setVisibility(View.VISIBLE);
-            viewHolder.itemContent.setText("설명 : " + content);
+            mViewHolder.itemContent.setVisibility(View.VISIBLE);
+            mViewHolder.itemContent.setText("설명 : " + content);
 
         }
         String house_id = bukchonHanok.getHouse_id();
         if(house_id != null) {
             if(check(house_id)) {
-
                 int resourceId[] = getResourceId(house_id);
 
-                viewHolder.itemImageViewLeft.setImageResource(resourceId[0]);
-                viewHolder.itemImageViewCenter.setImageResource(resourceId[1]);
-                viewHolder.itemImageViewRight.setImageResource(resourceId[2]);
+                mViewHolder.itemImageViewLeft.setImageResource(resourceId[0]);
+                mViewHolder.itemImageViewCenter.setImageResource(resourceId[1]);
+                mViewHolder.itemImageViewRight.setImageResource(resourceId[2]);
             } else {
-                viewHolder.itemImageViewLeft.setImageResource(R.drawable.bukchon_1_default);
-                viewHolder.itemImageViewCenter.setImageResource(R.drawable.bukchon_2_default);
-                viewHolder.itemImageViewRight.setImageResource(R.drawable.bukchon_3_default);
+                mViewHolder.itemImageViewLeft.setImageResource(R.drawable.bukchon_1_default);
+                mViewHolder.itemImageViewCenter.setImageResource(R.drawable.bukchon_2_default);
+                mViewHolder.itemImageViewRight.setImageResource(R.drawable.bukchon_3_default);
             }
         }
 
@@ -250,6 +256,46 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
         mGroupList = groupData;
         mChildList = childData;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.hanok_picture_left_iv:
+                Log.d(TAG, "왼쪽 사진");
+
+                if(mViewHolder.itemImageViewCenter.getVisibility() == View.GONE &&
+                        mViewHolder.itemImageViewRight.getVisibility() == View.GONE) {
+                    mViewHolder.itemImageViewCenter.setVisibility(View.VISIBLE);
+                    mViewHolder.itemImageViewRight.setVisibility(View.VISIBLE);
+                } else {
+                    mViewHolder.itemImageViewCenter.setVisibility(View.GONE);
+                    mViewHolder.itemImageViewRight.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.hanok_picture_center_iv:
+                Log.d(TAG, "중앙 사진");
+                if(mViewHolder.itemImageViewLeft.getVisibility() == View.GONE &&
+                        mViewHolder.itemImageViewRight.getVisibility() == View.GONE) {
+                    mViewHolder.itemImageViewLeft.setVisibility(View.VISIBLE);
+                    mViewHolder.itemImageViewRight.setVisibility(View.VISIBLE);
+                } else {
+                    mViewHolder.itemImageViewLeft.setVisibility(View.GONE);
+                    mViewHolder.itemImageViewRight.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.hanok_picture_right_iv:
+                Log.d(TAG, "오른쪽 사진");
+                if(mViewHolder.itemImageViewCenter.getVisibility() == View.GONE &&
+                        mViewHolder.itemImageViewLeft.getVisibility() == View.GONE) {
+                    mViewHolder.itemImageViewCenter.setVisibility(View.VISIBLE);
+                    mViewHolder.itemImageViewLeft.setVisibility(View.VISIBLE);
+                } else {
+                    mViewHolder.itemImageViewCenter.setVisibility(View.GONE);
+                    mViewHolder.itemImageViewLeft.setVisibility(View.GONE);
+                }
+                break;
+        }
     }
 
     static class ViewHolder {

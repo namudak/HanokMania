@@ -222,4 +222,5 @@ public class BukchonFragment extends Fragment implements SearchView.OnQueryTextL
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
     }
+
 }
