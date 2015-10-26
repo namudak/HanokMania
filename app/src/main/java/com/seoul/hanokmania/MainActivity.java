@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -240,11 +239,10 @@ public class MainActivity extends AppCompatActivity
         // com.seoul.hanokmania.views.adapters.HanokGraphAdapter 에서 호출 됨
         if (event instanceof ChartClickEvent) {
             ChartClickEvent e = (ChartClickEvent) event;
+
             // Activity Transition 은 롤리팝 전용
             Intent intent = new Intent(this, ChartActivity.class);
-            ActivityOptionsCompat option = ActivityOptionsCompat.makeSceneTransitionAnimation(this, e.chartView, "chart");
-            ActivityCompat.startActivity(this, intent, option.toBundle());
-
+            startActivity(intent);
         }
     }
 }
