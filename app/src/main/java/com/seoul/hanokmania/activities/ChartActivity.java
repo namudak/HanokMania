@@ -1,7 +1,6 @@
 package com.seoul.hanokmania.activities;
 
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -40,14 +39,14 @@ public class ChartActivity extends Activity {
 
         GraphicalView graphicalView= QueryContract.mChartView;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            graphicalView.setTransitionName("chart");
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            graphicalView.setTransitionName("chart");
+//        }
 
         // If the specified child already has a parent,
         // You must call removeView() on the child's parent first
         if(graphicalView.getParent()!= null) {
-            ((ViewGroup) graphicalView.getParent()).removeAllViews();
+            ((ViewGroup) graphicalView.getParent()).removeAllViewsInLayout();
         }
 
         rootLayout.addView(graphicalView);

@@ -33,6 +33,7 @@ public class HanokUrlHelper extends SQLiteOpenHelper {
 						"%s TEXT, "+
 						"%s TEXT, "+
 						"%s TEXT, "+
+						"%s TEXT, "+
 						"%s TEXT"+ ")",
 						HanokContract.TABLES[0],
 						HanokContract.HanokCol.HANOKNUM,
@@ -46,7 +47,8 @@ public class HanokUrlHelper extends SQLiteOpenHelper {
 						HanokContract.HanokCol.STRUCTURE,
 						HanokContract.HanokCol.PLANTYPE,
 						HanokContract.HanokCol.BUILDDATE,
-						HanokContract.HanokCol.NOTE
+						HanokContract.HanokCol.NOTE,
+						HanokContract.HanokCol.HANOKNUM2
 						);
 
 		Log.d("HanokUrlHelper","Query to form table: "+sqlQuery);
@@ -154,20 +156,20 @@ public class HanokUrlHelper extends SQLiteOpenHelper {
 		sqlDB.execSQL(sqlQuery);
 
 		// View creation
-		String viewQuery= "CREATE VIEW hanok_hanok_bukchon as SELECT * " +
-				"FROM hanok LEFT JOIN bukchon_hanok ON hanok.hanoknum2 = bukchon_hanok.house_id";
-		sqlDB.execSQL(viewQuery);
-
-		String viewQuery2= "CREATE VIEW `hanok_bukchon_repair` AS SELECT * " +
-				"FROM hanok_hanok_bukchon LEFT JOIN hanok_hanok_repair " +
-				"ON hanok_hanok_bukchon.hanoknum = hanok_hanok_repair.hanoknum " +
-				"where hanok_hanok_bukchon.hanoknum<>'-'";
-		sqlDB.execSQL(viewQuery2);
-
-		String viewQuery3= "CREATE VIEW `hanok_hanok_repair` AS SELECT * " +
-				"FROM hanok LEFT JOIN repair_hanok ON hanok.hanoknum = repair_hanok.hanoknum " +
-				"where hanok.hanoknum<>'-'";
-		sqlDB.execSQL(viewQuery3);
+//		String viewQuery= "CREATE VIEW hanok_hanok_bukchon as SELECT * " +
+//				"FROM hanok LEFT JOIN bukchon_hanok ON hanok.hanoknum2 = bukchon_hanok.house_id";
+//		sqlDB.execSQL(viewQuery);
+//
+//		String viewQuery2= "CREATE VIEW `hanok_bukchon_repair` AS SELECT * " +
+//				"FROM hanok_hanok_bukchon LEFT JOIN hanok_hanok_repair " +
+//				"ON hanok_hanok_bukchon.hanoknum = hanok_hanok_repair.hanoknum " +
+//				"where hanok_hanok_bukchon.hanoknum<>'-'";
+//		sqlDB.execSQL(viewQuery2);
+//
+//		String viewQuery3= "CREATE VIEW `hanok_hanok_repair` AS SELECT * " +
+//				"FROM hanok LEFT JOIN repair_hanok ON hanok.hanoknum = repair_hanok.hanoknum " +
+//				"where hanok.hanoknum<>'-'";
+//		sqlDB.execSQL(viewQuery3);
 
 	}
 

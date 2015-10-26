@@ -61,7 +61,7 @@ public final class HanokContract {
         public static final String PLANTYPE= "plantype";	//평면형식
         public static final String BUILDDATE= "builddate";	//건립일
         public static final String NOTE= "note";	        //비고
-        //public static final String HANOKNUM2= "hanoknum2";	//북촌용 ID
+        public static final String HANOKNUM2= "hanoknum2";	//북촌용 ID
 
     }
 

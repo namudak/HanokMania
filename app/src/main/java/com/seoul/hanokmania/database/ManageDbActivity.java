@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.seoul.hanokmania.R;
+import com.seoul.hanokmania.provider.HanokOpenHelper;
 import com.seoul.hanokmania.provider.HanokUrlHelper;
 
 /**
@@ -23,6 +24,11 @@ public class ManageDbActivity extends Activity {
     private static Context mContext;
     
     private static HanokUrlHelper mUrlHelper;
+    private static HanokOpenHelper mOpenHelper;
+
+    private static final String MAKEDB= "makedb";
+    private static final String UPDATEDB= "updatedb";
+
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,29 +45,34 @@ public class ManageDbActivity extends Activity {
         mUrlHelper = HanokUrlHelper.getInstance(mContext);
 
         // Check if new data at url site, get it and insert into db
-        new RetrieveUrlTask().execute();
+        new RetrieveUrlTask().execute(MAKEDB);
 
+        // Check if new data at url site, get it and insert into db
+        //new RetrieveUrlTask().execute(UPDATEDB);
     }
     /**
      * AsyncTask for retrieving from url and insert into db apk /databases/ folder
      * if no db then create db
      *
      */
-    private class RetrieveUrlTask extends AsyncTask<Void, Void, Void> {
+    private class RetrieveUrlTask extends AsyncTask<String, Void, Void> {
 
         @Override
         protected void onPreExecute() {//UI
 
             mProgressBar.setVisibility(View.VISIBLE);
-            mProgressBarTextView.setText("Updating data...Please wait.");
+            mProgressBarTextView.setText("Retrieving data...Please wait.");
 
         }
         @Override
-        protected Void doInBackground(Void... params) {//1st parameter
+        protected Void doInBackground(String... params) {//1st parameter
 
-            HanokUrl hanokUrl= new HanokUrl(mContext, mUrlHelper);
-
-            hanokUrl.RetrieveJsonData();
+            HanokUrl hanokUrl = new HanokUrl(mContext, mUrlHelper);
+            if(params[0].equals(MAKEDB)) {
+                hanokUrl.RetrieveJsonData();
+            } else {
+                hanokUrl.RetrieveMasterDb();
+            }
 
             return null;
         }
@@ -74,9 +85,8 @@ public class ManageDbActivity extends Activity {
             super.onPostExecute(result);
 
             mProgressBar.setVisibility(View.GONE);
-            mProgressBarTextView.setText("");
+            mProgressBarTextView.setText("Completed.");
         }
     }
-
 
 }

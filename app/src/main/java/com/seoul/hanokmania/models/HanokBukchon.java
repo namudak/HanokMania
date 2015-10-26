@@ -33,12 +33,12 @@ public class HanokBukchon implements Serializable{
     @Override
     public String toString() {
 
-        return HOUSE_TYPE+ ","+ TYPE_NAME+ ","+ LANGUAGE_TYPE+ ","+
-                HOUSE_ID+ ","+ HOUSE_NAME+ ","+ HOUSE_ADDR+ ","+
-                HOUSE_OWNER+ ","+ HOUSE_ADMIN+ ","+ HOUSE_TELL+ ","+
-                HOUSE_HP+ ","+ HOUSE_OPEN_TIME+ ","+ HOUSE_REG_DATE+ ","+
-                HOUSE_YEAR+ ","+ BOOL_CULTURE+ ","+ HOUSE_CONTENT+ ","+
-                SERVICE_OK+ ","+ PRIORITY+ ",";
+        return HOUSE_TYPE+ "s!b"+ TYPE_NAME+ "s!b"+ LANGUAGE_TYPE+ "s!b"+
+                HOUSE_ID+ "s!b"+ HOUSE_NAME+ "s!b"+ HOUSE_ADDR+ "s!b"+
+                HOUSE_OWNER+ "s!b"+ HOUSE_ADMIN+ "s!b"+ HOUSE_TELL+ "s!b"+
+                HOUSE_HP+ "s!b"+ HOUSE_OPEN_TIME+ "s!b"+ HOUSE_REG_DATE+ "s!b"+
+                HOUSE_YEAR+ "s!b"+ BOOL_CULTURE+ "s!b"+ HOUSE_CONTENT+ "s!b"+
+                SERVICE_OK+ "s!b"+ PRIORITY+ "s!b";
     }
 }
 
