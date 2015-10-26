@@ -2,6 +2,8 @@ package com.seoul.hanokmania.database;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import com.seoul.hanokmania.R;
 import com.seoul.hanokmania.provider.HanokOpenHelper;
 import com.seoul.hanokmania.provider.HanokUrlHelper;
+import com.seoul.hanokmania.query.QueryContract;
 
 /**
  * Created by namudak on 2015-09-14.
@@ -45,10 +48,11 @@ public class ManageDbActivity extends Activity {
         mUrlHelper = HanokUrlHelper.getInstance(mContext);
 
         // Check if new data at url site, get it and insert into db
-        new RetrieveUrlTask().execute(MAKEDB);
+        //new RetrieveUrlTask().execute(MAKEDB);
 
-        // Check if new data at url site, get it and insert into db
-        //new RetrieveUrlTask().execute(UPDATEDB);
+        // Do update on menu command.
+        // if new data at url site, get it and insert into db
+        new RetrieveUrlTask().execute(UPDATEDB);
     }
     /**
      * AsyncTask for retrieving from url and insert into db apk /databases/ folder
@@ -67,12 +71,31 @@ public class ManageDbActivity extends Activity {
         @Override
         protected Void doInBackground(String... params) {//1st parameter
 
-            HanokUrl hanokUrl = new HanokUrl(mContext, mUrlHelper);
-            if(params[0].equals(MAKEDB)) {
-                hanokUrl.RetrieveJsonData();
-            } else {
-                hanokUrl.RetrieveMasterDb();
+
+            SQLiteDatabase db= mUrlHelper.getWritableDatabase();
+
+            if(params[0].equals(UPDATEDB)) {
+
+                Cursor cursor= db.rawQuery(
+                        QueryContract.mQuery[QueryContract.QUERYDROP1],
+                        null
+                );
+                cursor.close();
+                cursor= db.rawQuery(
+                        QueryContract.mQuery[QueryContract.QUERYDROP2],
+                        null
+                );
+                cursor.close();
+                cursor= db.rawQuery(
+                        QueryContract.mQuery[QueryContract.QUERYDROP3],
+                        null
+                );
+                cursor.close();
             }
+
+            HanokUrl hanokUrl = new HanokUrl(mContext, mUrlHelper);
+
+            hanokUrl.RetrieveJsonData();
 
             return null;
         }

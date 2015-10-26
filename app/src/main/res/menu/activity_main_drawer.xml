@@ -9,6 +9,9 @@
         <item
             android:id="@+id/nav_hanokstatus"
             android:title="@string/nav_menu_title_7" />
+        <item
+            android:id="@+id/nav_hanokdbupdate"
+            android:title="@string/nav_menu_title_6" />
     </group>
 
 </menu>

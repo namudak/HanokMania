@@ -25,7 +25,6 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.seoul.hanokmania.activities.ChartActivity;
-import com.seoul.hanokmania.database.ManageDbActivity;
 import com.seoul.hanokmania.events.ChartClickEvent;
 import com.seoul.hanokmania.events.Event;
 import com.seoul.hanokmania.guide.GuideActivity;
@@ -66,9 +65,9 @@ public class MainActivity extends AppCompatActivity
         init();
 
         // For Database creation and retrieving data from api url
-        Intent intent= new Intent(getApplicationContext(),
-                                        ManageDbActivity.class);
-        startActivity(intent);
+//        Intent intent= new Intent(getApplicationContext(),
+//                ManageDbActivity.class);
+//        startActivity(intent);
 
 
         // Android 6.0 권한 체크

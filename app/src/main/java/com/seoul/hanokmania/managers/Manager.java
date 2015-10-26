@@ -2,7 +2,9 @@ package com.seoul.hanokmania.managers;
 
 import android.support.v4.app.Fragment;
 
-import com.seoul.hanokmania.fragments.ItemFragment;
+import com.seoul.hanokmania.database.ManageDbActivity;
+import com.seoul.hanokmania.fragments.BukchonFragment;
+import com.seoul.hanokmania.fragments.HanokGraphFragment;
 
 /**
  * Created by junsuk on 2015. 10. 15..
@@ -13,9 +15,9 @@ public class Manager {
 
     // TODO: 메뉴 순서대로 Fragment 를 배열로 지정
     public static Class FRAGMENTS[] = {
-            //BukchonFragment.class,
-            //HanokGraphFragment.class,
-            ItemFragment.class
+            BukchonFragment.class,
+            HanokGraphFragment.class,
+            ManageDbActivity.class
     };
 
     private Manager() {
