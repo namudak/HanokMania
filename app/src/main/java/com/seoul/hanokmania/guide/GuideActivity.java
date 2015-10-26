@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -83,6 +82,5 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        Log.d(TAG, "state : " + state);
     }
 }
