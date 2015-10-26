@@ -2,6 +2,7 @@ package com.seoul.hanokmania.views.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,9 @@ import android.widget.TextView;
 import com.seoul.hanokmania.R;
 import com.seoul.hanokmania.models.BukchonItem;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Ray Choe on 2015-10-20.
@@ -159,40 +162,33 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
         private static final int TYPE_CONTENT = 6;
         private static final int TYPE_CULTURAL = 7;
 
+        private static final Map<Integer, String> MAP_TYPE;
+        static {
+            MAP_TYPE = new HashMap<>();
+            MAP_TYPE.put(TYPE_NAME, "명칭 : ");
+            MAP_TYPE.put(TYPE_ADDRESS, "문화재 지정 내용 : ");
+            MAP_TYPE.put(TYPE_OWNER, "주소 : ");
+            MAP_TYPE.put(TYPE_PHONE_NUM, "소유자 : ");
+            MAP_TYPE.put(TYPE_HOMEPAGE, "종류 : ");
+            MAP_TYPE.put(TYPE_HOUSE_TYPE, "설명 : ");
+            MAP_TYPE.put(TYPE_CONTENT, "전화 : ");
+            MAP_TYPE.put(TYPE_CULTURAL, "홈페이지 : ");
+        }
+
         private static void dynamicArrange(int type, String data, TextView target) {
-            if("".equals(data)) {
+            if(TextUtils.isEmpty(data)) {
                 target.setVisibility(View.GONE);
             } else {
                 target.setVisibility(View.VISIBLE);
 
                 switch (type) {
-                    case TYPE_NAME:
-                        target.setText("명칭 : " + data);
-                        break;
-                    case TYPE_CULTURAL:
-                        target.setText("문화재 지정 내용 : " + data);
-                        break;
-                    case TYPE_ADDRESS:
-                        target.setText("주소 : " + data);
-                        break;
-                    case TYPE_OWNER:
-                        target.setText("소유자 : " + data);
-                        break;
-                    case TYPE_HOUSE_TYPE:
-                        target.setText("종류 : " + data);
-                    break;
-                    case TYPE_CONTENT:
-                        target.setText("설명 : " + data);
-                    break;
                     case TYPE_PHONE_NUM:
-                        target.setText("전화 : " + data);
                         Linkify.addLinks(target, Linkify.PHONE_NUMBERS);
-                        break;
                     case TYPE_HOMEPAGE:
-                        target.setText("홈페이지 : " + data);
                         Linkify.addLinks(target, Linkify.WEB_URLS);
+                    default:
+                        target.setText(MAP_TYPE.get(type) + data);
                         break;
-
                 }
 
             }
