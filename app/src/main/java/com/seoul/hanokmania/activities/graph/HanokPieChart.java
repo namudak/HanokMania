@@ -1,4 +1,4 @@
-package com.seoul.hanokmania.fragments.graph;
+package com.seoul.hanokmania.activities.graph;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -60,8 +60,8 @@ public class HanokPieChart extends AbstractChart {
         mRenderer.setApplyBackgroundColor(true);
         mRenderer.setBackgroundColor(Color.BLACK);
         mRenderer.setChartTitleTextSize(20);
-        mRenderer.setLabelsTextSize(15);
-        mRenderer.setLegendTextSize(15);
+        mRenderer.setLabelsTextSize(16);
+        mRenderer.setLegendTextSize(16);
         mRenderer.setMargins(new int[]{20, 30, 15, 0});
         mRenderer.setZoomButtonsVisible(true);
         mRenderer.setStartAngle(90);
@@ -85,7 +85,7 @@ public class HanokPieChart extends AbstractChart {
         String[] name_list = new String[3];
         double[] values = new double[3];
 
-        String[] parm= new String[2];
+        String[] parm;
         for( int i = 0; i< list.size(); i++) {
             parm = list.get(i).toString().split(",");
             name_list[i] = parm[0];

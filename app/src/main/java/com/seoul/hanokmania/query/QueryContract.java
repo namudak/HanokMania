@@ -50,6 +50,10 @@ public class QueryContract {
             "select use, count(*) from hanok " +
             "group by use;";
 
+    public static String mStructureQuery=
+            "select structure, count(*) from hanok " +
+                    "group by structure;";
+
     public static String mDropQuery1=
             "drop table hanok;";
 
@@ -59,9 +63,14 @@ public class QueryContract {
     public static String mDropQuery3=
             "drop table repair_hanok;";
 
-    public static String mStructureQuery=
-            "select structure, count(*) from hanok " +
-                    "group by structure;";
+    public static String mHanokAllQuery=
+            "select * from hanok;";
+
+    public static String mBukchonHanokAllQuery=
+            "select * from bukchon_hanok;";
+
+    public static String mHanokRepairAllQuery=
+            "select * from repair_hanok;";
 
     public static String[] mQuery= {
             mHanokQuery,
@@ -77,7 +86,10 @@ public class QueryContract {
             mStructureQuery,
             mDropQuery1,
             mDropQuery2,
-            mDropQuery3
+            mDropQuery3,
+            mHanokAllQuery,
+            mBukchonHanokAllQuery,
+            mHanokRepairAllQuery
     };
 
     public static final int QUERYHANOK= 0;
@@ -94,6 +106,10 @@ public class QueryContract {
     public static final int QUERYDROP1= 11;
     public static final int QUERYDROP2= 12;
     public static final int QUERYDROP3= 13;
+    public static final int QUERYHANOKALL= 14;
+    public static final int QUERYBUKCHONHANOKALL= 15;
+    public static final int QUERYHANOKREPAIRALL= 16;
+
 
     public static GraphicalView mChartView;
 

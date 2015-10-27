@@ -95,7 +95,8 @@ public class ManageDbActivity extends Activity {
 
             HanokUrl hanokUrl = new HanokUrl(mContext, mUrlHelper);
 
-            hanokUrl.RetrieveJsonData();
+            hanokUrl.MakeHanokData();
+
 
             return null;
         }
@@ -108,7 +109,7 @@ public class ManageDbActivity extends Activity {
             super.onPostExecute(result);
 
             mProgressBar.setVisibility(View.GONE);
-            mProgressBarTextView.setText("Completed.");
+            mProgressBarTextView.setText("");
         }
     }
 

@@ -1,4 +1,4 @@
-package com.seoul.hanokmania.fragments.graph;
+package com.seoul.hanokmania.activities.graph;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,15 +7,17 @@ import android.graphics.Paint;
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart;
+import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by namudak on 2015-10-25.
+ * Created by namudak on 2015-10-24.
  */
-public class HanokStackedBarChart extends AbstractChart{
+public class HanokMultiBarChart extends AbstractChart {
+
     @Override
     public String getName() {
         return null;
@@ -33,18 +35,15 @@ public class HanokStackedBarChart extends AbstractChart{
 
     @Override
     public GraphicalView getGraphView(Context context, List list) {
+        String[] titles = new String[] { "대지 면적(㎡)", "건축 면적(㎡)", "연 면적(㎡)"};
 
-        String[] titles = new String[3];
-        String[] axisTitles= new String[3];
-
-        titles= ((String)list.get(0)).split(",");
-        axisTitles= ((String)list.get(1)).split(",");
+        String[] strLevel= new String[6];
 
         List<double[]> values = new ArrayList<>();
-        String[] strLevel= new String[6];
+
         double[] item= new double[6];
         String[] parm= new String[2];
-        for( int i = 2; i< list.size(); i++) {
+        for( int i = 0; i< list.size(); i++) {
             List nList= (List)list.get(i);
             parm= nList.get(0).toString().split(",");
             strLevel[0] = parm[0];
@@ -68,27 +67,41 @@ public class HanokStackedBarChart extends AbstractChart{
             item= new double[6];
         }
 
-        int[] colors = new int[] { Color.BLUE, Color.CYAN, Color.MAGENTA };
+        int[] colors = new int[] { Color.CYAN, Color.MAGENTA, Color.GREEN };
         XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-        setChartSettings(renderer, axisTitles[0], axisTitles[1], axisTitles[2],
-                0.5,6.5,
-                0, 800, Color.GRAY, Color.LTGRAY);
+        setChartSettings(renderer, "구간 별 평균 대지/건축/연 면적(㎡)", "대지 면적 구간", "평균 면적(㎡)",
+                0.5, 6.5,
+                0, 250,
+                Color.GRAY, Color.LTGRAY
+        );
         renderer.getSeriesRendererAt(0).setDisplayChartValues(true);
         renderer.getSeriesRendererAt(1).setDisplayChartValues(true);
         renderer.getSeriesRendererAt(2).setDisplayChartValues(true);
         renderer.setXLabels(6);
         renderer.setYLabels(10);
-        renderer.setXLabelsAlign(Paint.Align.LEFT);
+        renderer.setChartTitleTextSize(20);
+        renderer.setLabelsTextSize(16);
+        renderer.setLegendTextSize(16);
         renderer.setYLabelsAlign(Paint.Align.RIGHT);
         renderer.setPanEnabled(true, false);
-        // renderer.setZoomEnabled(false);
+        renderer.setZoomEnabled(false);
         renderer.setZoomRate(1.1f);
         renderer.setBarSpacing(0.5f);
+        for(int i= 0; i< strLevel.length; i++) {
+            renderer.addXTextLabel(i+ 1, strLevel[i]);
+        }
+        int length = renderer.getSeriesRendererCount();
+        for (int i = 0; i < length; i++) {
+            SimpleSeriesRenderer seriesRenderer = renderer.getSeriesRendererAt(i);
+            seriesRenderer.setDisplayChartValues(true);
+        }
+
 
         return ChartFactory.getBarChartView(
                 context,
                 buildBarDataset(titles, values),
                 renderer,
-                BarChart.Type.STACKED);
+                BarChart.Type.DEFAULT);
     }
+
 }

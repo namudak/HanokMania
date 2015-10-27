@@ -1,4 +1,4 @@
-package com.seoul.hanokmania.fragments.graph;
+package com.seoul.hanokmania.activities.graph;
 
 /**
  * Created by student on 2015-10-23.
@@ -72,21 +72,20 @@ public class HanokDoughnutChart extends AbstractChart {
     @Override
     public GraphicalView getGraphView(Context context) {
 
-        List<String[]> titles = new ArrayList<String[]>();
+        List<String[]> titles = new ArrayList<>();
         titles.add(mTitles);
-        List<double[]> values = new ArrayList<double[]>();
+        List<double[]> values = new ArrayList<>();
         values.add(mValues);
 
         DefaultRenderer renderer = buildCategoryRenderer(mColors);
         renderer.setApplyBackgroundColor(true);
         renderer.setBackgroundColor(Color.BLACK);
         renderer.setChartTitleTextSize(20);
-        renderer.setLabelsTextSize(15);
-        renderer.setLegendTextSize(15);
+        renderer.setLabelsTextSize(16);
+        renderer.setLegendTextSize(16);
         renderer.setMargins(new int[]{20, 30, 15, 0});
         renderer.setZoomButtonsVisible(true);
         renderer.setLabelsColor(Color.WHITE);
-        renderer.setLabelsTextSize(20);
 
         return ChartFactory.getDoughnutChartView(
                 context,

@@ -1,4 +1,4 @@
-package com.seoul.hanokmania.fragments.graph; /**
+package com.seoul.hanokmania.activities.graph; /**
  * Copyright (C) 2009 - 2013 SC 4ViewSoft SRL
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -98,6 +98,9 @@ public class HanokLineChart extends AbstractChart {
         multiRenderer.setXLabelsAlign(Paint.Align.RIGHT);
         multiRenderer.setYLabelsAlign(Paint.Align.RIGHT);
         multiRenderer.setXLabels(0);
+        multiRenderer.setChartTitleTextSize(20);
+        multiRenderer.setLabelsTextSize(16);
+        multiRenderer.setLegendTextSize(16);
         multiRenderer.setChartTitle("한옥 수선 현황");
         multiRenderer.setXTitle("년도");
         multiRenderer.setYTitle("수선 횟수");

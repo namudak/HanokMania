@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.seoul.hanokmania.fragments.graph;
+package com.seoul.hanokmania.activities.graph;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -78,6 +78,9 @@ public class HanokBarChart extends AbstractChart {
                 Color.GRAY, Color.WHITE);
         renderer.setXLabels(1);
         renderer.setYLabels(10);
+        renderer.setChartTitleTextSize(20);
+        renderer.setLabelsTextSize(16);
+        renderer.setLegendTextSize(16);
         renderer.setShowGrid(true);
         renderer.setAxisTitleTextSize(10.0f);
         renderer.setBackgroundColor(Color.BLACK);

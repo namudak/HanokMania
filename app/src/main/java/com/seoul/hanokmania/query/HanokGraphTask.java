@@ -7,12 +7,12 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.seoul.hanokmania.fragments.graph.HanokBarChart;
-import com.seoul.hanokmania.fragments.graph.HanokDoughnutChart;
-import com.seoul.hanokmania.fragments.graph.HanokLineChart;
-import com.seoul.hanokmania.fragments.graph.HanokMultiBarChart;
-import com.seoul.hanokmania.fragments.graph.HanokPieChart;
-import com.seoul.hanokmania.fragments.graph.HanokStackedBarChart;
+import com.seoul.hanokmania.activities.graph.HanokBarChart;
+import com.seoul.hanokmania.activities.graph.HanokDoughnutChart;
+import com.seoul.hanokmania.activities.graph.HanokLineChart;
+import com.seoul.hanokmania.activities.graph.HanokMultiBarChart;
+import com.seoul.hanokmania.activities.graph.HanokPieChart;
+import com.seoul.hanokmania.activities.graph.HanokStackedBarChart;
 import com.seoul.hanokmania.provider.HanokContract;
 import com.seoul.hanokmania.provider.HanokOpenHelper;
 
