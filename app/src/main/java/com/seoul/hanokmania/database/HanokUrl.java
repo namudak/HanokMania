@@ -22,7 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +47,7 @@ public class HanokUrl {
             Uri uri;
             String[] valueArray = null;
             ContentValues values = new ContentValues();
+            int nCase;
 
             // *** Hanok *** HTTP 에서 내용을 String 으로 받아 온다
             String jsonString = getResponse(
@@ -65,16 +65,22 @@ public class HanokUrl {
 
             int leng = 0;
 
-            List rec= getHanokAllQuery(QueryContract.QUERYHANOKALL);
+            String rec= getHanokAllQuery(QueryContract.QUERYHANOKALL);
 
             for (int i = 0; i < hanoklist.size(); i++) {
-                String tempStr= hanoklist.get(i).toString();
-                valueArray= tempStr.split("s!b");
-                String newRec = tempStr.replaceAll("s!b", "");
+                String tempStr = hanoklist.get(i).toString();
+                valueArray = tempStr.split("s!b");
 
-                for(int j= 0; j< rec.size(); j++){
-                    if(newRec.equals(rec.get(j).toString()))
+                if (rec.contains(valueArray[0])) {
+                    if(tempStr.equals(getQueryById(
+                            QueryContract.QUERYHANOKALL, valueArray[0]
+                    ))) {// ok next
                         continue;
+                    } else {// rec for update
+                        nCase= 0;
+                    }
+                } else {// new rec for insertion
+                    nCase = 1;
                 }
 
                 values.clear();
@@ -91,6 +97,7 @@ public class HanokUrl {
                 values.put(HanokContract.HanokCol.PLANTYPE, valueArray[9]);
                 values.put(HanokContract.HanokCol.BUILDDATE, valueArray[10]);
                 values.put(HanokContract.HanokCol.NOTE, valueArray[11]);
+
                 leng = valueArray[0].length();
                 if (leng > 1) {
                     values.put(HanokContract.HanokCol.HANOKNUM2,
@@ -98,10 +105,15 @@ public class HanokUrl {
                 } else {
                     values.put(HanokContract.HanokCol.HANOKNUM2, "");
                 }
-                HanokContract.setHanokContract("hanok");
-                mContext.getContentResolver().insert(HanokContract.CONTENT_URI, values);
-            }
 
+                HanokContract.setHanokContract("hanok");
+                if(nCase== 0) {
+                    mContext.getContentResolver().update(HanokContract.CONTENT_URI, values,
+                                                    "hanoknum=?", new String[]{valueArray[0]});
+                } else {
+                    mContext.getContentResolver().insert(HanokContract.CONTENT_URI, values);
+                }
+            }
 
             // *** HanokBukchon *** HTTP 에서 내용을 String 으로 받아 온다
             // '01' '02' '03' '04' '05'(주거, 전통, 교육/문화, 자연, 예술)
@@ -126,7 +138,20 @@ public class HanokUrl {
                         ));
 
                 for (int jj = 0; jj < hanokBukchonList.size(); jj++) {
-                    valueArray = hanokBukchonList.get(jj).toString().split("s!b");
+                    String tempStr = hanoklist.get(jj).toString();
+                    valueArray = tempStr.split("s!b");
+
+                    if (rec.contains(valueArray[0])) {
+                        if(tempStr.equals(getQueryById(
+                                QueryContract.QUERYBUKCHONHANOKALL, valueArray[3]
+                        ))) {// ok next
+                            continue;
+                        } else {// rec for update
+                            nCase= 0;
+                        }
+                    } else {// new rec for insertion
+                        nCase = 1;
+                    }
 
                     values.clear();
 
@@ -149,7 +174,12 @@ public class HanokUrl {
                     values.put(HanokContract.HanokBukchonCol.PRIORITY, valueArray[16]);
 
                     HanokContract.setHanokContract("bukchon_hanok");
-                    mContext.getContentResolver().insert(HanokContract.CONTENT_URI, values);
+                    if(nCase== 0) {
+                        mContext.getContentResolver().update(HanokContract.CONTENT_URI, values,
+                                "house_id=?", new String[]{valueArray[3]});
+                    } else {
+                        mContext.getContentResolver().insert(HanokContract.CONTENT_URI, values);
+                    }
                 }
             }
 
@@ -179,6 +209,17 @@ public class HanokUrl {
                         valueArray[kkk] = "";
                     }
 
+                    if (rec.contains(valueArray[0])) {
+                        if(str.equals(getQueryById(
+                                QueryContract.QUERYHANOKREPAIRALL, valueArray[0]
+                        ))) {// ok next
+                            continue;
+                        } else {// rec for update
+                            nCase= 0;
+                        }
+                    } else {// new rec for insertion
+                        nCase = 1;
+                    }
 
                     values.clear();
 
@@ -194,7 +235,12 @@ public class HanokUrl {
                     values.put(HanokContract.HanokRepairCol.NOTE, valueArray[9]);
 
                     HanokContract.setHanokContract("repair_hanok");
-                    mContext.getContentResolver().insert(HanokContract.CONTENT_URI, values);
+                    if(nCase== 0) {
+                        mContext.getContentResolver().update(HanokContract.CONTENT_URI, values,
+                                "hanoknum=?", new String[]{valueArray[0]});
+                    } else {
+                        mContext.getContentResolver().insert(HanokContract.CONTENT_URI, values);
+                    }
                 }
             }
 
@@ -360,31 +406,81 @@ public class HanokUrl {
     }
 
     /**
-     * get Db Cursor for 'hanok', 'bukchon_hanok', 'hanok_repair'
+     * get hanoknum, house_id, hanoknum for 'hanok', 'bukchon_hanok', 'hanok_repair'
      * on querymode
      */
-    private List getHanokAllQuery(int querymode) {
+    private String getHanokAllQuery(int querymode) {
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(
-                QueryContract.mQuery[QueryContract.QUERYREALPLOTTAGE],
+                QueryContract.mQuery[querymode],
                 null
         );
 
-        ArrayList<String> childList = new ArrayList<>();
-        String[] val = new String[cursor.getColumnCount()];
+        String val = "";
+        String colName= "";
+        switch (querymode){
+            case QueryContract.QUERYHANOKALL:
+                colName= HanokContract.HanokCol.HANOKNUM;
+                break;
+            case QueryContract.QUERYBUKCHONHANOKALL:
+                colName= HanokContract.HanokBukchonCol.HOUSE_ID;
+                break;
+            case QueryContract.QUERYHANOKREPAIRALL:
+                colName= HanokContract.HanokRepairCol.HANOKNUM;
+                break;
+        }
         while (cursor.moveToNext()) {
-            String str = "";
-            for (int i = 0; i < cursor.getColumnCount(); i++) {
-                str += cursor.getString(i);
-            }
-            childList.add(str);
+            val= cursor.getString(cursor.getColumnIndexOrThrow(
+                    colName)
+            );
+            val+= ",";
         }
 
         cursor.close();
 
-        return childList;
+        return val;
+    }
+    /**
+     * get record for 'hanok', 'bukchon_hanok', 'hanok_repair'
+     * on querymode
+     */
+    private String getQueryById(int querymode, String id) {
+
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
+        String val = "";
+        String query= "";
+        switch (querymode){
+            case QueryContract.QUERYHANOKALL:
+                query= String.format(QueryContract.mQueryById,
+                        "hanok", "hanoknum", id );
+                break;
+            case QueryContract.QUERYBUKCHONHANOKALL:
+                query= String.format(QueryContract.mQueryById,
+                        "bukchon_hanok", "house_id", id );
+                break;
+            case QueryContract.QUERYHANOKREPAIRALL:
+                query= String.format(QueryContract.mQueryById,
+                        "hanok_repair", "hanoknum", id );
+                break;
+        }
+
+        Cursor cursor = db.rawQuery(
+                query,
+                null
+        );
+
+        while (cursor.moveToNext()) {
+            for(int i= 0; i< cursor.getColumnCount(); i++) {
+                val += cursor.getString(i)+ ",";
+            }
+        }
+
+        cursor.close();
+
+        return val;
     }
     /**
      * url 로 부터 스트림을 읽어 String 으로 반환한다

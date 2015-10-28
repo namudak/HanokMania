@@ -2,7 +2,6 @@ package com.seoul.hanokmania.database;
 
 import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import com.seoul.hanokmania.R;
 import com.seoul.hanokmania.provider.HanokOpenHelper;
 import com.seoul.hanokmania.provider.HanokUrlHelper;
-import com.seoul.hanokmania.query.QueryContract;
 
 /**
  * Created by namudak on 2015-09-14.
@@ -74,29 +72,31 @@ public class ManageDbActivity extends Activity {
 
             SQLiteDatabase db= mUrlHelper.getWritableDatabase();
 
-            if(params[0].equals(UPDATEDB)) {
-
-                Cursor cursor= db.rawQuery(
-                        QueryContract.mQuery[QueryContract.QUERYDROP1],
-                        null
-                );
-                cursor.close();
-                cursor= db.rawQuery(
-                        QueryContract.mQuery[QueryContract.QUERYDROP2],
-                        null
-                );
-                cursor.close();
-                cursor= db.rawQuery(
-                        QueryContract.mQuery[QueryContract.QUERYDROP3],
-                        null
-                );
-                cursor.close();
-            }
-
             HanokUrl hanokUrl = new HanokUrl(mContext, mUrlHelper);
 
-            hanokUrl.MakeHanokData();
+            if(params[0].equals(UPDATEDB)) {
 
+//                Cursor cursor= db.rawQuery(
+//                        QueryContract.mQuery[QueryContract.QUERYDROP1],
+//                        null
+//                );
+//                cursor.close();
+//                cursor= db.rawQuery(
+//                        QueryContract.mQuery[QueryContract.QUERYDROP2],
+//                        null
+//                );
+//                cursor.close();
+//                cursor= db.rawQuery(
+//                        QueryContract.mQuery[QueryContract.QUERYDROP3],
+//                        null
+//                );
+//                cursor.close();
+
+                hanokUrl.UpdateHanokData();
+
+            } else {
+                hanokUrl.MakeHanokData();
+            }
 
             return null;
         }

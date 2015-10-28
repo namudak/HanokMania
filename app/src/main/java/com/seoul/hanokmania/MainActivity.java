@@ -64,12 +64,6 @@ public class MainActivity extends AppCompatActivity
         // 초기화
         init();
 
-        // For Database creation and retrieving data from api url
-//        Intent intent= new Intent(getApplicationContext(),
-//                ManageDbActivity.class);
-//        startActivity(intent);
-
-
         // Android 6.0 권한 체크
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {

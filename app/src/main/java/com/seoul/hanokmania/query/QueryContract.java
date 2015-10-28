@@ -72,6 +72,10 @@ public class QueryContract {
     public static String mHanokRepairAllQuery=
             "select * from repair_hanok;";
 
+    public static String mQueryById=
+            "select * from %s " +
+                    "where %s= '%s'";
+
     public static String[] mQuery= {
             mHanokQuery,
             mBukchonHanokQuery,
@@ -89,7 +93,8 @@ public class QueryContract {
             mDropQuery3,
             mHanokAllQuery,
             mBukchonHanokAllQuery,
-            mHanokRepairAllQuery
+            mHanokRepairAllQuery,
+            mQueryById
     };
 
     public static final int QUERYHANOK= 0;
@@ -109,6 +114,7 @@ public class QueryContract {
     public static final int QUERYHANOKALL= 14;
     public static final int QUERYBUKCHONHANOKALL= 15;
     public static final int QUERYHANOKREPAIRALL= 16;
+    public static final int QUERYBYID= 17;
 
 
     public static GraphicalView mChartView;
