@@ -45,7 +45,7 @@ public class HanokUrl {
 
         try {
             Uri uri;
-            String[] valueArray = null;
+//            String[] valueArray = null;
             ContentValues values = new ContentValues();
             int nCase;
 
@@ -69,12 +69,12 @@ public class HanokUrl {
 
             for (int i = 0; i < hanoklist.size(); i++) {
                 String tempStr = hanoklist.get(i).toString();
-                valueArray = tempStr.split("s!b");
+                Hanok hanok = hanoklist.get(i);
 
-                if (rec.contains(valueArray[0])) {
+                if (rec.contains(hanok.HANOKNUM)) {
                     if(tempStr.equals(getQueryById(
-                            QueryContract.QUERYHANOKALL, valueArray[0]
-                    ))) {// ok next
+                            QueryContract.QUERYHANOKALL, hanok.HANOKNUM)
+                    )) {// ok next
                         continue;
                     } else {// rec for update
                         nCase= 0;
@@ -85,23 +85,23 @@ public class HanokUrl {
 
                 values.clear();
 
-                values.put(HanokContract.HanokCol.HANOKNUM, valueArray[0]);
-                values.put(HanokContract.HanokCol.ADDR, valueArray[1]);
-                values.put(HanokContract.HanokCol.PLOTTAGE, valueArray[2]);
-                values.put(HanokContract.HanokCol.TOTAR, valueArray[3]);
-                values.put(HanokContract.HanokCol.BUILDAREA, valueArray[4]);
-                values.put(HanokContract.HanokCol.FLOOR, valueArray[5]);
-                values.put(HanokContract.HanokCol.FLOOR2, valueArray[6]);
-                values.put(HanokContract.HanokCol.USE, valueArray[7]);
-                values.put(HanokContract.HanokCol.STRUCTURE, valueArray[8]);
-                values.put(HanokContract.HanokCol.PLANTYPE, valueArray[9]);
-                values.put(HanokContract.HanokCol.BUILDDATE, valueArray[10]);
-                values.put(HanokContract.HanokCol.NOTE, valueArray[11]);
+                values.put(HanokContract.HanokCol.HANOKNUM, hanok.HANOKNUM);
+                values.put(HanokContract.HanokCol.ADDR, hanok.ADDR);
+                values.put(HanokContract.HanokCol.PLOTTAGE, hanok.PLOTTAGE);
+                values.put(HanokContract.HanokCol.TOTAR, hanok.TOTAR);
+                values.put(HanokContract.HanokCol.BUILDAREA, hanok.BUILDAREA);
+                values.put(HanokContract.HanokCol.FLOOR, hanok.FLOOR);
+                values.put(HanokContract.HanokCol.FLOOR2, hanok.FLOOR2);
+                values.put(HanokContract.HanokCol.USE, hanok.USE);
+                values.put(HanokContract.HanokCol.STRUCTURE, hanok.STRUCTURE);
+                values.put(HanokContract.HanokCol.PLANTYPE, hanok.PLANTYPE);
+                values.put(HanokContract.HanokCol.BUILDDATE, hanok.BUILDDATE);
+                values.put(HanokContract.HanokCol.NOTE, hanok.NOTE);
 
-                leng = valueArray[0].length();
+                leng = hanok.HANOKNUM.length();
                 if (leng > 1) {
                     values.put(HanokContract.HanokCol.HANOKNUM2,
-                            valueArray[0].substring(5, leng));
+                            hanok.HANOKNUM.substring(5, leng));
                 } else {
                     values.put(HanokContract.HanokCol.HANOKNUM2, "");
                 }
@@ -109,7 +109,7 @@ public class HanokUrl {
                 HanokContract.setHanokContract("hanok");
                 if(nCase== 0) {
                     mContext.getContentResolver().update(HanokContract.CONTENT_URI, values,
-                                                    "hanoknum=?", new String[]{valueArray[0]});
+                                                    "hanoknum=?", new String[]{hanok.HANOKNUM});
                 } else {
                     mContext.getContentResolver().insert(HanokContract.CONTENT_URI, values);
                 }
@@ -139,11 +139,11 @@ public class HanokUrl {
 
                 for (int jj = 0; jj < hanokBukchonList.size(); jj++) {
                     String tempStr = hanoklist.get(jj).toString();
-                    valueArray = tempStr.split("s!b");
+                    HanokBukchon hanokBukchon = hanokBukchonList.get(jj);
 
-                    if (rec.contains(valueArray[0])) {
+                    if (rec.contains(hanokBukchon.HOUSE_ID)) {
                         if(tempStr.equals(getQueryById(
-                                QueryContract.QUERYBUKCHONHANOKALL, valueArray[3]
+                                QueryContract.QUERYBUKCHONHANOKALL, hanokBukchon.HOUSE_ID
                         ))) {// ok next
                             continue;
                         } else {// rec for update
@@ -155,28 +155,28 @@ public class HanokUrl {
 
                     values.clear();
 
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_TYPE, valueArray[0]);
-                    values.put(HanokContract.HanokBukchonCol.TYPE_NAME, valueArray[1]);
-                    values.put(HanokContract.HanokBukchonCol.LANGUAGE_TYPE, valueArray[2]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_ID, valueArray[3]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_NAME, valueArray[4]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_ADDR, valueArray[5]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_OWNER, valueArray[6]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_ADMIN, valueArray[7]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_TELL, valueArray[8]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_HP, valueArray[9]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_OPEN_TIME, valueArray[10]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_REG_DATE, valueArray[11]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_YEAR, valueArray[12]);
-                    values.put(HanokContract.HanokBukchonCol.BOOL_CULTURE, valueArray[13]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_CONTENT, valueArray[14]);
-                    values.put(HanokContract.HanokBukchonCol.SERVICE_OK, valueArray[15]);
-                    values.put(HanokContract.HanokBukchonCol.PRIORITY, valueArray[16]);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_TYPE, hanokBukchon.HOUSE_TYPE);
+                    values.put(HanokContract.HanokBukchonCol.TYPE_NAME, hanokBukchon.TYPE_NAME);
+                    values.put(HanokContract.HanokBukchonCol.LANGUAGE_TYPE, hanokBukchon.LANGUAGE_TYPE);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_ID, hanokBukchon.HOUSE_ID);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_NAME, hanokBukchon.HOUSE_NAME);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_ADDR, hanokBukchon.HOUSE_ADDR);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_OWNER, hanokBukchon.HOUSE_OWNER);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_ADMIN, hanokBukchon.HOUSE_ADMIN);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_TELL, hanokBukchon.HOUSE_TELL);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_HP, hanokBukchon.HOUSE_HP);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_OPEN_TIME, hanokBukchon.HOUSE_OPEN_TIME);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_REG_DATE, hanokBukchon.HOUSE_REG_DATE);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_YEAR, hanokBukchon.HOUSE_YEAR);
+                    values.put(HanokContract.HanokBukchonCol.BOOL_CULTURE, hanokBukchon.BOOL_CULTURE);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_CONTENT, hanokBukchon.HOUSE_CONTENT);
+                    values.put(HanokContract.HanokBukchonCol.SERVICE_OK, hanokBukchon.SERVICE_OK);
+                    values.put(HanokContract.HanokBukchonCol.PRIORITY, hanokBukchon.PRIORITY);
 
                     HanokContract.setHanokContract("bukchon_hanok");
                     if(nCase== 0) {
                         mContext.getContentResolver().update(HanokContract.CONTENT_URI, values,
-                                "house_id=?", new String[]{valueArray[3]});
+                                "house_id=?", new String[]{hanokBukchon.HOUSE_ID});
                     } else {
                         mContext.getContentResolver().insert(HanokContract.CONTENT_URI, values);
                     }
@@ -201,17 +201,11 @@ public class HanokUrl {
 
                 for (int kk = 0; kk < hanokRepairList.size(); kk++) {
                     String str = hanokRepairList.get(kk).toString();
-                    int countNum = (str.length() - str.replace("s!b", "").length()) / "s!b".length();
-                    valueArray = new String[countNum];
-                    String[] tempArray = str.split("s!b");
-                    System.arraycopy(tempArray, 0, valueArray, 0, tempArray.length);
-                    for (int kkk = tempArray.length; kkk < countNum; kkk++) {
-                        valueArray[kkk] = "";
-                    }
+                    HanokRepair hanokRepair = hanokRepairList.get(kk);
 
-                    if (rec.contains(valueArray[0])) {
+                    if (rec.contains(hanokRepair.HANOKNUM)) {
                         if(str.equals(getQueryById(
-                                QueryContract.QUERYHANOKREPAIRALL, valueArray[0]
+                                QueryContract.QUERYHANOKREPAIRALL, hanokRepair.HANOKNUM
                         ))) {// ok next
                             continue;
                         } else {// rec for update
@@ -223,21 +217,21 @@ public class HanokUrl {
 
                     values.clear();
 
-                    values.put(HanokContract.HanokRepairCol.HANOKNUM, valueArray[0]);
-                    values.put(HanokContract.HanokRepairCol.SN, valueArray[1]);
-                    values.put(HanokContract.HanokRepairCol.ADDR, valueArray[2]);
-                    values.put(HanokContract.HanokRepairCol.ITEM, valueArray[3]);
-                    values.put(HanokContract.HanokRepairCol.CONSTRUCTION, valueArray[4]);
-                    values.put(HanokContract.HanokRepairCol.REQUEST, valueArray[5]);
-                    values.put(HanokContract.HanokRepairCol.REVIEW, valueArray[6]);
-                    values.put(HanokContract.HanokRepairCol.RESULT, valueArray[7]);
-                    values.put(HanokContract.HanokRepairCol.LOANDEC, valueArray[8]);
-                    values.put(HanokContract.HanokRepairCol.NOTE, valueArray[9]);
+                    values.put(HanokContract.HanokRepairCol.HANOKNUM, hanokRepair.HANOKNUM);
+                    values.put(HanokContract.HanokRepairCol.SN, hanokRepair.SN);
+                    values.put(HanokContract.HanokRepairCol.ADDR, hanokRepair.ADDR);
+                    values.put(HanokContract.HanokRepairCol.ITEM, hanokRepair.ITEM);
+                    values.put(HanokContract.HanokRepairCol.CONSTRUCTION, hanokRepair.CONSTRUCTION);
+                    values.put(HanokContract.HanokRepairCol.REQUEST, hanokRepair.REQUEST);
+                    values.put(HanokContract.HanokRepairCol.REVIEW, hanokRepair.REVIEW);
+                    values.put(HanokContract.HanokRepairCol.RESULT, hanokRepair.RESULT);
+                    values.put(HanokContract.HanokRepairCol.LOANDEC, hanokRepair.LOANDEC);
+                    values.put(HanokContract.HanokRepairCol.NOTE, hanokRepair.NOTE);
 
                     HanokContract.setHanokContract("repair_hanok");
                     if(nCase== 0) {
                         mContext.getContentResolver().update(HanokContract.CONTENT_URI, values,
-                                "hanoknum=?", new String[]{valueArray[0]});
+                                "hanoknum=?", new String[]{hanokRepair.HANOKNUM});
                     } else {
                         mContext.getContentResolver().insert(HanokContract.CONTENT_URI, values);
                     }
@@ -275,27 +269,25 @@ public class HanokUrl {
                     ));
 
             int leng= 0;
-            for(int i= 0; i< hanoklist.size(); i++) {
-                valueArray= hanoklist.get(i).toString().split("s!b");
-
+            for(Hanok hanok : hanoklist) {
                 values.clear();
 
-                values.put(HanokContract.HanokCol.HANOKNUM, valueArray[0]);
-                values.put(HanokContract.HanokCol.ADDR, valueArray[1]);
-                values.put(HanokContract.HanokCol.PLOTTAGE, valueArray[2]);
-                values.put(HanokContract.HanokCol.TOTAR, valueArray[3]);
-                values.put(HanokContract.HanokCol.BUILDAREA, valueArray[4]);
-                values.put(HanokContract.HanokCol.FLOOR, valueArray[5]);
-                values.put(HanokContract.HanokCol.FLOOR2, valueArray[6]);
-                values.put(HanokContract.HanokCol.USE, valueArray[7]);
-                values.put(HanokContract.HanokCol.STRUCTURE, valueArray[8]);
-                values.put(HanokContract.HanokCol.PLANTYPE, valueArray[9]);
-                values.put(HanokContract.HanokCol.BUILDDATE, valueArray[10]);
-                values.put(HanokContract.HanokCol.NOTE,valueArray[11]);
-                leng= valueArray[0].length();
+                values.put(HanokContract.HanokCol.HANOKNUM, hanok.HANOKNUM);
+                values.put(HanokContract.HanokCol.ADDR, hanok.ADDR);
+                values.put(HanokContract.HanokCol.PLOTTAGE, hanok.PLOTTAGE);
+                values.put(HanokContract.HanokCol.TOTAR, hanok.TOTAR);
+                values.put(HanokContract.HanokCol.BUILDAREA, hanok.BUILDAREA);
+                values.put(HanokContract.HanokCol.FLOOR, hanok.FLOOR);
+                values.put(HanokContract.HanokCol.FLOOR2, hanok.FLOOR2);
+                values.put(HanokContract.HanokCol.USE, hanok.USE);
+                values.put(HanokContract.HanokCol.STRUCTURE, hanok.STRUCTURE);
+                values.put(HanokContract.HanokCol.PLANTYPE, hanok.PLANTYPE);
+                values.put(HanokContract.HanokCol.BUILDDATE, hanok.BUILDDATE);
+                values.put(HanokContract.HanokCol.NOTE, hanok.NOTE);
+                leng= hanok.HANOKNUM.length();
                 if(leng> 1) {
                     values.put(HanokContract.HanokCol.HANOKNUM2,
-                            valueArray[0].substring(5, leng));
+                            hanok.HANOKNUM.substring(5, leng));
                 } else {
                     values.put(HanokContract.HanokCol.HANOKNUM2, "");
                 }
@@ -327,27 +319,26 @@ public class HanokUrl {
                         ));
 
                 for(int jj= 0; jj< hanokBukchonList.size(); jj++) {
-                    valueArray = hanokBukchonList.get(jj).toString().split("s!b");
-
+                    HanokBukchon hanokBukchon = hanokBukchonList.get(jj);
                     values.clear();
 
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_TYPE, valueArray[0]);
-                    values.put(HanokContract.HanokBukchonCol.TYPE_NAME, valueArray[1]);
-                    values.put(HanokContract.HanokBukchonCol.LANGUAGE_TYPE, valueArray[2]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_ID, valueArray[3]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_NAME, valueArray[4]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_ADDR, valueArray[5]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_OWNER, valueArray[6]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_ADMIN, valueArray[7]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_TELL, valueArray[8]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_HP, valueArray[9]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_OPEN_TIME, valueArray[10]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_REG_DATE, valueArray[11]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_YEAR, valueArray[12]);
-                    values.put(HanokContract.HanokBukchonCol.BOOL_CULTURE, valueArray[13]);
-                    values.put(HanokContract.HanokBukchonCol.HOUSE_CONTENT, valueArray[14]);
-                    values.put(HanokContract.HanokBukchonCol.SERVICE_OK, valueArray[15]);
-                    values.put(HanokContract.HanokBukchonCol.PRIORITY, valueArray[16]);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_TYPE, hanokBukchon.HOUSE_TYPE);
+                    values.put(HanokContract.HanokBukchonCol.TYPE_NAME, hanokBukchon.TYPE_NAME);
+                    values.put(HanokContract.HanokBukchonCol.LANGUAGE_TYPE, hanokBukchon.LANGUAGE_TYPE);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_ID, hanokBukchon.HOUSE_ID);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_NAME, hanokBukchon.HOUSE_NAME);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_ADDR, hanokBukchon.HOUSE_ADDR);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_OWNER, hanokBukchon.HOUSE_OWNER);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_ADMIN, hanokBukchon.HOUSE_ADMIN);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_TELL, hanokBukchon.HOUSE_TELL);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_HP, hanokBukchon.HOUSE_HP);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_OPEN_TIME, hanokBukchon.HOUSE_OPEN_TIME);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_REG_DATE, hanokBukchon.HOUSE_REG_DATE);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_YEAR, hanokBukchon.HOUSE_YEAR);
+                    values.put(HanokContract.HanokBukchonCol.BOOL_CULTURE, hanokBukchon.BOOL_CULTURE);
+                    values.put(HanokContract.HanokBukchonCol.HOUSE_CONTENT, hanokBukchon.HOUSE_CONTENT);
+                    values.put(HanokContract.HanokBukchonCol.SERVICE_OK, hanokBukchon.SERVICE_OK);
+                    values.put(HanokContract.HanokBukchonCol.PRIORITY, hanokBukchon.PRIORITY);
 
                     HanokContract.setHanokContract("bukchon_hanok");
                     mContext.getContentResolver().insert(HanokContract.CONTENT_URI, values);
@@ -371,28 +362,20 @@ public class HanokUrl {
                         ));
 
                 for (int kk = 0; kk < hanokRepairList.size(); kk++) {
-                    String str= hanokRepairList.get(kk).toString();
-                    int countNum= (str.length() - str.replace("s!b", "").length()) / "s!b".length();
-                    valueArray= new String[countNum];
-                    String[] tempArray= str.split("s!b");
-                    System.arraycopy(tempArray, 0, valueArray, 0, tempArray.length);
-                    for(int kkk= tempArray.length; kkk< countNum; kkk++) {
-                        valueArray[kkk]= "";
-                    }
-
+                    HanokRepair hanokRepair = hanokRepairList.get(kk);
 
                     values.clear();
 
-                    values.put(HanokContract.HanokRepairCol.HANOKNUM, valueArray[0]);
-                    values.put(HanokContract.HanokRepairCol.SN, valueArray[1]);
-                    values.put(HanokContract.HanokRepairCol.ADDR, valueArray[2]);
-                    values.put(HanokContract.HanokRepairCol.ITEM, valueArray[3]);
-                    values.put(HanokContract.HanokRepairCol.CONSTRUCTION, valueArray[4]);
-                    values.put(HanokContract.HanokRepairCol.REQUEST, valueArray[5]);
-                    values.put(HanokContract.HanokRepairCol.REVIEW, valueArray[6]);
-                    values.put(HanokContract.HanokRepairCol.RESULT, valueArray[7]);
-                    values.put(HanokContract.HanokRepairCol.LOANDEC, valueArray[8]);
-                    values.put(HanokContract.HanokRepairCol.NOTE, valueArray[9]);
+                    values.put(HanokContract.HanokRepairCol.HANOKNUM, hanokRepair.HANOKNUM);
+                    values.put(HanokContract.HanokRepairCol.SN, hanokRepair.SN);
+                    values.put(HanokContract.HanokRepairCol.ADDR, hanokRepair.ADDR);
+                    values.put(HanokContract.HanokRepairCol.ITEM, hanokRepair.ITEM);
+                    values.put(HanokContract.HanokRepairCol.CONSTRUCTION, hanokRepair.CONSTRUCTION);
+                    values.put(HanokContract.HanokRepairCol.REQUEST, hanokRepair.REQUEST);
+                    values.put(HanokContract.HanokRepairCol.REVIEW, hanokRepair.REVIEW);
+                    values.put(HanokContract.HanokRepairCol.RESULT, hanokRepair.RESULT);
+                    values.put(HanokContract.HanokRepairCol.LOANDEC, hanokRepair.LOANDEC);
+                    values.put(HanokContract.HanokRepairCol.NOTE, hanokRepair.NOTE);
 
                     HanokContract.setHanokContract("repair_hanok");
                     mContext.getContentResolver().insert(HanokContract.CONTENT_URI, values);

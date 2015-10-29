@@ -2,7 +2,7 @@ package com.seoul.hanokmania.managers;
 
 import android.support.v4.app.Fragment;
 
-import com.seoul.hanokmania.database.ManageDbActivity;
+import com.seoul.hanokmania.database.ManageDbFragment;
 import com.seoul.hanokmania.fragments.BukchonFragment;
 import com.seoul.hanokmania.fragments.HanokGraphFragment;
 
@@ -17,7 +17,7 @@ public class Manager {
     public static Class FRAGMENTS[] = {
             BukchonFragment.class,
             HanokGraphFragment.class,
-            ManageDbActivity.class
+            ManageDbFragment.class
     };
 
     private Manager() {
