@@ -22,12 +22,12 @@ public class HanokPieChart extends AbstractChart {
 //        double[] VALUES = new double[]{10, 11, 12, 13};
 //        String[] NAME_LIST = new String[]{"A", "B", "C", "D"};
     private int[] mColors;
-    private double[] mValues;
+    private int[] mValues;
     private String[] mName_List;
 
     public HanokPieChart() {}
 
-    public HanokPieChart(int[] colors, double[] values, String[] name_list) {
+    public HanokPieChart(int[] colors, int[] values, String[] name_list) {
         mColors= colors;
         mValues= values;
         mName_List= name_list;
@@ -81,15 +81,16 @@ public class HanokPieChart extends AbstractChart {
 
     @Override
     public GraphicalView getGraphView(Context context, List list) {
-        int[] colors = new int[]{Color.GREEN, Color.YELLOW, Color.MAGENTA};
-        String[] name_list = new String[3];
-        double[] values = new double[3];
+        int[] colors = new int[]{Color.GREEN, Color.YELLOW, Color.BLUE,
+                            Color.MAGENTA, Color.CYAN};
+        String[] name_list = new String[9];
+        int[] values = new int[9];
 
         String[] parm;
         for( int i = 0; i< list.size(); i++) {
             parm = list.get(i).toString().split(",");
             name_list[i] = parm[0];
-            values[i] = Float.parseFloat(parm[1]);
+            values[i] = Integer.parseInt(parm[1]);
         }
 
         CategorySeries mSeries = new CategorySeries("");
@@ -105,7 +106,7 @@ public class HanokPieChart extends AbstractChart {
         mRenderer.setZoomButtonsVisible(true);
         mRenderer.setStartAngle(90);
 
-        for (int i = 0; i < values.length; i++) {
+        for (int i = 0; i < list.size(); i++) {
             mSeries.add(name_list[i] + " " + values[i], values[i]);
             SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
             renderer.setColor(colors[(mSeries.getItemCount() - 1) % colors.length]);

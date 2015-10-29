@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity
     private ViewPager mViewPager;
     private List<String> mTitles;
 
+    private MenuItem activeMenuItem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -160,20 +162,23 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        String title = item.getTitle().toString();
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        String title = menuItem.getTitle().toString();
         int index = mTitles.indexOf(title);
 
         mViewPager.setCurrentItem(index, true);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if(drawer!= null) {
-            drawer.closeDrawers();
+        if (activeMenuItem != null) {
+            activeMenuItem.setChecked(false);
         }
+        activeMenuItem = menuItem;
+        menuItem.setChecked(true);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        drawer.closeDrawers();
 
         return true;
     }

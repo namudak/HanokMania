@@ -33,22 +33,19 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
     private static HanokOpenHelper mDbHelper;
 
     private String[] GROUPFORMAT= {
-            "⑴ 등록 한옥 건립일",
-            "⑵ 등록 한옥 중 북촌한옥 비율(％)",
-            "⑶ 등록 한옥 중 문화재 비율(％)",
-            "⑷ 년도 별 한옥 수선 현황",
-            "⑸ 대지 구간 별 한옥 현황 ",
-            "⑹ 대지 구간 별 평균 대지면적(㎡)\n"+
-            "⊙ 대지 구간 별 평균 건축면적(㎡)\n"+
-            "⊙ 대지 구간 별 평균 연면적(㎡)",
-            "⑺ 대지 구간 별 평균 대지면적(㎡)\n" +
-            "⊙ 대지 구간 별 평균 건축면적(㎡)\n"+
-            "⊙ 대지 구간 별 평균 건폐율(％)",
-            "⑻ 대지 구간 별 평균 대지면적(㎡)\n" +
-            "⊙ 대지 구간 별 평균 연면적(㎡)\n"+
-            "⊙ 대지 구간 별 평균 용적율(％)",
-            "⑼ 용도 별 북촌 한옥 현황",
-            "⑽ 구조 별 북촌 한옥 현황"
+            "⑴ 한옥 건립일 현황 도표",
+            "⑵ 북촌 한옥 현황 도표",
+            "⑶ 한옥 문화재 현황 도표",
+            "⑷ 한옥 수선 현황 도표",
+            "⑸ 대지 구간 별 한옥 현황 도표",
+            "⑹ 대지 구간 별 평균 대지면적,\n"+
+            "건축면적, 연면적 현황 도표",
+            "⑺ 대지 구간 별 평균 대지면적,\n" +
+            "건축면적, 건폐율 현황 도표",
+            "⑻ 대지 구간 별 평균 대지면적,\n" +
+            "연면적, 용적율 현황 도표",
+            "⑼ 용도 별 북촌 한옥 현황 도표",
+            "⑽ 구조 별 북촌 한옥 현황 도표"
 
     };
     private String CHILDFORMAT[]= {
@@ -390,12 +387,12 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
 
         // Prepare data for pie chart
         int[] colors = new int[]{Color.YELLOW, Color.CYAN};
-        double[] values = new double[2];
+        int[] values = new int[2];
         String[] name_list = new String[2];
         for(int i= 0; i< childList.size()- 1; i++) {
             String[] str= childList.get(i).split(",");
             name_list[i]= str[0];
-            values[i]= Double.parseDouble(str[1]);
+            values[i]= Integer.parseInt(str[1]);
         }
         HanokPieChart chart= new HanokPieChart(colors, values, name_list);
 
@@ -635,6 +632,8 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
             val[0]= cursor.getString(0);// structure
             if(val[0].length()== 0) {
                 val[0]= "기타";
+            } else {
+                val[0]= val[0].replace(",", "/");
             }
             val[1]= String.valueOf(cursor.getInt(1));//count
 

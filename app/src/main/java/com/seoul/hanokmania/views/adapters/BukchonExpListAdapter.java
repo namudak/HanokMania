@@ -166,13 +166,13 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
         static {
             MAP_TYPE = new HashMap<>();
             MAP_TYPE.put(TYPE_NAME, "명칭 : ");
-            MAP_TYPE.put(TYPE_ADDRESS, "문화재 지정 내용 : ");
-            MAP_TYPE.put(TYPE_OWNER, "주소 : ");
-            MAP_TYPE.put(TYPE_PHONE_NUM, "소유자 : ");
-            MAP_TYPE.put(TYPE_HOMEPAGE, "종류 : ");
-            MAP_TYPE.put(TYPE_HOUSE_TYPE, "설명 : ");
-            MAP_TYPE.put(TYPE_CONTENT, "전화 : ");
-            MAP_TYPE.put(TYPE_CULTURAL, "홈페이지 : ");
+            MAP_TYPE.put(TYPE_ADDRESS, "주소 : ");
+            MAP_TYPE.put(TYPE_OWNER, "소유자 : ");
+            MAP_TYPE.put(TYPE_PHONE_NUM, "전화 : ");
+            MAP_TYPE.put(TYPE_HOMEPAGE, "홈페이지 : ");
+            MAP_TYPE.put(TYPE_HOUSE_TYPE, "종류 : ");
+            MAP_TYPE.put(TYPE_CONTENT, "설명 : ");
+            MAP_TYPE.put(TYPE_CULTURAL, "문화재 지정 내용 : ");
         }
 
         private static void dynamicArrange(int type, String data, TextView target) {

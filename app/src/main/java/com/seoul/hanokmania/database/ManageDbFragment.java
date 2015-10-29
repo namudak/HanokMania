@@ -1,6 +1,5 @@
 package com.seoul.hanokmania.database;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,6 +28,8 @@ public class ManageDbFragment extends Fragment {
 
     private static final String UPDATEDB = "updatedb";
     private static final String MAKEDB = "makedb";
+
+    public ManageDbFragment() {}
 
     @Nullable
     @Override
@@ -60,7 +61,7 @@ public class ManageDbFragment extends Fragment {
         protected void onPreExecute() {//UI
 
             mProgressBar.setVisibility(View.VISIBLE);
-            mProgressBarTextView.setText("Retrieving and updating data...Please wait.");
+            mProgressBarTextView.setText("서울시 한옥 자료 갱신 중 입니다. 잠시 기다려 주십시오.");
 
         }
 
@@ -76,21 +77,20 @@ public class ManageDbFragment extends Fragment {
                 //Delete first tables to add api url data
                 SQLiteDatabase db= mUrlHelper.getReadableDatabase();
 
-                Cursor cursor= db.rawQuery(
+                db.rawQuery(
                         QueryContract.mQuery[QueryContract.QUERYDELETE1],
                         null
-                );
-                cursor.close();
-                cursor= db.rawQuery(
+                ).moveToFirst();
+
+                db.rawQuery(
                         QueryContract.mQuery[QueryContract.QUERYDELETE2],
                         null
-                );
-                cursor.close();
-                cursor= db.rawQuery(
+                ).moveToFirst();
+
+                db.rawQuery(
                         QueryContract.mQuery[QueryContract.QUERYDELETE3],
                         null
-                );
-                cursor.close();
+                ).moveToFirst();
 
                 hanokUrl.MakeHanokData();
             }
@@ -108,7 +108,7 @@ public class ManageDbFragment extends Fragment {
             super.onPostExecute(result);
 
             mProgressBar.setVisibility(View.GONE);
-            mProgressBarTextView.setText("");
+            mProgressBarTextView.setText("자료 갱신이 끝났습니다. 다른 메뉴를 선택하십시오.");
         }
     }
 

@@ -55,13 +55,13 @@ public class QueryContract {
                     "group by structure;";
 
     public static String mDeleteQuery1=
-            "delete table hanok;";
+            "delete from hanok;";
 
     public static String mDeleteQuery2=
-            "delete table bukchon_hanok;";
+            "delete from bukchon_hanok;";
 
     public static String mDeleteQuery3=
-            "delete table repair_hanok;";
+            "delete from repair_hanok;";
 
     public static String mHanokAllQuery=
             "select * from hanok;";
