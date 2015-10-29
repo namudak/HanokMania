@@ -26,9 +26,9 @@ public class HanokRepair implements Serializable{
     @Override
     public String toString() {
 
-        return HANOKNUM+ "s!b"+ SN+ "s!b"+ ADDR+ "s!b"+
-                ITEM+ "s!b"+ CONSTRUCTION+ "s!b"+ REQUEST+ "s!b"+
-                REVIEW+ "s!b"+ RESULT+ "s!b"+ LOANDEC+ "s!b"+
-                NOTE+ "s!b";
+        return HANOKNUM+ ","+ SN+ ","+ ADDR+ ","+
+                ITEM+ ","+ CONSTRUCTION+ ","+ REQUEST+ ","+
+                REVIEW+ ","+ RESULT+ ","+ LOANDEC+ ","+
+                NOTE+ ",";
     }
 }

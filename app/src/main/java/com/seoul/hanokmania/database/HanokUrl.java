@@ -44,8 +44,6 @@ public class HanokUrl {
     public void UpdateHanokData() {
 
         try {
-            Uri uri;
-//            String[] valueArray = null;
             ContentValues values = new ContentValues();
             int nCase;
 
@@ -65,15 +63,16 @@ public class HanokUrl {
 
             int leng = 0;
 
-            String rec= getHanokAllQuery(QueryContract.QUERYHANOKALL);
+            // All of 'hanoknum' field delimited by ','
+            String numAll= getHanokAllQuery(QueryContract.QUERYHANOKALL);
 
             for (int i = 0; i < hanoklist.size(); i++) {
                 String tempStr = hanoklist.get(i).toString();
                 Hanok hanok = hanoklist.get(i);
 
-                if (rec.contains(hanok.HANOKNUM)) {
+                if (numAll.contains(hanok.HANOKNUM)) {
                     if(tempStr.equals(getQueryById(
-                            QueryContract.QUERYHANOKALL, hanok.HANOKNUM)
+                        QueryContract.QUERYHANOKALL, hanok.HANOKNUM)
                     )) {// ok next
                         continue;
                     } else {// rec for update
@@ -137,11 +136,14 @@ public class HanokUrl {
                                 List.class, HanokBukchon.class
                         ));
 
+                // All of 'house_id' field delimited by ','
+                String idAll = getHanokAllQuery(QueryContract.QUERYBUKCHONHANOKALL);
+
                 for (int jj = 0; jj < hanokBukchonList.size(); jj++) {
                     String tempStr = hanoklist.get(jj).toString();
                     HanokBukchon hanokBukchon = hanokBukchonList.get(jj);
 
-                    if (rec.contains(hanokBukchon.HOUSE_ID)) {
+                    if (idAll.contains(hanokBukchon.HOUSE_ID)) {
                         if(tempStr.equals(getQueryById(
                                 QueryContract.QUERYBUKCHONHANOKALL, hanokBukchon.HOUSE_ID
                         ))) {// ok next
@@ -199,11 +201,14 @@ public class HanokUrl {
                                 List.class, HanokRepair.class
                         ));
 
+                // All of 'hanoknum' field delimited by ','
+                numAll= getHanokAllQuery(QueryContract.QUERYHANOKREPAIRALL);
+
                 for (int kk = 0; kk < hanokRepairList.size(); kk++) {
                     String str = hanokRepairList.get(kk).toString();
                     HanokRepair hanokRepair = hanokRepairList.get(kk);
 
-                    if (rec.contains(hanokRepair.HANOKNUM)) {
+                    if (numAll.contains(hanokRepair.HANOKNUM)) {
                         if(str.equals(getQueryById(
                                 QueryContract.QUERYHANOKREPAIRALL, hanokRepair.HANOKNUM
                         ))) {// ok next

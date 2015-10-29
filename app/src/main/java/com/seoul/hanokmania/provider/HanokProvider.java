@@ -18,9 +18,9 @@ public class HanokProvider extends ContentProvider{
     private SQLiteDatabase db;
 
     // Use this field for initial database
-    //private HanokUrlHelper mDbHelper;
+    private HanokUrlHelper mDbHelper;
     // Use this field for normal operation
-    private HanokOpenHelper mDbHelper;
+    //private HanokOpenHelper mDbHelper;
 
     private static String TABLE;
 

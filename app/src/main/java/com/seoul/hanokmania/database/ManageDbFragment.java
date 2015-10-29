@@ -25,6 +25,7 @@ public class ManageDbFragment extends Fragment {
     private static HanokUrlHelper mUrlHelper;
 
     private static final String UPDATEDB = "updatedb";
+    private static final String MAKEDB = "makedb";
 
     @Nullable
     @Override
@@ -37,11 +38,11 @@ public class ManageDbFragment extends Fragment {
         mUrlHelper = HanokUrlHelper.getInstance(getActivity());
 
         // Check if new data at url site, get it and insert into db
-        //new RetrieveUrlTask().execute(MAKEDB);
+        new RetrieveUrlTask().execute(MAKEDB);
 
         // Do update on menu command.
         // if new data at url site, get it and insert into db
-        new RetrieveUrlTask().execute(UPDATEDB);
+        //new RetrieveUrlTask().execute(UPDATEDB);
 
         return view;
     }

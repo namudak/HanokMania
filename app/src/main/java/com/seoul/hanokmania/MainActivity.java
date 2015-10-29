@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -18,10 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.ChangeImageTransform;
-import android.transition.TransitionSet;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.seoul.hanokmania.activities.ChartActivity;
@@ -30,7 +26,6 @@ import com.seoul.hanokmania.events.Event;
 import com.seoul.hanokmania.guide.GuideActivity;
 import com.seoul.hanokmania.managers.Manager;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,21 +40,10 @@ public class MainActivity extends AppCompatActivity
     private ViewPager mViewPager;
     private List<String> mTitles;
 
-    List mHanokList = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Transition 기능을 사용
-        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
 
         super.onCreate(savedInstanceState);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            TransitionSet set = new TransitionSet();
-            set.addTransition(new ChangeImageTransform());
-            getWindow().setExitTransition(set);
-            getWindow().setEnterTransition(set);
-        }
 
         // 초기화
         init();

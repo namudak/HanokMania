@@ -46,10 +46,10 @@ public class Hanok implements Serializable{
     @Override
     public String toString() {
 
-        return HANOKNUM+ "s!b"+ ADDR+ "s!b"+ PLOTTAGE+ "s!b"+
-                TOTAR+ "s!b"+ BUILDAREA+ "s!b"+ FLOOR+ "s!b"+
-                FLOOR2+ "s!b"+ USE+ "s!b"+ STRUCTURE+ "s!b"+
-                PLANTYPE+ "s!b"+ BUILDDATE+ "s!b"+ NOTE+ "s!b"+
-                HANOKNUM2+ "s!b";
+        return HANOKNUM+ ","+ ADDR+ ","+ PLOTTAGE+ ","+
+                TOTAR+ ","+ BUILDAREA+ ","+ FLOOR+ ","+
+                FLOOR2+ ","+ USE+ ","+ STRUCTURE+ ","+
+                PLANTYPE+ ","+ BUILDDATE+ ","+ NOTE+ ","+
+                HANOKNUM2+ ",";
     }
 }
