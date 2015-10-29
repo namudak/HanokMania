@@ -4,14 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView android:id="@+id/textView1"
-    android:paddingLeft="35dp"
-    android:textSize="18sp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:gravity="center_vertical"
-    android:text="한글과한옥"
-    android:textStyle="bold" />
+    <TextView
+        android:id="@+id/textView1"
+        android:paddingLeft="35dp"
+        android:textSize="18sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        android:text="한글과한옥"
+        android:textStyle="bold" />
 
 </LinearLayout>

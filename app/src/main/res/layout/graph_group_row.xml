@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView android:id="@+id/textView1"
+    <TextView
+        android:id="@+id/textView1"
         android:paddingLeft="35dp"
         android:textSize="18sp"
         android:layout_width="match_parent"

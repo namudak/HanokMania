@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <ImageView
             android:layout_weight="1"
             android:id="@+id/hanok_picture_left_iv"
@@ -16,7 +17,8 @@
             android:scaleType="centerCrop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp" />
+
         <ImageView
             android:layout_weight="1"
             android:id="@+id/hanok_picture_center_iv"
@@ -24,7 +26,8 @@
             android:scaleType="centerCrop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp" />
+
         <ImageView
             android:layout_weight="1"
             android:id="@+id/hanok_picture_right_iv"
@@ -32,10 +35,9 @@
             android:scaleType="centerCrop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="10dp" />
 
     </LinearLayout>
-
 
 
     <LinearLayout

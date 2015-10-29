@@ -54,14 +54,14 @@ public class QueryContract {
             "select structure, count(*) from hanok " +
                     "group by structure;";
 
-    public static String mDropQuery1=
-            "drop table hanok;";
+    public static String mDeleteQuery1=
+            "delete table hanok;";
 
-    public static String mDropQuery2=
-            "drop table bukchon_hanok;";
+    public static String mDeleteQuery2=
+            "delete table bukchon_hanok;";
 
-    public static String mDropQuery3=
-            "drop table repair_hanok;";
+    public static String mDeleteQuery3=
+            "delete table repair_hanok;";
 
     public static String mHanokAllQuery=
             "select * from hanok;";
@@ -88,9 +88,9 @@ public class QueryContract {
             mRealBuilddateQuery,
             mUseQuery,
             mStructureQuery,
-            mDropQuery1,
-            mDropQuery2,
-            mDropQuery3,
+            mDeleteQuery1,
+            mDeleteQuery2,
+            mDeleteQuery3,
             mHanokAllQuery,
             mBukchonHanokAllQuery,
             mHanokRepairAllQuery,
@@ -108,9 +108,9 @@ public class QueryContract {
     public static final int QUERYREALBUILDDATE= 8;
     public static final int QUERYUSE= 9;
     public static final int QUERYSTRUCTURE= 10;
-    public static final int QUERYDROP1= 11;
-    public static final int QUERYDROP2= 12;
-    public static final int QUERYDROP3= 13;
+    public static final int QUERYDELETE1= 11;
+    public static final int QUERYDELETE2= 12;
+    public static final int QUERYDELETE3= 13;
     public static final int QUERYHANOKALL= 14;
     public static final int QUERYBUKCHONHANOKALL= 15;
     public static final int QUERYHANOKREPAIRALL= 16;

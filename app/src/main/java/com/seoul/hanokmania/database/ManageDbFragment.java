@@ -1,5 +1,7 @@
 package com.seoul.hanokmania.database;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 
 import com.seoul.hanokmania.R;
 import com.seoul.hanokmania.provider.HanokUrlHelper;
+import com.seoul.hanokmania.query.QueryContract;
 
 /**
  * Created by namudak on 2015-09-14.
@@ -70,6 +73,25 @@ public class ManageDbFragment extends Fragment {
             if (params[0].equals(UPDATEDB)) {
                 hanokUrl.UpdateHanokData();
             } else {
+                //Delete first tables to add api url data
+                SQLiteDatabase db= mUrlHelper.getReadableDatabase();
+
+                Cursor cursor= db.rawQuery(
+                        QueryContract.mQuery[QueryContract.QUERYDELETE1],
+                        null
+                );
+                cursor.close();
+                cursor= db.rawQuery(
+                        QueryContract.mQuery[QueryContract.QUERYDELETE2],
+                        null
+                );
+                cursor.close();
+                cursor= db.rawQuery(
+                        QueryContract.mQuery[QueryContract.QUERYDELETE3],
+                        null
+                );
+                cursor.close();
+
                 hanokUrl.MakeHanokData();
             }
 

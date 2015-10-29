@@ -10,8 +10,7 @@
         android:layout_margin="16dp"
         android:id="@+id/guide_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
     <ImageView
         android:id="@+id/guide_indicator"
