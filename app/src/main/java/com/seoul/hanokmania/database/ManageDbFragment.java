@@ -60,7 +60,7 @@ public class ManageDbFragment extends Fragment {
         protected void onPreExecute() {//UI
 
             mProgressBar.setVisibility(View.VISIBLE);
-            mProgressBarTextView.setText("Retrieving data...Please wait.");
+            mProgressBarTextView.setText("Retrieving and updating data...Please wait.");
 
         }
 
