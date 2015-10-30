@@ -111,7 +111,7 @@ public class BukchonFragment extends Fragment implements SearchView.OnQueryTextL
                         HanokContract.HanokBukchonCol.BOOL_CULTURE,
                         HanokContract.HanokBukchonCol.HOUSE_CONTENT};
 
-        String orderBy = HanokContract.HanokBukchonCol.HOUSE_NAME + " asc ";
+        String orderBy = HanokContract.HanokBukchonCol.HOUSE_NAME + " desc ";
 
         Cursor cursor = db.query(true, HanokContract.TABLES[1], projection, null, null, null, null, orderBy, null);
 
