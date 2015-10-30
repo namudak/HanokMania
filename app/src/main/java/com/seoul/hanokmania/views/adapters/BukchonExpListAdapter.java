@@ -232,14 +232,17 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
 
             if(hasImage) {
                 int[] resourceId = getResourceId(context, house_id);
+                imageViews[1].setVisibility(View.VISIBLE);
+                imageViews[2].setVisibility(View.VISIBLE);
                 imageViews[0].setImageResource(resourceId[0]);
                 imageViews[1].setImageResource(resourceId[1]);
                 imageViews[2].setImageResource(resourceId[2]);
 
             } else {
-                imageViews[0].setImageResource(R.drawable.bukchon_1_default);
-                imageViews[1].setImageResource(R.drawable.bukchon_2_default);
-                imageViews[2].setImageResource(R.drawable.bukchon_3_default);
+                imageViews[1].setVisibility(View.GONE);
+                imageViews[2].setVisibility(View.GONE);
+
+                imageViews[0].setImageResource(R.drawable.bukchon_default);
             }
 
 

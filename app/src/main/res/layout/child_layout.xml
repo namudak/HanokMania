@@ -13,8 +13,7 @@
         <ImageView
             android:layout_weight="1"
             android:id="@+id/hanok_picture_left_iv"
-            android:src="@drawable/bukchon_1_default"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp" />
@@ -22,8 +21,7 @@
         <ImageView
             android:layout_weight="1"
             android:id="@+id/hanok_picture_center_iv"
-            android:src="@drawable/bukchon_2_default"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp" />
@@ -31,8 +29,7 @@
         <ImageView
             android:layout_weight="1"
             android:id="@+id/hanok_picture_right_iv"
-            android:src="@drawable/bukchon_3_default"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp" />
