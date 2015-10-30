@@ -74,6 +74,9 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
             case 1:
                 mIndicator.setImageResource(R.drawable.indicator_2);
                 break;
+            case 2:
+                mIndicator.setImageResource(R.drawable.indicator_3);
+                break;
         }
     }
 
