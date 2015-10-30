@@ -1,6 +1,5 @@
 package com.seoul.hanokmania.guide;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.seoul.hanokmania.MainActivity;
 import com.seoul.hanokmania.R;
 
 import java.util.ArrayList;
@@ -38,6 +36,7 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
         mFragmentList = new ArrayList<>();
         mFragmentList.add(new GuideFragment_1());
         mFragmentList.add(new GuideFragment_2());
+        mFragmentList.add(new GuideFragment_3());
 
         mAdapter = new GuideAdapter(getSupportFragmentManager(), mFragmentList);
 
@@ -51,12 +50,12 @@ public class GuideActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.guide_next_button:
-                mViewPager.setCurrentItem(1);
+                mViewPager.setCurrentItem(mViewPager.getCurrentItem()+ 1);
                 break;
             case R.id.guide_close_button:
                 SharedPreferences sharedPreferences = getSharedPreferences("hanokmania", MODE_PRIVATE);
                 sharedPreferences.edit().putBoolean("first", false).commit();
-                startActivity(new Intent(this, MainActivity.class));
+                finish();
                 break;
         }
 

@@ -53,14 +53,6 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("hanokmania", MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("first", true)) {
-            startActivity(new Intent(MainActivity.this, GuideActivity.class));
-            finish();
-        } else {
-            // 초기화
-            init();
-        }
 
         // Android 6.0 권한 체크
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -81,7 +73,12 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        init();
 
+        SharedPreferences sharedPreferences = getSharedPreferences("hanokmania", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("first", true)) {
+            startActivity(new Intent(MainActivity.this, GuideActivity.class));
+        }
     }
 
     @Override
