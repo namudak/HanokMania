@@ -20,6 +20,7 @@ import java.util.Map;
 
 /**
  * Created by Ray Choe on 2015-10-20.
+ * 북촌한옥마을 어댑터
  */
 public class BukchonExpListAdapter extends BaseExpandableListAdapter {
 
@@ -182,7 +183,7 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
                 target.setVisibility(View.VISIBLE);
 
                 target.setText(MAP_TYPE.get(type) + data);
-                
+
                 switch (type) {
                     case TYPE_PHONE_NUM:
                         Linkify.addLinks(target, Linkify.PHONE_NUMBERS);

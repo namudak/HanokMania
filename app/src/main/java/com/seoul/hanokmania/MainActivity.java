@@ -18,11 +18,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.seoul.hanokmania.activities.ChartActivity;
+import com.seoul.hanokmania.database.ManageDbFragment;
 import com.seoul.hanokmania.events.ChartClickEvent;
+import com.seoul.hanokmania.events.DbUpdateEvent;
 import com.seoul.hanokmania.events.Event;
 import com.seoul.hanokmania.guide.GuideActivity;
 import com.seoul.hanokmania.managers.Manager;
@@ -37,11 +40,13 @@ public class MainActivity extends AppCompatActivity
 
     private static final int REQUEST_CODE = 77;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private ViewPager mViewPager;
     private List<String> mTitles;
 
     private MenuItem activeMenuItem;
+    private MyAdapter mMyAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +65,12 @@ public class MainActivity extends AppCompatActivity
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 // 사용자가 이전에 거부를 했을 경우
                 ActivityCompat.requestPermissions(this,
-                        new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
             } else {
                 // 권한이 없을 때 권한 요청
                 ActivityCompat.requestPermissions(this,
-                        new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
             }
         }
@@ -116,10 +121,10 @@ public class MainActivity extends AppCompatActivity
         // 타이틀 목록
         mTitles = Arrays.asList(getResources().getStringArray(R.array.nav_menu_array));
 
-        MyAdapter adapter = new MyAdapter(getSupportFragmentManager());
+        mMyAdapter = new MyAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
-        mViewPager.setAdapter(adapter);
+        mViewPager.setAdapter(mMyAdapter);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -146,7 +151,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().getItem(0).setChecked(true);
 
         SharedPreferences sharedPreferences = getSharedPreferences("hanokmania", MODE_PRIVATE);
-        if(sharedPreferences.getBoolean("first", true)) {
+        if (sharedPreferences.getBoolean("first", true)) {
             startActivity(new Intent(MainActivity.this, GuideActivity.class));
         }
 
@@ -166,7 +171,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         String title = menuItem.getTitle().toString();
+        Log.d(TAG, "title : " + title);
         int index = mTitles.indexOf(title);
+        Log.d(TAG, "index : " + index);
+
+        if (index == 2) {
+            ManageDbFragment dialogFragment = new ManageDbFragment();
+            dialogFragment.show(getFragmentManager(), "ManageDbFragment");
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawers();
+            return true;
+        }
 
         mViewPager.setCurrentItem(index, true);
 
@@ -218,6 +233,7 @@ public class MainActivity extends AppCompatActivity
 
     /**
      * EventBus 이벤트를 수신하는 콜백 메소드
+     *
      * @param event ChartClickEvent 등등
      */
     public void onEvent(Event event) {
@@ -228,6 +244,8 @@ public class MainActivity extends AppCompatActivity
             // Activity Transition 은 롤리팝 전용
             Intent intent = new Intent(this, ChartActivity.class);
             startActivity(intent);
+        } else if (event instanceof DbUpdateEvent) {
+            mMyAdapter.notifyDataSetChanged();
         }
     }
 }

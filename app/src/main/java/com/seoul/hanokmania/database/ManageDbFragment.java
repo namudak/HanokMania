@@ -1,24 +1,30 @@
 package com.seoul.hanokmania.database;
 
+import android.app.DialogFragment;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.seoul.hanokmania.R;
+import com.seoul.hanokmania.events.DbUpdateEvent;
 import com.seoul.hanokmania.provider.HanokUrlHelper;
 import com.seoul.hanokmania.query.QueryContract;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by namudak on 2015-09-14.
  */
-public class ManageDbFragment extends Fragment {
+public class ManageDbFragment extends DialogFragment {
     private static String TAG = ManageDbFragment.class.getSimpleName();
 
     private ProgressBar mProgressBar;
@@ -29,17 +35,21 @@ public class ManageDbFragment extends Fragment {
     private static final String UPDATEDB = "updatedb";
     private static final String MAKEDB = "makedb";
 
-    public ManageDbFragment() {}
+    public ManageDbFragment() {
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_manage_db, container, false);
-
+        setCancelable(false);
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressbar);
         mProgressBarTextView = (TextView) view.findViewById(R.id.progressbar_text_view);
 
         mUrlHelper = HanokUrlHelper.getInstance(getActivity());
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        getDialog().getWindow().setBackgroundDrawable(
+                new ColorDrawable(Color.BLACK));
 
         // Check if new data at url site, get it and insert into db
         new RetrieveUrlTask().execute(MAKEDB);
@@ -75,7 +85,7 @@ public class ManageDbFragment extends Fragment {
                 hanokUrl.UpdateHanokData();
             } else {
                 //Delete first tables to add api url data
-                SQLiteDatabase db= mUrlHelper.getReadableDatabase();
+                SQLiteDatabase db = mUrlHelper.getReadableDatabase();
 
                 db.rawQuery(
                         QueryContract.mQuery[QueryContract.QUERYDELETE1],
@@ -108,8 +118,11 @@ public class ManageDbFragment extends Fragment {
             super.onPostExecute(result);
 
             mProgressBar.setVisibility(View.GONE);
-            mProgressBarTextView.setText("자료 갱신이 끝났습니다. 다른 메뉴를 선택하십시오.");
+            mProgressBarTextView.setText("");
+            dismiss();
+            EventBus.getDefault().post(new DbUpdateEvent());
         }
     }
+
 
 }

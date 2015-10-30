@@ -2,7 +2,6 @@ package com.seoul.hanokmania.managers;
 
 import android.support.v4.app.Fragment;
 
-import com.seoul.hanokmania.database.ManageDbFragment;
 import com.seoul.hanokmania.fragments.BukchonFragment;
 import com.seoul.hanokmania.fragments.HanokGraphFragment;
 
@@ -16,8 +15,7 @@ public class Manager {
     // TODO: 메뉴 순서대로 Fragment 를 배열로 지정
     public static Class FRAGMENTS[] = {
             BukchonFragment.class,
-            HanokGraphFragment.class,
-            ManageDbFragment.class
+            HanokGraphFragment.class
     };
 
     private Manager() {
