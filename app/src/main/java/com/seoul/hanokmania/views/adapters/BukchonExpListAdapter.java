@@ -181,13 +181,14 @@ public class BukchonExpListAdapter extends BaseExpandableListAdapter {
             } else {
                 target.setVisibility(View.VISIBLE);
 
+                target.setText(MAP_TYPE.get(type) + data);
+                
                 switch (type) {
                     case TYPE_PHONE_NUM:
                         Linkify.addLinks(target, Linkify.PHONE_NUMBERS);
+                        break;
                     case TYPE_HOMEPAGE:
                         Linkify.addLinks(target, Linkify.WEB_URLS);
-                    default:
-                        target.setText(MAP_TYPE.get(type) + data);
                         break;
                 }
 
