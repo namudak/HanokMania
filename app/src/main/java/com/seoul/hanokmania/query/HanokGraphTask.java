@@ -107,7 +107,7 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
                         break;
                     case 2://등록 한옥 중 문화재 비율(단위:％)@Pie
                         graph.add(getBoolcultureQuery());
-                        graph.add(String.format("※ 서울시 등록 중 북촌 한옥 숫자 : %s",
+                        graph.add(String.format("※ 서울시 등록 한옥 중 북촌 한옥 숫자 : %s",
                                 mBukchonHanokTotal));
                         break;
                     case 3://년도 별 한옥 수선 건수@Line
@@ -137,7 +137,7 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
                         list6.add(getAvg(1, childList));
                         HanokStackedBarChart chart6= new HanokStackedBarChart();
                         graph.add(chart6.getGraphView(mContext, list6));
-                        graph.add("※ -");
+                        graph.add("※ 건폐율 = 건축 면적 / 대지 면적");
                         break;
                     case 7://대지 면적 구간 평균 연면적/용적율(단위:％)@Stacked Bar
                         List list7= new ArrayList();
@@ -148,14 +148,14 @@ class HanokGraphTask extends AsyncTask<Void, GraphicalView, List> {
                         list7.add(getAvg(1, childList));
                         HanokStackedBarChart chart7= new HanokStackedBarChart();
                         graph.add(chart7.getGraphView(mContext, list7));
-                        graph.add("※ -");
+                        graph.add("※ 용적율 = 연 면적 / 대지 면적");
                         break;
-                    case 8://북촌 한옥 용도 별 현황@Pie
+                    case 8://등록 한옥 용도 별 현황@Pie
                         HanokPieChart chart8= new HanokPieChart();
                         graph.add(chart8.getGraphView(mContext, getUseHanok()));
                         graph.add("※ -");
                         break;
-                    case 9://북촌 한옥 구조 별 현황@Pie
+                    case 9://등록 한옥 구조 별 현황@Pie
                         HanokPieChart chart9= new HanokPieChart();
                         graph.add(chart9.getGraphView(mContext, getStructureHanok()));
                         graph.add("※ -");
